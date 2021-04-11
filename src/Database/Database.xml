@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Database</name>
+    </assembly>
+    <members>
+        <member name="T:Database.DocumentRepository`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TDocument"></typeparam>
+        </member>
+        <member name="M:Database.DocumentRepository`1.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Database.Document.Account">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Database.IDocument">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>
