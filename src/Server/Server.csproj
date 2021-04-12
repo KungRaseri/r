@@ -4,21 +4,26 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>OpenRP.Framework.Server</RootNamespace>
     <AssemblyName>OpenRP.Framework.Server.net</AssemblyName>
+    <DocumentationFile>bin\$(Configuration)\netstandard2.1\OpenRP.Framework.Server.xml</DocumentationFile>
+    <DocumentationMarkdown>$(SolutionDir)\docs\Framework\OpenRP.Framework.Server.md</DocumentationMarkdown>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>embedded</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DocumentationFile>E:\Code\redacted-rp\redacted-roleplay-framework\src\Server\OpenRP.Framework.Server.net.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CitizenFX.Core.Server" Version="1.0.3811" />
+    <PackageReference Include="CitizenFX.Core.Server" Version="1.0.3813" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+    <PackageReference Include="Vsxmd" Version="1.4.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

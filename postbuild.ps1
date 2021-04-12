@@ -44,5 +44,5 @@ New-Item -ItemType Directory -Path $framework_server -Force
 Write-Output "Copying resources to $serverdata ..."
 
 # redacted client-side and server-side resources
-Copy-Item -Path $source$server$output_server/* -Destination $framework_client -Recurse -Force
-Copy-Item -Path $source$client$output_client/* -Destination $framework_server -Recurse -Force
+Copy-Item -Path $source$server$output_server/* -Destination $framework_server -Recurse -Force
+Copy-Item -Path $source$client$output_client/* -Destination $framework_client -Recurse -Force

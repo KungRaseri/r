@@ -5,10 +5,11 @@ using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client
 {
+    /// <summary>
+    /// Main client-side entry point for the OpenRP Framework
+    /// </summary>
     public class ClientMain : BaseScript
     {
-        public static string SecurityToken;
-
         public PlayerList players;
 
         public ClientMain()
