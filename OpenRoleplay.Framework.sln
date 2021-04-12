@@ -23,11 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci", "ci", "{51F685D6-FA43-
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CE522E24-1CDD-446B-9C03-21623418C669}"
-	ProjectSection(SolutionItems) = preProject
-		docs\Home.md = docs\Home.md
-	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.Tests", "tests\Database.Tests\Database.Tests.csproj", "{58BC88A5-89E3-4E72-8103-350895F1C665}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Tests", "tests\Database.Tests\Database.Tests.csproj", "{58BC88A5-89E3-4E72-8103-350895F1C665}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

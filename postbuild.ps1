@@ -18,9 +18,11 @@ $SolutionDir = Get-Location
 $SolutionDir = $SolutionDir.Path + "\"
 
 $source = "$SolutionDir" + "src"
+$docs = "$SolutionDir" + "docs"
 
 $server = "\Server"
 $client = "\Client"
+$database = "\Database"
 
 $output_client = "\bin\Debug"
 $output_server = "\bin\Debug\netstandard2.1"
@@ -40,9 +42,16 @@ New-Item -ItemType Directory -Path $serverdata -Force
 New-Item -ItemType Directory -Path $resources -Force
 New-Item -ItemType Directory -Path $framework_client -Force
 New-Item -ItemType Directory -Path $framework_server -Force
+New-Item -ItemType Directory -Path "$docs/client" -Force
+New-Item -ItemType Directory -Path "$docs/server" -Force
+New-Item -ItemType Directory -Path "$docs/database" -Force
 
 Write-Output "Copying resources to $serverdata ..."
 
 # redacted client-side and server-side resources
 Copy-Item -Path $source$server$output_server/* -Destination $framework_client -Recurse -Force
 Copy-Item -Path $source$client$output_client/* -Destination $framework_server -Recurse -Force
+
+Copy-Item -Path $source$server$output_server/*.md -Destination "$docs/server" -Recurse -Force
+Copy-Item -Path $source$client$output_client/*.md -Destination "$docs/client" -Recurse -Force
+Copy-Item -Path $source$database$output_server/*.md -Destination "$docs/database" -Recurse -Force
