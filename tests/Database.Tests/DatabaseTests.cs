@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenRP.Framework.Database;
+﻿using OpenRP.Framework.Database;
 using OpenRP.Framework.Database.Document;
 using Xunit;
 
-namespace Server.Tests
+namespace Database.Tests
 {
     public class DatabaseTests
     {

@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OpenRP.Framework.Client</RootNamespace>
     <AssemblyName>OpenRP.Framework.Client.net</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
+    <DocumentationFile>bin\$(Configuration)\OpenRP.Framework.Client.xml</DocumentationFile>
+    <DocumentationMarkdown>$(SolutionDir)\docs\Framework\OpenRP.Framework.Client.md</DocumentationMarkdown>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +23,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\OpenRP.Framework.Client.net.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -52,7 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CitizenFX.Core.Client">
-      <Version>1.0.3811</Version>
+      <Version>1.0.3813</Version>
+    </PackageReference>
+    <PackageReference Include="Vsxmd">
+      <Version>1.4.5</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
   <Import Project="..\Common\Common.projitems" Label="Shared" />
