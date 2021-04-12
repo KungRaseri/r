@@ -1,5 +1,4 @@
 ﻿using CitizenFX.Core;
-using Redacted.Framework.Server;
 using System;
 using System.Collections.Generic;
 
