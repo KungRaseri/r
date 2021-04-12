@@ -22,8 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci", "ci", "{51F685D6-FA43-
 		postbuild.ps1 = postbuild.ps1
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CE522E24-1CDD-446B-9C03-21623418C669}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Tests", "tests\Database.Tests\Database.Tests.csproj", "{58BC88A5-89E3-4E72-8103-350895F1C665}"
 EndProject
 Global

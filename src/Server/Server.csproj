@@ -4,7 +4,8 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>OpenRP.Framework.Server</RootNamespace>
     <AssemblyName>OpenRP.Framework.Server.net</AssemblyName>
-    <DocumentationFile>bin\$(Configuration)\netstandard2.1\OpenRP.Framework.Server.net.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\netstandard2.1\OpenRP.Framework.Server.xml</DocumentationFile>
+    <DocumentationMarkdown>$(SolutionDir)\docs\Framework\OpenRP.Framework.Server.md</DocumentationMarkdown>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

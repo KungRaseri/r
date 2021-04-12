@@ -12,7 +12,8 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <DocumentationFile>bin\$(Configuration)\OpenRP.Framework.Client.net.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\OpenRP.Framework.Client.xml</DocumentationFile>
+    <DocumentationMarkdown>$(SolutionDir)\docs\Framework\OpenRP.Framework.Client.md</DocumentationMarkdown>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
