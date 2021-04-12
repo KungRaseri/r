@@ -35,13 +35,23 @@ namespace OpenRP.Framework.Client.Controllers
             }
         }
 
-        public static int GetGridCoord(Vector3 pos)
+        public static List<int> GetGridCoord(Vector3 pos)
         {
-            var x = Math.Floor((pos.X - minX) / 100.0);
-            var y = Math.Ceiling((pos.Y - minY) / 100.0) * -1;
-            var gridCoord = new GridCoord((int)x, (int)y);
-            var gridHash = gridCoord.GetHashCode();
-            return _grid[gridHash];
+            var zones = new List<int>();
+            var x = (int)(Math.Floor((pos.X - minX) / 100.0));
+            var y = (int)(Math.Ceiling((pos.Y - minY) / 100.0) * -1);
+
+            for (var yOffset = -1; yOffset <= 1; yOffset++)
+            {
+                for (var xOffset = -1; xOffset <= 1; xOffset++)
+                {
+                    var zone = new GridCoord(x + xOffset, y + yOffset);
+                    if (_grid.ContainsKey(zone.GetHashCode()))
+                        zones.Add(_grid[zone.GetHashCode()]);
+                }
+            }
+
+            return zones;
         }
     }
 }
