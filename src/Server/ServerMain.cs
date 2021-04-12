@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CitizenFX.Core;
 using Microsoft.Extensions.Configuration;
-using OpenRP.Framework.Server.Interface;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Server

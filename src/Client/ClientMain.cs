@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CitizenFX.Core;
-using OpenRP.Framework.Client.Interface;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client

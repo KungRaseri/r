@@ -1,6 +1,6 @@
-﻿namespace OpenRP.Framework.Server.Enumeration
+﻿/// <summary>
+/// 
+/// </summary>
+public enum ClientEvent
 {
-    public enum ClientEvent
-    {
-    }
 }

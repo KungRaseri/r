@@ -1,9 +1,6 @@
-﻿namespace OpenRP.Framework.Server.Interface
+﻿/// <summary>
+/// 
+/// </summary>
+public interface IDocument
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IDocument
-    {
-    }
 }

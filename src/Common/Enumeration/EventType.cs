@@ -1,9 +1,9 @@
-﻿namespace OpenRP.Framework.Server.Enumeration
+﻿/// <summary>
+/// 
+/// </summary>
+public enum EventType
 {
-    public enum EventType
-    {
-        CLIENT,
-        SERVER,
-        NUI
-    }
+    CLIENT,
+    SERVER,
+    NUI
 }

@@ -1,26 +1,26 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Database</name>
+        <name>OpenRP.Framework.Database</name>
     </assembly>
     <members>
-        <member name="T:Database.DocumentRepository`1">
+        <member name="T:OpenRP.Framework.Database.DocumentRepository`1">
             <summary>
             
             </summary>
             <typeparam name="TDocument"></typeparam>
         </member>
-        <member name="M:Database.DocumentRepository`1.#ctor">
+        <member name="M:OpenRP.Framework.Database.DocumentRepository`1.#ctor">
             <summary>
             
             </summary>
         </member>
-        <member name="T:Database.Document.Account">
+        <member name="T:OpenRP.Framework.Database.Document.Account">
             <summary>
             
             </summary>
         </member>
-        <member name="T:Database.IDocument">
+        <member name="T:OpenRP.Framework.Database.IDocument">
             <summary>
             
             </summary>
