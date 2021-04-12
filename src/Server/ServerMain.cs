@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CitizenFX.Core;
 using Microsoft.Extensions.Configuration;
+using OpenRP.Framework.Server.Controllers;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Server
@@ -16,6 +17,8 @@ namespace OpenRP.Framework.Server
 
         public readonly DataHandler DB;
 
+        public readonly CommandController commandController;
+
         public ServerMain()
         {
             Debug.WriteLine($"[{nameof(ServerMain)}] Server loading ...");
@@ -26,6 +29,7 @@ namespace OpenRP.Framework.Server
             Settings = LoadSettings();
 
             DB = new DataHandler(this);
+            commandController = new CommandController(this);            
 
             Initialize();
 
