@@ -45,7 +45,9 @@
   <ItemGroup>
     <Compile Include="ClientAccessor.cs" />
     <Compile Include="ClientMain.cs" />
+    <Compile Include="Classes\GridCoord.cs" />
     <Compile Include="Controllers\VoiceController.cs" />
+    <Compile Include="Classes\VoiceZone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
