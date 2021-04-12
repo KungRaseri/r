@@ -1,4 +1,4 @@
-﻿namespace Common.Interface
+﻿namespace OpenRP.Framework.Server.Interface
 {
     /// <summary>
     /// 

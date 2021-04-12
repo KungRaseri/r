@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Common.Enumeration
+﻿namespace OpenRP.Framework.Server.Enumeration
 {
     public enum EventType
     {

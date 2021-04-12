@@ -1,4 +1,4 @@
-﻿namespace Redacted.Framework.Client
+﻿namespace OpenRP.Framework.Client
 {
     public class ClientAccessor
     {

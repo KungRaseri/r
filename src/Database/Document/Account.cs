@@ -1,4 +1,4 @@
-﻿namespace Database.Document
+﻿namespace OpenRP.Framework.Database.Document
 {
     /// <summary>
     /// 
