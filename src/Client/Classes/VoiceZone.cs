@@ -35,7 +35,7 @@ namespace OpenRP.Framework.Client.Controllers
             }
         }
 
-        public static List<int> GetGridCoord(Vector3 pos)
+        public static List<int> GetZones(Vector3 pos)
         {
             var zones = new List<int>();
             var x = (int)(Math.Floor((pos.X - minX) / 100.0));
@@ -52,6 +52,18 @@ namespace OpenRP.Framework.Client.Controllers
             }
 
             return zones;
+        }
+
+        public static int GetGrid(List<int> zones)
+        {
+            var total = 0;
+
+            foreach(var zone in zones)
+            {
+                total += zone;
+            }
+
+            return total;
         }
     }
 }
