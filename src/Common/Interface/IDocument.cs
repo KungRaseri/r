@@ -1,9 +1,6 @@
-﻿namespace Database
+﻿/// <summary>
+/// 
+/// </summary>
+public interface IDocument
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IDocument
-    {
-    }
 }

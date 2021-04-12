@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CitizenFX.Core;
-using Common.Enumeration;
-using Common.Interface;
 using static CitizenFX.Core.Native.API;
 
-namespace Redacted.Framework.Client
+namespace OpenRP.Framework.Client
 {
     public class ClientMain : BaseScript
     {

@@ -3,11 +3,10 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CitizenFX.Core;
-using Common.Interface;
 using Microsoft.Extensions.Configuration;
 using static CitizenFX.Core.Native.API;
 
-namespace Redacted.Framework.Server
+namespace OpenRP.Framework.Server
 {
     public class ServerMain : BaseScript
     {

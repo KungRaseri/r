@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Common
+﻿/// <summary>
+/// 
+/// </summary>
+public enum ClientEvent
 {
-    public enum ClientEvent
-    {
-    }
 }

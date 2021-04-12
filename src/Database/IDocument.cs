@@ -1,4 +1,4 @@
-﻿namespace Database
+﻿namespace OpenRP.Framework.Database
 {
     /// <summary>
     /// 

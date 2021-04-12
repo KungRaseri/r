@@ -1,7 +1,7 @@
-﻿using Database;
-using Database.Document;
+﻿using OpenRP.Framework.Database;
+using OpenRP.Framework.Database.Document;
 
-namespace Redacted.Framework.Server
+namespace OpenRP.Framework.Server
 {
     public class DataHandler : ServerAccessor
     {

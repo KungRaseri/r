@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace Database
+namespace OpenRP.Framework.Database
 {
     /// <summary>
     /// 

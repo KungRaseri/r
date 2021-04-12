@@ -1,4 +1,4 @@
-﻿namespace Redacted.Framework.Server
+﻿namespace OpenRP.Framework.Server
 {
     public class ServerAccessor
     {

@@ -1,9 +1,6 @@
-﻿namespace Common.Interface
+﻿/// <summary>
+/// 
+/// </summary>
+public interface IEvent
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IEvent
-    {
-    }
 }

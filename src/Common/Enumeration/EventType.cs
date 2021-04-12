@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Common.Enumeration
+﻿/// <summary>
+/// 
+/// </summary>
+public enum EventType
 {
-    public enum EventType
-    {
-        CLIENT,
-        SERVER,
-        NUI
-    }
+    CLIENT,
+    SERVER,
+    NUI
 }
