@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CE522E24-1
 		docs\Home.md = docs\Home.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Tests", "src\Client.Tests\Client.Tests.csproj", "{0D8DFC58-3982-457F-BC9D-CD8B307A2073}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Tests", "tests\Client.Tests\Client.Tests.csproj", "{0D8DFC58-3982-457F-BC9D-CD8B307A2073}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
