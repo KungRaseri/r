@@ -19,21 +19,26 @@ namespace OpenRP.Framework.Client.Controllers.Tests
 
             var pos = Vector3.Zero; // 50, 90
             var zone = VoiceZone.GetZones(pos);
-            Assert.Contains(9950, zone);
+            Assert.Equal(89550, zone[0]);
             Assert.Equal(9, zone.Count);
 
             pos.X = -5000; // 0
             pos.Y = 9000; // 0
             zone = VoiceZone.GetZones(pos);
-            Assert.Contains(0, zone);
+            Assert.Equal(222, zone[0]);
             Assert.Equal(4, zone.Count);
 
-            pos = Vector3.Zero;
             pos.X = -1750; // 32
             pos.Y = 2250; // 67
             zone = VoiceZone.GetZones(pos);
-            Assert.Contains(7402, zone);
+            Assert.Equal(66618, zone[0]);
             Assert.Equal(9, zone.Count);
+
+            pos.X = 5950; // 109
+            pos.Y = 2250; // 67
+            zone = VoiceZone.GetZones(pos);
+            Assert.Equal(44871, zone[0]);
+            Assert.Equal(6, zone.Count);
         }
     }
 }
