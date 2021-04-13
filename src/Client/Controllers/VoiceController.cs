@@ -26,10 +26,13 @@ namespace OpenRP.Framework.Client.Controllers
         {
             var pos = Game.PlayerPed.Position;
             var zones = VoiceZone.GetZones(pos);
-            var grid = VoiceZone.GetGrid(zones);
-            var text = new Text($"Grid: {grid} | {NetworkIsPlayerTalking(Game.Player.Handle)}", new PointF(1f, 1f), 1.0f);
+            var grid = zones[0];
+            var temp = "";
+            var textGrid = new Text($"Grid: {grid} | {NetworkIsPlayerTalking(Game.Player.Handle)}", new PointF(1f, 1f), 0.5f);
+            var textNearby = new Text($"{temp}", new PointF(1.0f, 20.0f), 0.5f);
 
-            text.Draw();
+            textGrid.Draw();
+            textNearby.Draw();
 
             if (_lastGrid != grid)
             {
@@ -39,6 +42,7 @@ namespace OpenRP.Framework.Client.Controllers
 
                 foreach (var zone in zones)
                 {
+                    temp += zone + " | ";
                     MumbleAddVoiceTargetChannel(1, zone);
                 }
 
