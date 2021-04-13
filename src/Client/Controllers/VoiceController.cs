@@ -4,7 +4,9 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 using System.Threading.Tasks;
+using CitizenFX.Core.UI;
 
 namespace OpenRP.Framework.Client.Controllers
 {
@@ -15,6 +17,8 @@ namespace OpenRP.Framework.Client.Controllers
         public VoiceController(ClientMain client) : base(client)
         {
             _lastGrid = 0;
+            MumbleSetAudioInputDistance(30f);
+            MumbleSetAudioOutputDistance(30f);
             client.RegisterTickHandler(GameTick);
         }
 
@@ -23,10 +27,14 @@ namespace OpenRP.Framework.Client.Controllers
             var pos = Game.PlayerPed.Position;
             var zones = VoiceZone.GetZones(pos);
             var grid = VoiceZone.GetGrid(zones);
+            var text = new Text($"Grid: {grid} | {NetworkIsPlayerTalking(Game.Player.Handle)}", new PointF(1f, 1f), 1.0f);
+
+            text.Draw();
 
             if (_lastGrid != grid)
             {
-                Debug.WriteLine($"Grid: {grid}");
+                
+                MumbleClearVoiceTargetChannels(1);
                 NetworkSetVoiceChannel(grid);
 
                 foreach (var zone in zones)
