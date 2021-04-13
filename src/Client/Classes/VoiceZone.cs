@@ -45,16 +45,44 @@ namespace OpenRP.Framework.Client.Controllers
             {
                 for (var xOffset = -1; xOffset <= 1; xOffset++)
                 {
-                    var zone = new GridCoord(x + xOffset, y + yOffset);
-                    if (_grid.ContainsKey(zone.GetHashCode()))
-                        zones.Add(_grid[zone.GetHashCode()]);
+                    var grid = new GridCoord(x + xOffset, y + yOffset);
+                    var hash = grid.GetHashCode();
+
+                    if (_grid.ContainsKey(hash))
+                    {
+                        var gridZones = GetNearbyZones(x + xOffset, y + yOffset);
+
+                        if (xOffset == 0 && yOffset == 0)
+                            zones.Insert(0, gridZones);
+                        else
+                            zones.Add(gridZones);
+                    }
                 }
             }
 
             return zones;
         }
 
-        public static int GetGrid(List<int> zones)
+        private static int GetNearbyZones(int x, int y)
+        {
+            var zones = new List<int>();
+
+            for (var yOffset = -1; yOffset <= 1; yOffset++)
+            {
+                for (var xOffset = -1; xOffset <= 1; xOffset++)
+                {
+                    var grid = new GridCoord(x + xOffset, y + yOffset);
+                    var hash = grid.GetHashCode();
+
+                    if (_grid.ContainsKey(hash))
+                        zones.Add(_grid[hash]);
+                }
+            }
+
+            return GetGrid(zones);
+        }
+
+        private static int GetGrid(List<int> zones)
         {
             var total = 0;
 
