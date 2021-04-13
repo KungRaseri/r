@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci", "ci", "{51F685D6-FA43-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Tests", "tests\Database.Tests\Database.Tests.csproj", "{58BC88A5-89E3-4E72-8103-350895F1C665}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Tests", "tests\Client.Tests\Client.Tests.csproj", "{0D8DFC58-3982-457F-BC9D-CD8B307A2073}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\Common\Common.projitems*{1051bb5b-f7e3-4967-89ab-2f305368a6e9}*SharedItemsImports = 13
@@ -55,6 +57,10 @@ Global
 		{58BC88A5-89E3-4E72-8103-350895F1C665}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58BC88A5-89E3-4E72-8103-350895F1C665}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58BC88A5-89E3-4E72-8103-350895F1C665}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D8DFC58-3982-457F-BC9D-CD8B307A2073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D8DFC58-3982-457F-BC9D-CD8B307A2073}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D8DFC58-3982-457F-BC9D-CD8B307A2073}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D8DFC58-3982-457F-BC9D-CD8B307A2073}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

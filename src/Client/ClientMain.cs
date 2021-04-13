@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CitizenFX.Core;
+using OpenRP.Framework.Client.Controllers;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client
@@ -12,9 +13,13 @@ namespace OpenRP.Framework.Client
     {
         public PlayerList players;
 
+        public readonly VoiceController voiceController;
+
         public ClientMain()
         {
             players = Players;
+
+            voiceController = new VoiceController(this);
 
             Initialize();
 
