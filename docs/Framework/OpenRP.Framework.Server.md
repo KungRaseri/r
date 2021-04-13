@@ -13,11 +13,10 @@
 - [IDocument](#T-IDocument 'IDocument')
 - [IEvent](#T-IEvent 'IEvent')
 - [ServerCommand](#T-OpenRP-Framework-Server-Controllers-ServerCommand 'OpenRP.Framework.Server.Controllers.ServerCommand')
-  - [#ctor(name,command,help,args)](#M-OpenRP-Framework-Server-Controllers-ServerCommand-#ctor-System-String,System-Action{System-Int32},System-String,System-Collections-Generic-List{System-String}- 'OpenRP.Framework.Server.Controllers.ServerCommand.#ctor(System.String,System.Action{System.Int32},System.String,System.Collections.Generic.List{System.String})')
+  - [#ctor(name,command,help,args)](#M-OpenRP-Framework-Server-Controllers-ServerCommand-#ctor-System-Action{System-Int32},System-String,System-Collections-Generic-List{System-String}- 'OpenRP.Framework.Server.Controllers.ServerCommand.#ctor(System.Action{System.Int32},System.String,System.Collections.Generic.List{System.String})')
   - [Args](#P-OpenRP-Framework-Server-Controllers-ServerCommand-Args 'OpenRP.Framework.Server.Controllers.ServerCommand.Args')
   - [Command](#P-OpenRP-Framework-Server-Controllers-ServerCommand-Command 'OpenRP.Framework.Server.Controllers.ServerCommand.Command')
   - [Help](#P-OpenRP-Framework-Server-Controllers-ServerCommand-Help 'OpenRP.Framework.Server.Controllers.ServerCommand.Help')
-  - [Name](#P-OpenRP-Framework-Server-Controllers-ServerCommand-Name 'OpenRP.Framework.Server.Controllers.ServerCommand.Name')
 - [ServerEvent](#T-ServerEvent 'ServerEvent')
 
 <a name='T-ClientEvent'></a>
@@ -135,7 +134,7 @@ OpenRP.Framework.Server.Controllers
 
 Class that contains server command definitions.
 
-<a name='M-OpenRP-Framework-Server-Controllers-ServerCommand-#ctor-System-String,System-Action{System-Int32},System-String,System-Collections-Generic-List{System-String}-'></a>
+<a name='M-OpenRP-Framework-Server-Controllers-ServerCommand-#ctor-System-Action{System-Int32},System-String,System-Collections-Generic-List{System-String}-'></a>
 ### #ctor(name,command,help,args) `constructor`
 
 ##### Summary
@@ -146,10 +145,9 @@ Class that contains server command definitions.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| name | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The name of the command. Can only contain lowercase letters. |
-| command | [System.Action{System.Int32}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Action 'System.Action{System.Int32}') | A method that is called when the command is triggered. |
-| help | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | A description of what the command does. |
-| args | [System.Collections.Generic.List{System.String}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.List 'System.Collections.Generic.List{System.String}') | A list of descriptions for each argument passed with the command. |
+| name | [System.Action{System.Int32}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Action 'System.Action{System.Int32}') | The name of the command. Can only contain lowercase letters. |
+| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | A method that is called when the command is triggered. |
+| help | [System.Collections.Generic.List{System.String}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.List 'System.Collections.Generic.List{System.String}') | A description of what the command does. |
 
 <a name='P-OpenRP-Framework-Server-Controllers-ServerCommand-Args'></a>
 ### Args `property`
@@ -171,13 +169,6 @@ The method called when executing the command.
 ##### Summary
 
 Description of the command.
-
-<a name='P-OpenRP-Framework-Server-Controllers-ServerCommand-Name'></a>
-### Name `property`
-
-##### Summary
-
-The name of the command.
 
 <a name='T-ServerEvent'></a>
 ## ServerEvent `type`

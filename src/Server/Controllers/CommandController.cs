@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace OpenRP.Framework.Server.Controllers
 {
@@ -12,7 +13,7 @@ namespace OpenRP.Framework.Server.Controllers
         /// <summary>
         /// Holds all of the registered server commands.
         /// </summary>
-        public List<ServerCommand> Commands { get; private set; }
+        public Dictionary<string, ServerCommand> Commands { get; private set; }
 
         /// <summary>
         /// A controller that handles server commands.
@@ -20,7 +21,7 @@ namespace OpenRP.Framework.Server.Controllers
         /// <param name="server">The server instance.</param>
         public CommandController(ServerMain server) : base(server)
         {
-            Commands = new List<ServerCommand>();
+            Commands = new Dictionary<string, ServerCommand>();
         }
 
         /// <summary>
@@ -32,10 +33,15 @@ namespace OpenRP.Framework.Server.Controllers
         /// <param name="args">A list of descriptions for each argument passed with the command.</param>
         public void Register(string name, Action<int> command, string help, List<string> args)
         {
+            var match = new Regex(@"^[a-z]+$"); // Must only contain lowercase letters
+
             try
             {
-                var Command = new ServerCommand(name, command, help, args);
-                Commands.Add(Command);
+                if (!match.IsMatch(name))
+                    throw new FormatException($"Cannot register command, invalid command name: {name}");
+
+                var Command = new ServerCommand(command, help, args);
+                Commands.Add(name, Command);
             }
             catch (FormatException e)
             {
@@ -49,17 +55,15 @@ namespace OpenRP.Framework.Server.Controllers
         /// <param name="name">The name of the command to unregister.</param>
         public void Unregister(string name)
         {
-            var index = Commands.FindIndex(i => i.Name == name);
-
             try
             {
-                if (index == -1)
+                if (!Commands.ContainsKey(name))
                 {
                     throw new IndexOutOfRangeException($"Command does not exist: {name}");
                 }
                 else
                 {
-                    Commands.RemoveAt(index);
+                    Commands.Remove(name);
                 }
             }
             catch (IndexOutOfRangeException e)
