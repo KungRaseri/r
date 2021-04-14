@@ -23,11 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci", "ci", "{51F685D6-FA43-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Tests", "tests\Database.Tests\Database.Tests.csproj", "{58BC88A5-89E3-4E72-8103-350895F1C665}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Client.UI", "src\Client.UI\Client.UI.njsproj", "{7A31FD1C-E71C-484E-8709-EBCB9593B90E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Tests", "tests\Client.Tests\Client.Tests.csproj", "{0D8DFC58-3982-457F-BC9D-CD8B307A2073}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Tests", "tests\Server.Tests\Server.Tests.csproj", "{A7C88909-2277-4DB2-9EDE-924F0ACAAF20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Tests", "tests\Server.Tests\Server.Tests.csproj", "{A7C88909-2277-4DB2-9EDE-924F0ACAAF20}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Client.UI", "src\client.ui\Client.UI.njsproj", "{7A31FD1C-E71C-484E-8709-EBCB9593B90E}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

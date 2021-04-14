@@ -6,6 +6,10 @@
     <Name>Client.UI</Name>
     <RootNamespace>Client.UI</RootNamespace>
     <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+    <LaunchUrl>
+    </LaunchUrl>
+    <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
+    <JavaScriptTestRoot>tests\unit\</JavaScriptTestRoot>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -32,10 +36,18 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="vue.config.js" />
+    <Content Include="cypress.json" />
     <Content Include="public\favicon.ico" />
     <Content Include="public\index.html" />
     <Content Include="src\App.vue" />
-    <Content Include="src\components\Home.vue" />
+    <Content Include="src\assets\logo.png" />
+    <Content Include="src\components\HelloWorld.vue" />
+    <Content Include="tests\e2e\.eslintrc.js" />
+    <Content Include="tests\e2e\plugins\index.js" />
+    <Content Include="tests\e2e\specs\test.js" />
+    <Content Include="tests\e2e\support\commands.js" />
+    <Content Include="tests\e2e\support\index.js" />
     <Content Include="tsconfig.json" />
     <Content Include="package.json" />
     <Content Include="README.md" />
@@ -45,6 +57,14 @@
     <Folder Include="src\" />
     <Folder Include="src\assets\" />
     <Folder Include="src\components\" />
+    <Folder Include="src\router\" />
+    <Folder Include="src\store\" />
+    <Folder Include="tests\" />
+    <Folder Include="tests\e2e\" />
+    <Folder Include="tests\e2e\plugins\" />
+    <Folder Include="tests\e2e\specs\" />
+    <Folder Include="tests\e2e\support\" />
+    <Folder Include="tests\unit\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\main.ts" />
@@ -53,6 +73,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="babel.config.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="src\router\index.ts" />
+    <TypeScriptCompile Include="src\store\index.ts" />
+    <TypeScriptCompile Include="tests\unit\example.spec.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>
