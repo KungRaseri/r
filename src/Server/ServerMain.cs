@@ -17,7 +17,7 @@ namespace OpenRP.Framework.Server
 
         public readonly DataHandler DB;
 
-        public readonly CommandController commandController;
+        public readonly CommandController CommandController;
 
         public ServerMain()
         {
@@ -29,7 +29,7 @@ namespace OpenRP.Framework.Server
             Settings = LoadSettings();
 
             DB = new DataHandler(this);
-            commandController = new CommandController(this);            
+            CommandController = new CommandController(this);            
 
             Initialize();
 
