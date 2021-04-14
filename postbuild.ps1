@@ -13,11 +13,16 @@
    Copyright © 2021 KungRaseri Productions, LLC. All Rights Reserved.
 #>
 
+$user = "count"
+
 $SolutionDir = Get-Location
 
 $SolutionDir = $SolutionDir.Path + "\"
+$nugetPackageDir = "C:\Users\$user\.nuget\packages"
 
 $source = "$SolutionDir" + "src"
+$lib_s = "$SolutionDir" + "lib_s"
+$lib_c = "$SolutionDir" + "lib_c"
 
 $server = "\Server"
 $client = "\Client"
@@ -43,6 +48,10 @@ New-Item -ItemType Directory -Path $framework_server -Force
 
 Write-Output "Copying resources to $serverdata ..."
 
-# redacted client-side and server-side resources
+# Client-side and Server-side resources
 Copy-Item -Path $source$server$output_server/* -Destination $framework_server -Recurse -Force
 Copy-Item -Path $source$client$output_client/* -Destination $framework_client -Recurse -Force
+
+# Referenced Libraries
+Copy-Item -Path $lib_s/* -Destination $framework_server -Recurse -Force
+Copy-Item -Path $lib_c/* -Destination $framework_client -Recurse -Force
