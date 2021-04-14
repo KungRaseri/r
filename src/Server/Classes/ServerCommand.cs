@@ -4,37 +4,17 @@ using System.Text.RegularExpressions;
 
 namespace OpenRP.Framework.Server.Controllers
 {
-    /// <summary>
-    /// Class that contains server command definitions.
-    /// </summary>
-    public class ServerCommand
+    internal sealed class ServerCommand
     {
-        /// <summary>
-        /// Class that contains server command definitions.
-        /// </summary>
-        /// <param name="command">A method that is called when the command is triggered.</param>
-        /// <param name="help">A description of what the command does.</param>
-        /// <param name="args">A list of descriptions for each argument passed with the command.</param>
-        public ServerCommand(Action<int> command, string help, List<string> args)
+        Action<int> _command;
+        string _help;
+        List<string> _args;
+
+        internal ServerCommand(Action<int> command, string help, List<string> args)
         {
-            Command = command;
-            Help = help;
-            Args = args;
+            _command = command;
+            _help = help;
+            _args = args;
         }
-
-        /// <summary>
-        /// The method called when executing the command.
-        /// </summary>
-        public Action<int> Command { get; }
-
-        /// <summary>
-        /// Description of the command.
-        /// </summary>
-        public string Help { get; }
-
-        /// <summary>
-        /// Argument descriptions.
-        /// </summary>
-        public List<string> Args { get; }
     }
 }

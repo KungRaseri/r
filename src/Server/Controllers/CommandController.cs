@@ -1,27 +1,21 @@
 ﻿using CitizenFX.Core;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace OpenRP.Framework.Server.Controllers
 {
     /// <summary>
-    /// A controller that handles server commands.
+    /// Controller object that handles server commands.
     /// </summary>
-    public class CommandController : ServerAccessor
+    public sealed class CommandController : ServerAccessor
     {
-        /// <summary>
-        /// Holds all of the registered server commands.
-        /// </summary>
-        public Dictionary<string, ServerCommand> Commands { get; private set; }
+        Dictionary<string, ServerCommand> _commands;
 
-        /// <summary>
-        /// A controller that handles server commands.
-        /// </summary>
-        /// <param name="server">The server instance.</param>
-        public CommandController(ServerMain server) : base(server)
+        internal CommandController(ServerMain server) : base(server)
         {
-            Commands = new Dictionary<string, ServerCommand>();
+            _commands = new Dictionary<string, ServerCommand>();
         }
 
         /// <summary>
@@ -34,19 +28,11 @@ namespace OpenRP.Framework.Server.Controllers
         public void Register(string name, Action<int> command, string help, List<string> args)
         {
             var match = new Regex(@"^[a-z]+$"); // Must only contain lowercase letters
+            if (!match.IsMatch(name))
+                throw new FormatException($"Cannot register command, invalid command name: {name}");
 
-            try
-            {
-                if (!match.IsMatch(name))
-                    throw new FormatException($"Cannot register command, invalid command name: {name}");
-
-                var Command = new ServerCommand(command, help, args);
-                Commands.Add(name, Command);
-            }
-            catch (FormatException e)
-            {
-                Debug.WriteLine(e.Message);
-            }
+            var Command = new ServerCommand(command, help, args);
+            _commands.Add(name, Command);
         }
 
         /// <summary>
@@ -55,21 +41,10 @@ namespace OpenRP.Framework.Server.Controllers
         /// <param name="name">The name of the command to unregister.</param>
         public void Unregister(string name)
         {
-            try
-            {
-                if (!Commands.ContainsKey(name))
-                {
-                    throw new IndexOutOfRangeException($"Command does not exist: {name}");
-                }
-                else
-                {
-                    Commands.Remove(name);
-                }
-            }
-            catch (IndexOutOfRangeException e)
-            {
-                Debug.WriteLine(e.Message);
-            }
+            if (!_commands.ContainsKey(name))
+                throw new IndexOutOfRangeException($"Command does not exist: {name}");
+            else
+                _commands.Remove(name);
         }
     }
 }
