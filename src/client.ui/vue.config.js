@@ -1,4 +1,8 @@
 // vue.config.js
 module.exports = {
-    filenameHashing: false
+    filenameHashing: false,
+
+    transpileDependencies: [
+      'vuetify'
+    ]
 }
