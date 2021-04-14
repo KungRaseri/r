@@ -11,9 +11,7 @@ namespace OpenRP.Framework.Server.Controllers.Tests
         {
             var CommandController = new CommandController(null);
             CommandController.Register("test", new Action<int>(i => { }), "test", new List<string>());
-            Assert.Single(CommandController.Commands);
-            CommandController.Register("/test", new Action<int>(i => { }), "test", new List<string>());
-            Assert.Single(CommandController.Commands);
+            Assert.Throws<FormatException>(() => CommandController.Register("/test", new Action<int>(i => { }), "test", new List<string>()));
         }
 
         [Fact]
@@ -22,11 +20,9 @@ namespace OpenRP.Framework.Server.Controllers.Tests
             var CommandController = new CommandController(null);
             CommandController.Register("test", new Action<int>(i => { }), "test", new List<string>());
             CommandController.Unregister("test");
-            Assert.Empty(CommandController.Commands);
 
             CommandController = new CommandController(null);
-            CommandController.Unregister("test");
-            Assert.Empty(CommandController.Commands);
+            Assert.Throws<IndexOutOfRangeException>(() => CommandController.Unregister("test"));
         }
     }
 }
