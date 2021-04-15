@@ -13,8 +13,6 @@
    Copyright © 2021 KungRaseri Productions, LLC. All Rights Reserved.
 #>
 
-$user = "count"
-
 $SolutionDir = Get-Location
 
 $SolutionDir = $SolutionDir.Path + "\"
