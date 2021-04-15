@@ -36,9 +36,12 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="public\fxmanifest.lua" />
+    <Content Include="src\assets\logo.svg" />
+    <Content Include="src\views\About.vue" />
+    <Content Include="src\views\Home.vue" />
     <Content Include="vue.config.js" />
     <Content Include="cypress.json" />
-    <Content Include="public\favicon.ico" />
     <Content Include="public\index.html" />
     <Content Include="src\App.vue" />
     <Content Include="src\assets\logo.png" />
@@ -57,8 +60,10 @@
     <Folder Include="src\" />
     <Folder Include="src\assets\" />
     <Folder Include="src\components\" />
+    <Folder Include="src\plugins\" />
     <Folder Include="src\router\" />
     <Folder Include="src\store\" />
+    <Folder Include="src\views\" />
     <Folder Include="tests\" />
     <Folder Include="tests\e2e\" />
     <Folder Include="tests\e2e\plugins\" />
@@ -75,7 +80,9 @@
     <Content Include="babel.config.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\plugins\vuetify.ts" />
     <TypeScriptCompile Include="src\router\index.ts" />
+    <TypeScriptCompile Include="src\shims-vuetify.d.ts" />
     <TypeScriptCompile Include="src\store\index.ts" />
     <TypeScriptCompile Include="tests\unit\example.spec.ts" />
   </ItemGroup>
