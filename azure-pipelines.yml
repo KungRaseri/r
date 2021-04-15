@@ -21,20 +21,28 @@ steps:
     command: 'restore'
     restoreSolution: 'src/Client/Client.csproj'
     feedsToUse: 'select'
-    vstsFeed: 'a5343770-7aac-41a1-be10-c7bc0606ba30/a132bed2-c63f-46f2-a36e-9873461533b2'
 
-- task: bleddynrichards.Assembly-Info-Task.Assembly-Info-Task.Assembly-Info-NetFramework@2
-  displayName: 'Set Assembly Manifest Data'
+- task: Assembly-Info-NetFramework@2
   inputs:
+    Path: '$(Build.SourcesDirectory)'
+    FileNames: |
+      **\AssemblyInfo.cs
+
+      **\AssemblyInfo.vb
     InsertAttributes: true
-    Title: 'Gameserver Client-side Resources'
-    Product: 'Open Roleplay - Client-side Resources'
-    Description: '[REDACTED] Gaming - Gameserver Client-side Resources'
+    FileEncoding: 'auto'
+    WriteBOM: false
+    Title: 'OpenRP.Framework.Client.net'
+    Product: 'Open Roleplay - Client-side Framework'
+    Description: 'Open Roleplay - Client-side Framework'
     Company: 'KungRaseri Productions, LLC'
-    Copyright: 'Copyright © 2020 - KungRaseri Productions, LLC'
+    Copyright: 'Copyright © 2021 - KungRaseri Productions, LLC'
     VersionNumber: '$(Build.BuildNumber)'
     FileVersionNumber: '$(Build.BuildNumber)'
     InformationalVersion: '$(Build.BuildNumber)'
+    LogLevel: 'verbose'
+    FailOnWarning: false
+    DisableTelemetry: false
 
 - task: MSBuild@1
   inputs:
