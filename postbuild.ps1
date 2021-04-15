@@ -24,7 +24,7 @@ $lib = "$SolutionDir" + "lib"
 
 $server = "\Server"
 $client = "\Client"
-$ui = "\Client.UI"
+$ui = "\UI"
 
 $output_client = "\bin\Debug"
 $output_server = "\bin\Debug\netstandard2.1"
