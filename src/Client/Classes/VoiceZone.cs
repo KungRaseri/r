@@ -1,8 +1,8 @@
-﻿using CitizenFX.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using CitizenFX.Core;
 
-namespace OpenRP.Framework.Client.Controllers
+namespace OpenRP.Framework.Client.Classes
 {
     public class VoiceZone
     {

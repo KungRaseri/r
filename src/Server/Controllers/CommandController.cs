@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using OpenRP.Framework.Server.Classes;
 
 namespace OpenRP.Framework.Server.Controllers
 {

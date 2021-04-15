@@ -2,7 +2,7 @@
 using OpenRP.Framework.Database.Document;
 using Xunit;
 
-namespace Database.Tests
+namespace OpenRP.Framework.Tests
 {
     public class DatabaseTests
     {

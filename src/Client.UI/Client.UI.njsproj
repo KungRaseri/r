@@ -36,7 +36,6 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="public\fxmanifest.lua" />
     <Content Include="src\assets\logo.svg" />
     <Content Include="src\views\About.vue" />
     <Content Include="src\views\Home.vue" />

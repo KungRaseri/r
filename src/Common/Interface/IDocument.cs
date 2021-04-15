@@ -1,6 +1,9 @@
-﻿/// <summary>
-/// 
-/// </summary>
-public interface IDocument
+﻿namespace OpenRP.Framework.Common.Interface
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    public interface IDocument
+    {
+    }
 }

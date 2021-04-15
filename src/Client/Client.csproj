@@ -56,7 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CitizenFX.Core.Client">
-      <Version>1.0.3813</Version>
+      <Version>1.0.3816</Version>
     </PackageReference>
     <PackageReference Include="Vsxmd">
       <Version>1.4.5</Version>
