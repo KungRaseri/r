@@ -18,17 +18,19 @@ $SolutionDir = Get-Location
 $SolutionDir = $SolutionDir.Path + "\"
 
 $source = "$SolutionDir" + "src"
+$lib = "$SolutionDir" + "lib"
 
 $server = "\Server"
 $client = "\Client"
+$ui = "\UI"
 
 $output_client = "\bin\Debug"
 $output_server = "\bin\Debug\netstandard2.1"
+$output_ui = "\openrp-client-ui"
 
 $serverdata = "$SolutionDir" + "server-data"
 $resources = "$serverdata\resources"
-$framework_client = "$resources\framework_client"
-$framework_server = "$resources\framework_server"
+$framework = "$resources\framework"
 
 Write-Output "Solution: $SolutionDir"
 Write-Output "Source files: $source"
@@ -38,11 +40,15 @@ Write-Output "Preparing server-data directory..."
 
 New-Item -ItemType Directory -Path $serverdata -Force
 New-Item -ItemType Directory -Path $resources -Force
-New-Item -ItemType Directory -Path $framework_client -Force
-New-Item -ItemType Directory -Path $framework_server -Force
+New-Item -ItemType Directory -Path $framework -Force
+New-Item -ItemType Directory -Path "$framework/ui" -Force
 
 Write-Output "Copying resources to $serverdata ..."
 
-# redacted client-side and server-side resources
-Copy-Item -Path $source$server$output_server/* -Destination $framework_server -Recurse -Force
-Copy-Item -Path $source$client$output_client/* -Destination $framework_client -Recurse -Force
+# Client-side and Server-side resources
+Copy-Item -Path $source$server$output_server/* -Destination "$framework" -Recurse -Force
+Copy-Item -Path $source$client$output_client/* -Destination "$framework" -Recurse -Force
+Copy-Item -Path $source$ui$output_ui/* -Destination "$framework/ui" -Recurse -Force
+
+# Referenced Libraries
+Copy-Item -Path $lib/* -Destination "$framework" -Recurse -Force

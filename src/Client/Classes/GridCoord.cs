@@ -1,4 +1,4 @@
-﻿namespace OpenRP.Framework.Client.Controllers
+﻿namespace OpenRP.Framework.Client.Classes
 {
     public class GridCoord
     {

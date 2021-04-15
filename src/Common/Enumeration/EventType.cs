@@ -1,9 +1,12 @@
-﻿/// <summary>
-/// 
-/// </summary>
-public enum EventType
+﻿namespace OpenRP.Framework.Common.Enumeration
 {
-    CLIENT,
-    SERVER,
-    NUI
+    /// <summary>
+    /// 
+    /// </summary>
+    public enum EventType
+    {
+        CLIENT,
+        SERVER,
+        NUI
+    }
 }

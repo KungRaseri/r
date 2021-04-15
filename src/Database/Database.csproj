@@ -2,24 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+
     <RootNamespace>OpenRP.Framework.Database</RootNamespace>
     <AssemblyName>OpenRP.Framework.Database</AssemblyName>
-    <DocumentationFile>bin\$(Configuration)\netstandard2.1\OpenRP.Framework.Database.xml</DocumentationFile>
+
+    <DocumentationFile>bin\$(Configuration)\OpenRP.Framework.Database.xml</DocumentationFile>
     <DocumentationMarkdown>$(SolutionDir)\docs\Framework\OpenRP.Framework.Database.md</DocumentationMarkdown>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>embedded</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="MongoDB.Bson" Version="2.12.2" />
+    <PackageReference Include="mongocsharpdriver" Version="2.12.2" />
     <PackageReference Include="MongoDB.Driver" Version="2.12.2" />
     <PackageReference Include="Vsxmd" Version="1.4.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
 </Project>

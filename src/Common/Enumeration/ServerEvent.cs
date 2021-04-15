@@ -1,6 +1,9 @@
-﻿/// <summary>
-/// 
-/// </summary>
-public enum ServerEvent
+﻿namespace OpenRP.Framework.Common.Enumeration
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    public enum ServerEvent
+    {
+    }
 }

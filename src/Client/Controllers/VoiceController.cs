@@ -7,6 +7,7 @@ using System.Text;
 using System.Drawing;
 using System.Threading.Tasks;
 using CitizenFX.Core.UI;
+using OpenRP.Framework.Client.Classes;
 
 namespace OpenRP.Framework.Client.Controllers
 {

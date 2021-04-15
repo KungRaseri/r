@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenRP.Framework.Server.Controllers;
 using Xunit;
 
-namespace OpenRP.Framework.Server.Controllers.Tests
+namespace OpenRP.Framework.Tests.Controllers
 {
     public class CommandControllerTests
     {

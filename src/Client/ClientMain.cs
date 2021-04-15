@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using OpenRP.Framework.Client.Controllers;
+using OpenRP.Framework.Common.Interface;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client

@@ -3,15 +3,15 @@
   <PropertyGroup>
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>1051bb5b-f7e3-4967-89ab-2f305368a6e9</SharedGUID>
+    <SharedGUID>4768cd4c-e779-4003-a93e-3482fc824442</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Common</Import_RootNamespace>
+    <Import_RootNamespace>OpenRP.Framework.Common</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Enumeration\ClientEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enumeration\EventType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enumeration\ServerEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Enumeration\ClientEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\IDocument.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\IEvent.cs" />
   </ItemGroup>

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
-namespace OpenRP.Framework.Server.Controllers
+namespace OpenRP.Framework.Server.Classes
 {
     internal sealed class ServerCommand
     {

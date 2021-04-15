@@ -4,11 +4,15 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CitizenFX.Core;
 using Microsoft.Extensions.Configuration;
+using OpenRP.Framework.Common.Interface;
 using OpenRP.Framework.Server.Controllers;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Server
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ServerMain : BaseScript
     {
         public IConfigurationRoot Settings;
@@ -29,7 +33,7 @@ namespace OpenRP.Framework.Server
             Settings = LoadSettings();
 
             DB = new DataHandler(this);
-            CommandController = new CommandController(this);            
+            CommandController = new CommandController(this);
 
             Initialize();
 
@@ -39,7 +43,7 @@ namespace OpenRP.Framework.Server
         private IConfigurationRoot LoadSettings()
         {
             return new ConfigurationBuilder()
-                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), @"resources/framework_server"))
+                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), @"resources/framework"))
                 .AddJsonFile("settings.json")
                 .Build();
         }

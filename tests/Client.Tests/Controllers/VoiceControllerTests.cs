@@ -1,13 +1,8 @@
-﻿using Xunit;
-using OpenRP.Framework.Client.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CitizenFX.Core;
+﻿using CitizenFX.Core;
+using OpenRP.Framework.Client.Classes;
+using Xunit;
 
-namespace OpenRP.Framework.Client.Controllers.Tests
+namespace OpenRP.Framework.Tests.Controllers
 {
     public class VoiceControllerTests
     {
