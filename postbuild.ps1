@@ -48,9 +48,9 @@ New-Item -ItemType Directory -Path "$framework/ui" -Force
 Write-Output "Copying resources to $serverdata ..."
 
 # Client-side and Server-side resources
-Copy-Item -Path $source$server$output_server/* -Destination $framework -Recurse -Force
-Copy-Item -Path $source$client$output_client/* -Destination $framework -Recurse -Force
+Copy-Item -Path $source$server$output_server/* -Destination "$framework" -Recurse -Force
+Copy-Item -Path $source$client$output_client/* -Destination "$framework" -Recurse -Force
 Copy-Item -Path $source$ui$output_ui/* -Destination "$framework/ui" -Recurse -Force
 
 # Referenced Libraries
-Copy-Item -Path $lib/* -Destination $framework -Recurse -Force
+Copy-Item -Path $lib/* -Destination "$framework" -Recurse -Force
