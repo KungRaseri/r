@@ -1,34 +1,14 @@
 # client.ui
 
 ## Project setup
-```
-yarn install
-```
+In order to get this project running within Visual Studio 2019 you'll need to install a few things.
+- Node.js development component from the Visual Studio Installer
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+## Project package install
+Cleaning the solution will run the yarn install command and should install the package dependencies
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Run your unit tests
-```
-yarn test:unit
-```
-
-### Run your end-to-end tests
-```
-yarn test:e2e
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
+## Project build
+Building the solution will also build this project and it will be output into the outputDir (configured in the vue.config.js file)
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
