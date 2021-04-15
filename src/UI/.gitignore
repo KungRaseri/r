@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-/openrp-client-ui
+openrp-client-ui
 
 /tests/e2e/videos/
 /tests/e2e/screenshots/
@@ -21,6 +21,4 @@ pnpm-debug.log*
 .vscode
 *.suo
 *.ntvs*
-*.njsproj
-*.sln
 *.sw?
