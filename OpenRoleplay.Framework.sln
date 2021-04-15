@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci", "ci", "{51F685D6-FA43-
 		azure-pipelines.yml = azure-pipelines.yml
 		createlinks.ps1 = createlinks.ps1
 		postbuild.ps1 = postbuild.ps1
+		sonar-project.properties = sonar-project.properties
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Tests", "tests\Client.Tests\Client.Tests.csproj", "{0D8DFC58-3982-457F-BC9D-CD8B307A2073}"
