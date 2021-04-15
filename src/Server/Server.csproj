@@ -8,6 +8,12 @@
 
     <DocumentationFile>bin\$(Configuration)\OpenRP.Framework.Server.xml</DocumentationFile>
     <DocumentationMarkdown>$(SolutionDir)\docs\Framework\OpenRP.Framework.Server.md</DocumentationMarkdown>
+    <Version>0.0.1</Version>
+    <Authors>KungRaseri,GalaxyMom</Authors>
+    <Company>KungRaseri Productions, LLC</Company>
+    <Product>Open Roleplay - Server-side Framework</Product>
+    <Description>Open Roleplay - Server-side Framework</Description>
+    <Copyright>Copyright © 2021 - KungRaseri Productions, LLC</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

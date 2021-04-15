@@ -1,0 +1,92 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'vs2017-win2016'
+  name: Azure Pipelines
+  demands:
+  - msbuild
+  - java
+
+name: '$(version)$(rev:.r)'
+steps:
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 4.4.1'
+  inputs:
+    versionSpec: '4.x'
+    checkLatest: true
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: 'src/Client.csproj'
+    feedsToUse: 'select'
+    vstsFeed: 'a5343770-7aac-41a1-be10-c7bc0606ba30/a132bed2-c63f-46f2-a36e-9873461533b2'
+
+- task: bleddynrichards.Assembly-Info-Task.Assembly-Info-Task.Assembly-Info-NetFramework@2
+  displayName: 'Set Assembly Manifest Data'
+  inputs:
+    InsertAttributes: true
+    Title: 'Gameserver Client-side Resources'
+    Product: 'Open Roleplay - Client-side Resources'
+    Description: '[REDACTED] Gaming - Gameserver Client-side Resources'
+    Company: 'KungRaseri Productions, LLC'
+    Copyright: 'Copyright © 2020 - KungRaseri Productions, LLC'
+    VersionNumber: '$(Build.BuildNumber)'
+    FileVersionNumber: '$(Build.BuildNumber)'
+    InformationalVersion: '$(Build.BuildNumber)'
+
+- task: MSBuild@1
+  inputs:
+    solution: 'src/Client.csproj'
+    msbuildArchitecture: 'x64'
+    clean: true
+    maximumCpuCount: true
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    projects: 'src/Server.csproj'
+    feedsToUse: 'select'
+    vstsFeed: 'a5343770-7aac-41a1-be10-c7bc0606ba30/a132bed2-c63f-46f2-a36e-9873461533b2'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: 'src/Server.csproj'
+
+# - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
+#   displayName: 'Prepare analysis on SonarCloud'
+#   inputs:
+#     SonarCloud: sonarcloud
+#     organization: 'redacted-gaming'
+#     scannerMode: CLI
+#     extraProperties: |
+#      # Additional properties that will be passed to the scanner, 
+#      # Put one key=value per line, example:
+#      sonar.projectVersion=$(Build.BuildNumber)
+     
+# - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+#   displayName: 'Run Code Analysis'
+
+# - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
+#   displayName: 'Publish Quality Gate Result'
+
+- task: PowerShell@2
+  displayName: 'Compile server-data'
+  inputs:
+    targetType: filePath
+    filePath: ./postbuild.ps1
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  inputs:
+    SourceFolder: 'server-data'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+    ArtifactName: 'drop'
+  condition: succeededOrFailed()

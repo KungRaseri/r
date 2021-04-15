@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{268C6EEF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci", "ci", "{51F685D6-FA43-436D-A3AF-3C3FB787A611}"
 	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
 		createlinks.ps1 = createlinks.ps1
 		postbuild.ps1 = postbuild.ps1
 	EndProjectSection
