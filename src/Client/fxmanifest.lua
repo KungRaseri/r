@@ -10,7 +10,8 @@ files{
 	'ui/css/*.*',
 	'ui/js/*.*',
 	'ui/img/*.*',
-	'ui/index.html'
+	'ui/index.html',
+	'Newtonsoft.Json.dll'
 }
 
 client_scripts{

@@ -26,20 +26,18 @@
         private History: any[] = [];
 
         mounted() {
-            this.getHistory = { color: "blue", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." };
-            this.getHistory = { color: "red", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras semper auctor neque vitae. At in tellus integer feugiat. Morbi tincidunt ornare massa eget egestas purus. Faucibus vitae aliquet nec ullamcorper." };
-            this.getHistory = { color: "green", message: "diam sit amet nisl suscipit" }
-            this.getHistory = { color: "blue", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed lectus." }
+            window.addEventListener("message", (e) => {
+                console.log(e.data);
+                switch (e.data.eventName) {
+                    case "ADD_MESSAGE":
+                        this.getHistory = e.data.messageData;
+                        break;
+                    default:
+                        break;
+                }
+            });
 
-            this.getHistory = { color: "blue", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." };
-            this.getHistory = { color: "red", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras semper auctor neque vitae. At in tellus integer feugiat. Morbi tincidunt ornare massa eget egestas purus. Faucibus vitae aliquet nec ullamcorper." };
-            this.getHistory = { color: "green", message: "diam sit amet nisl suscipit" }
-            this.getHistory = { color: "blue", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed lectus." }
-
-            this.getHistory = { color: "blue", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." };
-            this.getHistory = { color: "red", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras semper auctor neque vitae. At in tellus integer feugiat. Morbi tincidunt ornare massa eget egestas purus. Faucibus vitae aliquet nec ullamcorper." };
-            this.getHistory = { color: "green", message: "diam sit amet nisl suscipit" }
-            this.getHistory = { color: "blue", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed lectus." }
+            console.log("MessageBox mounted.");
         }
 
         updated() {
@@ -58,7 +56,7 @@
 
 <style scoped>
     .message {
-        overflow: scroll;
+        overflow: hidden;
         margin-top: 0.2%;
         margin-left: 0.2%;
         height: 50vh;
