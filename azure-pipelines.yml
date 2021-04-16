@@ -2,7 +2,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'vs2017-win2016'
+  vmImage: 'windows-latest'
   name: Azure Pipelines
   demands:
   - msbuild
@@ -14,6 +14,11 @@ steps:
   displayName: 'Use NuGet 4.4.1'
   inputs:
     versionSpec: '4.x'
+    checkLatest: true
+
+- task: YarnInstaller@3
+  inputs:
+    versionSpec: '1.x'
     checkLatest: true
 
 - task: NuGetCommand@2
@@ -63,6 +68,18 @@ steps:
   inputs:
     command: 'build'
     projects: 'src/Server/Server.csproj'
+
+- task: Yarn@2
+  inputs:
+    ProjectDirectory: 'src/UI'
+    Arguments: 'install'
+    ProductionMode: true
+
+- task: Yarn@2
+  inputs:
+    ProjectDirectory: 'src/UI'
+    Arguments: 'build'
+    ProductionMode: true
 
 - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
   displayName: 'Prepare analysis on SonarCloud'
