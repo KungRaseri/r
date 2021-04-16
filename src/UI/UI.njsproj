@@ -37,6 +37,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="src\assets\logo.svg" />
+    <Content Include="src\components\MessageBox\Bubble.vue">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\components\MessageBox\Main.vue">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\views\Main.vue" />
     <Content Include="vue.config.js" />
     <Content Include="cypress.json" />
@@ -58,6 +64,7 @@
     <Folder Include="src\" />
     <Folder Include="src\assets\" />
     <Folder Include="src\components\" />
+    <Folder Include="src\components\MessageBox\" />
     <Folder Include="src\plugins\" />
     <Folder Include="src\router\" />
     <Folder Include="src\store\" />

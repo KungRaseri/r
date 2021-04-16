@@ -1,5 +1,6 @@
 <template>
     <v-layout>
+        <MessageBox />
     </v-layout>
 </template>
 
@@ -10,10 +11,12 @@
 </style>
 
 <script lang="ts">
+    import MessageBox from '../components/MessageBox/Main.vue';
     import { Component, Vue } from 'vue-property-decorator';
 
     @Component({
         components: {
+            MessageBox
         },
     })
     export default class Home extends Vue { }

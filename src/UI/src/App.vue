@@ -1,12 +1,5 @@
 <template>
     <v-app app>
-        <v-app-bar app
-                   color="primary"
-                   dark>
-            OpenRP
-            <v-spacer></v-spacer>
-        </v-app-bar>
-
         <v-main>
             <router-view />
         </v-main>
