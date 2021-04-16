@@ -43,6 +43,9 @@
     <Content Include="src\components\MessageBox\Main.vue">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\components\MessageBox\MessageBox.vue">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\views\Main.vue" />
     <Content Include="vue.config.js" />
     <Content Include="cypress.json" />

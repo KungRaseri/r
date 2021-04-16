@@ -1,65 +1,28 @@
 <template>
-    <v-container
-        class="message"
-    >
-        <v-row
-            v-for="(item, index) in getHistory"
-            :key="index"
-        >
-            <Bubble
-                :ColorFill="item.color"
-                :MessageText="item.message" />
-        </v-row>
-    </v-container>
+    <div class="chatbox">
+        <MessageBox />
+        <v-text-field 
+            autofocus="true"
+            outlined="true"
+            color="black"
+        />
+    </div>
 </template>
 
 <script lang="ts">
     import { Component, Vue, Prop } from 'vue-property-decorator';
-    import Bubble from './Bubble.vue';
+    import MessageBox from './MessageBox.vue';
 
     @Component({
         components: {
-            Bubble
+            MessageBox
         },
     })
-    export default class MessageBox extends Vue {
-        private History: any[] = [];
-
-        mounted() {
-            window.addEventListener("message", (e) => {
-                console.log(e.data);
-                switch (e.data.eventName) {
-                    case "ADD_MESSAGE":
-                        this.getHistory = e.data.messageData;
-                        break;
-                    default:
-                        break;
-                }
-            });
-
-            console.log("MessageBox mounted.");
-        }
-
-        updated() {
-            this.$el.scrollTop = this.$el.scrollHeight;
-        }
-
-        get getHistory() {
-            return this.History;
-        }
-
-        set getHistory(value: any) {
-            this.History.push(value);
-        }
-    }
+    export default class ChatModule extends Vue { }
 </script>
 
 <style scoped>
-    .message {
-        overflow: hidden;
-        margin-top: 0.2%;
-        margin-left: 0.2%;
-        height: 50vh;
-        width: 30%
+    .chatbox {
+        margin-left: 1vw;
     }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <v-layout>
-        <MessageBox />
+        <ChatModule />
     </v-layout>
 </template>
 
@@ -11,12 +11,12 @@
 </style>
 
 <script lang="ts">
-    import MessageBox from '../components/MessageBox/Main.vue';
+    import ChatModule from '../components/MessageBox/Main.vue';
     import { Component, Vue } from 'vue-property-decorator';
 
     @Component({
         components: {
-            MessageBox
+            ChatModule
         },
     })
     export default class Home extends Vue { }
