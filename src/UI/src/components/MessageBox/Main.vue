@@ -3,8 +3,8 @@
         class="message"
     >
         <v-row
-            v-for="item in getHistory"
-            :key="item.color"
+            v-for="(item, index) in getHistory"
+            :key="index"
         >
             <Bubble
                 :ColorFill="item.color"
@@ -30,6 +30,20 @@
             this.getHistory = { color: "red", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras semper auctor neque vitae. At in tellus integer feugiat. Morbi tincidunt ornare massa eget egestas purus. Faucibus vitae aliquet nec ullamcorper." };
             this.getHistory = { color: "green", message: "diam sit amet nisl suscipit" }
             this.getHistory = { color: "blue", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed lectus." }
+
+            this.getHistory = { color: "blue", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." };
+            this.getHistory = { color: "red", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras semper auctor neque vitae. At in tellus integer feugiat. Morbi tincidunt ornare massa eget egestas purus. Faucibus vitae aliquet nec ullamcorper." };
+            this.getHistory = { color: "green", message: "diam sit amet nisl suscipit" }
+            this.getHistory = { color: "blue", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed lectus." }
+
+            this.getHistory = { color: "blue", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." };
+            this.getHistory = { color: "red", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras semper auctor neque vitae. At in tellus integer feugiat. Morbi tincidunt ornare massa eget egestas purus. Faucibus vitae aliquet nec ullamcorper." };
+            this.getHistory = { color: "green", message: "diam sit amet nisl suscipit" }
+            this.getHistory = { color: "blue", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed lectus." }
+        }
+
+        updated() {
+            this.$el.scrollTop = this.$el.scrollHeight;
         }
 
         get getHistory() {
@@ -44,9 +58,10 @@
 
 <style scoped>
     .message {
+        overflow: scroll;
         margin-top: 0.2%;
         margin-left: 0.2%;
-        height: 50%;
+        height: 50vh;
         width: 30%
     }
 </style>

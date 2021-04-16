@@ -21,11 +21,6 @@
         @Prop(String) private ColorFill: string = this.getColorFill;
         @Prop(String) private MessageText: string = this.getMessageText;
 
-        mounted() {
-            console.log(this.getColorFill);
-            console.log(this.getMessageText);
-        }
-
         get getColorFill() {
             return this.ColorFill;
         }
