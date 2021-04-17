@@ -22,15 +22,15 @@
         },
     })
     export default class MessageBox extends Vue {
-        private History: any[] = [];
+        history: any[] = [];
 
         mounted() {
             this.getHistory = { color: "red", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Molestie nunc non blandit massa enim nec. Purus in mollis nunc sed id semper risus in. Molestie ac feugiat sed lectus vestibulum mattis ullamcorper. In massa tempor nec feugiat nisl pretium." };
-            this.getHistory = { color: "red", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Molestie nunc non blandit massa enim nec. Purus in mollis nunc sed id semper risus in. Molestie ac feugiat sed lectus vestibulum mattis ullamcorper. In massa tempor nec feugiat nisl pretium." };
-            this.getHistory = { color: "red", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Molestie nunc non blandit massa enim nec. Purus in mollis nunc sed id semper risus in. Molestie ac feugiat sed lectus vestibulum mattis ullamcorper. In massa tempor nec feugiat nisl pretium." };
-            this.getHistory = { color: "red", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Molestie nunc non blandit massa enim nec. Purus in mollis nunc sed id semper risus in. Molestie ac feugiat sed lectus vestibulum mattis ullamcorper. In massa tempor nec feugiat nisl pretium." };
-            this.getHistory = { color: "red", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Molestie nunc non blandit massa enim nec. Purus in mollis nunc sed id semper risus in. Molestie ac feugiat sed lectus vestibulum mattis ullamcorper. In massa tempor nec feugiat nisl pretium." };
-            this.getHistory = { color: "red", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Molestie nunc non blandit massa enim nec. Purus in mollis nunc sed id semper risus in. Molestie ac feugiat sed lectus vestibulum mattis ullamcorper. In massa tempor nec feugiat nisl pretium." };
+            this.getHistory = { color: "blue", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Molestie nunc non blandit massa enim nec. Purus in mollis nunc sed id semper risus in. Molestie ac feugiat sed lectus vestibulum mattis ullamcorper. In massa tempor nec feugiat nisl pretium." };
+            this.getHistory = { color: "green", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Molestie nunc non blandit massa enim nec. Purus in mollis nunc sed id semper risus in. Molestie ac feugiat sed lectus vestibulum mattis ullamcorper. In massa tempor nec feugiat nisl pretium." };
+            this.getHistory = { color: "purple", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Molestie nunc non blandit massa enim nec. Purus in mollis nunc sed id semper risus in. Molestie ac feugiat sed lectus vestibulum mattis ullamcorper. In massa tempor nec feugiat nisl pretium." };
+            this.getHistory = { color: "black", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Molestie nunc non blandit massa enim nec. Purus in mollis nunc sed id semper risus in. Molestie ac feugiat sed lectus vestibulum mattis ullamcorper. In massa tempor nec feugiat nisl pretium." };
+            this.getHistory = { color: "orange", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Molestie nunc non blandit massa enim nec. Purus in mollis nunc sed id semper risus in. Molestie ac feugiat sed lectus vestibulum mattis ullamcorper. In massa tempor nec feugiat nisl pretium." };
 
             window.addEventListener("message", (e) => {
                 switch (e.data.eventName) {
@@ -50,18 +50,18 @@
         }
 
         get getHistory() {
-            return this.History;
+            return this.history;
         }
 
         set getHistory(value: any) {
-            this.History.push(value);
+            this.history.push(value);
         }
     }
 </script>
 
 <style scoped>
     .message {
-        overflow: auto;
+        overflow: hidden;
         height: 30vh;
         width: 25vw;
     }

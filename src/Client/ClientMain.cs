@@ -27,15 +27,7 @@ namespace OpenRP.Framework.Client
 
             Initialize();
 
-            Test();
-
             Debug.WriteLine($"[{nameof(ClientMain)}] resources loaded");
-        }
-
-        private async void Test()
-        {
-            await Delay(2000);
-            SetNuiFocus(true, true);
         }
 
         private void OnClientResourceStart(string resourceName)
@@ -56,9 +48,10 @@ namespace OpenRP.Framework.Client
         {
         }
 
-        public void RegisterKeyBinding(string commandString, string description, string defaultMapper, string defaultParameter)
+        public void RegisterKeyBinding(string commandString, string description, string key, MulticastDelegate callback)
         {
-            RegisterKeyMapping(commandString, description, defaultMapper, defaultParameter);
+            RegisterKeyMapping(commandString, description, "keyboard", key);
+            RegisterCommand(commandString, callback, true);
         }
 
         public void RegisterClientEvent(IEvent e)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Controllers
 {
@@ -17,12 +18,27 @@ namespace OpenRP.Framework.Client.Controllers
             _client = client;
 
             _client.eventController.RegisterNuiEvent("POST_MESSAGE", new Action<dynamic>(OnAddMessage));
+            _client.eventController.RegisterNuiEvent("RESET_FOCUS", new Action<dynamic>(OnResetFocus));
+
+            _client.RegisterKeyBinding("ToggleChatModule", "(HUD) Open chat", "t", new Action(ToggleChatModule));
         }
 
-        private void OnAddMessage(dynamic message)
+        private void ToggleChatModule()
         {
-            Debug.WriteLine($"Post message: {JsonConvert.SerializeObject(message)}");
-            MessageBox.AddMessage("blue", message.value);
+            var eventName = "TOGGLE_CHAT_MODULE";
+            SendNuiMessage(JsonConvert.SerializeObject(new { eventName }));
+            SetNuiFocus(true, false);
+        }
+
+        private void OnResetFocus(dynamic args)
+        {
+            SetNuiFocus(false, false);
+        }
+
+        private void OnAddMessage(dynamic args)
+        {
+            Debug.WriteLine($"Post message: {JsonConvert.SerializeObject(args)}");
+            MessageBox.AddMessage("blue", args.value);
         }
     }
 }
