@@ -1,6 +1,5 @@
 <template>
-    <v-container 
-        class="message">
+    <v-container class="message">
         <v-row
             v-for="(item, index) in getHistory"
             :key="index"
@@ -13,7 +12,7 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Emit } from 'vue-property-decorator';
+    import { Component, Vue, Prop, Emit } from 'vue-property-decorator';
     import Bubble from './Bubble.vue';
 
     @Component({
@@ -22,6 +21,8 @@
         },
     })
     export default class MessageBox extends Vue {
+        @Prop(Boolean) isTextFieldActive = false;
+
         history: any[] = [];
 
         mounted() {
@@ -47,8 +48,11 @@
 
         updated() {
             this.$el.scrollTop = this.$el.scrollHeight;
-            this.showmessages();
-            this.timeout();
+            console.log(this.$el.scrollHeight);
+            if (!this.isTextFieldActive) {
+                this.showmessages();
+                this.timeout();
+            }
         }
 
         get getHistory() {

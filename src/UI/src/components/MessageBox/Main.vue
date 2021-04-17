@@ -1,11 +1,14 @@
 <template>
     <div class="chatbox">
-        <v-slide-y-transition>
-            <MessageBox ref="messageBox"
-                        v-show="GetMessageBoxActive"
-                        @showmessages="Timeout"
-                        @timeout="Timeout" />
-        </v-slide-y-transition>
+        <div class="message">
+            <v-slide-y-transition>
+                <MessageBox ref="messageBox"
+                            v-show="GetMessageBoxActive"
+                            @showmessages="Timeout"
+                            @timeout="Timeout"
+                            :is-text-field-active="GetTextFieldActive" />
+            </v-slide-y-transition>
+        </div>         
         <v-text-field v-show="GetTextFieldActive"
                       autofocus=true
                       outlined=true
@@ -40,7 +43,6 @@
                 switch (e.data.eventName) {
                     case "TOGGLE_CHAT_MODULE":
                         this.GetTextFieldActive = true;
-                        this.GetMessageBoxActive = true;
                         break;
                     default:
                         break;
@@ -57,12 +59,15 @@
                 this.ResetFocus();
             } else if (value.key === "Escape") {
                 this.GetTextFieldActive = false;
-                this.Timeout(false);
                 this.ResetFocus();
             } else if (value.key === "PageUp") {
                 this.messageBox.$el.scrollTop -= this.messageBox.$el.clientHeight / 3;
             } else if (value.key === "PageDown") {
                 this.messageBox.$el.scrollTop += this.messageBox.$el.clientHeight / 3;
+            } else if (value.key === "Home") {
+                this.messageBox.$el.scrollTop = 0;
+            } else if (value.key === "End") {
+                this.setScroll();
             }
         }
 
@@ -90,7 +95,7 @@
         }
 
         Timeout(value: boolean) {
-            if (value === false) {
+            if (!value) {
                 setTimeout(this.SetMessageBoxActive, 5000, value);
             } else {
                 this.GetMessageBoxActive = value;
@@ -98,7 +103,13 @@
         }
 
         SetMessageBoxActive(value: boolean) {
-            this.GetMessageBoxActive = value;
+            if (!this.GetTextFieldActive) {
+                this.GetMessageBoxActive = value;
+            }
+        }
+
+        setScroll() {
+            this.messageBox.$el.scrollTop = this.messageBox.$el.scrollHeight;
         }
 
         get GetInput() {
@@ -115,6 +126,7 @@
 
         set GetTextFieldActive(value: boolean) {
             this.isTextFieldActive = value;
+            this.Timeout(value);
         }
 
         get GetMessageBoxActive() {
@@ -123,6 +135,9 @@
 
         set GetMessageBoxActive(value: boolean) {
             this.isMessageBoxActive = value;
+            if (value) {
+                this.$nextTick(this.setScroll);
+            }
         }
     }
 </script>
@@ -130,5 +145,11 @@
 <style scoped>
     .chatbox {
         margin-left: 1vw;
+    }
+
+    .message {
+        overflow: hidden;
+        height: 30vh;
+        width: 25vw;
     }
 </style>
