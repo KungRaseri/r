@@ -41,8 +41,11 @@
             this.$axios
                 .post(
                     "http://framework/POST_MESSAGE",
-                    value
-                );
+                    { value }
+                )
+                .catch((error: any) => {
+                    console.log("error", error);
+                });
         }
 
         get GetInput() {

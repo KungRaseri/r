@@ -55,6 +55,8 @@
     <Compile Include="ClientMain.cs" />
     <Compile Include="Classes\GridCoord.cs" />
     <Compile Include="Classes\MessageBox.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\VoiceController.cs" />
     <Compile Include="Classes\VoiceZone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

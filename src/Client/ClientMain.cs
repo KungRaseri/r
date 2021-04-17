@@ -13,18 +13,29 @@ namespace OpenRP.Framework.Client
     public class ClientMain : BaseScript
     {
         public PlayerList players;
-
         public readonly VoiceController voiceController;
+        public readonly EventController eventController;
+        public readonly ChatController chatController;
+        public EventHandlerDictionary Events => EventHandlers;
 
         public ClientMain()
         {
             players = Players;
-
             voiceController = new VoiceController(this);
+            eventController = new EventController(this);
+            chatController = new ChatController(this);
 
             Initialize();
 
+            Test();
+
             Debug.WriteLine($"[{nameof(ClientMain)}] resources loaded");
+        }
+
+        private async void Test()
+        {
+            await Delay(2000);
+            SetNuiFocus(true, true);
         }
 
         private void OnClientResourceStart(string resourceName)
