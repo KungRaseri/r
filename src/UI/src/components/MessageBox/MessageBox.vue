@@ -33,7 +33,6 @@
             this.getHistory = { color: "red", message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Molestie nunc non blandit massa enim nec. Purus in mollis nunc sed id semper risus in. Molestie ac feugiat sed lectus vestibulum mattis ullamcorper. In massa tempor nec feugiat nisl pretium." };
 
             window.addEventListener("message", (e) => {
-                console.log(e.data);
                 switch (e.data.eventName) {
                     case "ADD_MESSAGE":
                         this.getHistory = e.data.messageData;

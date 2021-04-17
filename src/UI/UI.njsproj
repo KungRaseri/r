@@ -88,6 +88,8 @@
     <Content Include="babel.config.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\plugins\axios.d.ts" />
+    <TypeScriptCompile Include="src\plugins\axios.ts" />
     <TypeScriptCompile Include="src\plugins\vuetify.ts" />
     <TypeScriptCompile Include="src\router\index.ts" />
     <TypeScriptCompile Include="src\shims-vuetify.d.ts" />

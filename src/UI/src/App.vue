@@ -29,10 +29,6 @@
     export default class App extends Vue {
 
         mounted() {
-            window.addEventListener('message', (e) => {
-                console.log(e);
-            });
-
             console.log("[OpenRP] Application has been mounted.")
         }
     }
