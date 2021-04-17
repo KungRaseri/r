@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Prop } from 'vue-property-decorator';
+    import { Component, Vue, Emit } from 'vue-property-decorator';
     import Bubble from './Bubble.vue';
 
     @Component({
@@ -47,6 +47,8 @@
 
         updated() {
             this.$el.scrollTop = this.$el.scrollHeight;
+            this.showmessages();
+            this.timeout();
         }
 
         get getHistory() {
@@ -55,6 +57,16 @@
 
         set getHistory(value: any) {
             this.history.push(value);
+        }
+
+        @Emit()
+        showmessages() {
+            return true;
+        }
+
+        @Emit()
+        timeout() {
+            return false;
         }
     }
 </script>
