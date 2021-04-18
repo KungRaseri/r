@@ -94,16 +94,27 @@
 
         Timeout(value: boolean) {
             if (!value) {
-                setTimeout(this.SetMessageBoxActive, 5000, value);
+                this.SetMessageBoxActive(value);
             } else {
                 this.GetMessageBoxActive = value;
             }
         }
 
-        SetMessageBoxActive(value: boolean) {
-            if (!this.GetTextFieldActive) {
-                this.GetMessageBoxActive = value;
+        async SetMessageBoxActive(value: boolean) {
+            console.log("Loop");
+            let j = 100;
+            for (let i = 0; i <= 5000; i += j) {
+                if (this.GetTextFieldActive) {
+                    console.log("Break");
+                    return;
+                }
+                await this.delay(j);
             }
+            this.GetMessageBoxActive = value;
+        }
+
+        private delay(ms: number) {
+            return new Promise(resolve => setTimeout(resolve, ms));
         }
 
         setScroll() {
