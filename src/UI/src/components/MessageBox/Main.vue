@@ -51,7 +51,6 @@
         }
 
         SendMessage(value: any) {
-            console.log(value.key);
             if (value.key === "Enter") {
                 this.PostMessage(this.GetInput);
                 this.GetInput = "";
@@ -72,7 +71,6 @@
         }
 
         PostMessage(value: string) {
-            console.log(value);
             this.$axios
                 .post(
                     "http://framework/POST_MESSAGE",
@@ -142,14 +140,16 @@
     }
 </script>
 
-<style scoped>
-    .chatbox {
-        margin-left: 1vw;
-    }
-
+<style>
     .message {
         overflow: hidden;
         height: 30vh;
         width: 25vw;
+    }
+</style>
+
+<style scoped>
+    .chatbox {
+        margin-left: 1vw;
     }
 </style>

@@ -42,13 +42,10 @@
                         break;
                 }
             });
-
-            console.log("MessageBox mounted.");
         }
 
         updated() {
             this.$el.scrollTop = this.$el.scrollHeight;
-            console.log(this.$el.scrollHeight);
             if (!this.isTextFieldActive) {
                 this.showmessages();
                 this.timeout();
