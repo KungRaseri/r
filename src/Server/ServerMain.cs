@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CitizenFX.Core;
 using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
 using OpenRP.Framework.Common.Interface;
 using OpenRP.Framework.Server.Controllers;
 using static CitizenFX.Core.Native.API;

@@ -33,7 +33,5 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Client\Client.csproj" />
-  </ItemGroup>
+  <Import Project="..\Common\Common.projitems" Label="Shared" />
 </Project>

@@ -22,12 +22,6 @@ namespace OpenRP.Framework.Tests
 
             var target = _context.Accounts;
 
-            await target.Post(new Account()
-            {
-                
-            })
-
-            Assert.False(target.Exists);
         }
     }
 }
