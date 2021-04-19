@@ -14,6 +14,7 @@ namespace OpenRP.Framework.Client.Controllers
 {
     public class VoiceController : ClientAccessor
     {
+        ClientMain _client;
         int _grid;
         int _lastGrid;
         List<int> _zones;
@@ -21,6 +22,7 @@ namespace OpenRP.Framework.Client.Controllers
 
         public VoiceController(ClientMain client) : base(client)
         {
+            _client = client;
             _grid = 0;
             _lastGrid = 0;
             _zones = new List<int>();
@@ -28,7 +30,19 @@ namespace OpenRP.Framework.Client.Controllers
 
             MumbleSetAudioInputDistance(30f);
             MumbleSetAudioOutputDistance(30f);
-            client.RegisterTickHandler(GameTick);
+            CheckMumbleLoaded();
+        }
+
+        private async void CheckMumbleLoaded()
+        {
+            while (!MumbleIsConnected())
+                await BaseScript.Delay(100);
+
+            MumbleSetVoiceTarget(0);
+            MumbleClearVoiceTarget(1);
+            MumbleSetVoiceTarget(1);
+
+            _client.RegisterTickHandler(GameTick);
         }
 
         private async Task GameTick()
