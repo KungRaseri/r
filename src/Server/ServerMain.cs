@@ -16,8 +16,6 @@ namespace OpenRP.Framework.Server
     /// </summary>
     public class ServerMain : BaseScript
     {
-        private readonly IMongoClient _mongodbClient;
-
         public IConfigurationRoot Settings;
 
         public PlayerList players;
@@ -35,9 +33,7 @@ namespace OpenRP.Framework.Server
             players = Players;
             Settings = LoadSettings();
 
-            _mongodbClient = new MongoClient(Settings["mongodb:url"]);
-
-            DB = new DataHandler(this, _mongodbClient.GetDatabase(""));
+            DB = new DataHandler(this, Settings["mongodb:url"], Settings["mongodb:db"]);
             CommandController = new CommandController(this);
 
             InitializeFiveMEvents();

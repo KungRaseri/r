@@ -6,16 +6,15 @@ namespace OpenRP.Framework.Server
 {
     public class DataHandler : ServerAccessor
     {
-        public DocumentRepository<Account> Accounts { get; }
+        public DatabaseContext Context { get; }
 
-        public DataHandler(ServerMain server, IMongoDatabase db) : base(server)
+        public DataHandler(ServerMain server, string connString, string database) : base(server)
         {
-            Initialize(db);
+            Context = new DatabaseContext(connString, database);
         }
 
-        private void Initialize(IMongoDatabase db)
+        private void Initialize()
         {
-            Accounts = new DocumentRepository<Account>(db);
         }
     }
 }

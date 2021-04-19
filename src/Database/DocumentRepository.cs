@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using OpenRP.Framework.Common.Interface;
 
@@ -12,32 +13,49 @@ namespace OpenRP.Framework.Database
     /// <typeparam name="TDocument"></typeparam>
     public class DocumentRepository<TDocument> where TDocument : IDocument
     {
-        private readonly IMongoCollection<TDocument> _mongoCollection;
+        private readonly IMongoCollection<TDocument> _collection;
 
         private readonly string _entityName = typeof(TDocument).Name.ToLower();
-
-        public bool Exists { get; }
 
         /// <summary>
         /// 
         /// </summary>
         public DocumentRepository(IMongoDatabase db)
         {
-            _mongoCollection = db.GetCollection<TDocument>(_entityName);
+            _collection = db.GetCollection<TDocument>(_entityName);
 
             Initialize();
         }
 
         private void Initialize()
         {
-            if (Exists) return;
 
         }
 
-        public async Task<IEnumerable<TDocument>> Get()
+        public async Task<IEnumerable<TDocument>> GetAsync()
         {
-            var result = await _mongoCollection.FindAsync(FilterDefinition<TDocument>.Empty);
+            var result = await _collection.FindAsync(FilterDefinition<TDocument>.Empty);
+
             return result.Current;
+        }
+
+        public async Task PostAsync(TDocument document)
+        {
+            await _collection.InsertOneAsync(document);
+        }
+
+        public async Task<bool> PatchAsync(TDocument document)
+        {
+            var result = await _collection.UpdateOneAsync(FilterDefinition<TDocument>.Empty, new BsonDocumentUpdateDefinition<TDocument>(document.ToBsonDocument()));
+
+            return result.IsAcknowledged;
+        }
+
+        public async Task<bool> DeleteAsync(TDocument document)
+        {
+            var result = await _collection.DeleteOneAsync(FilterDefinition<TDocument>.Empty);
+
+            return result.IsAcknowledged;
         }
     }
 }

@@ -7,20 +7,27 @@ namespace OpenRP.Framework.Tests
 {
     public class DatabaseTests
     {
-        private readonly IMongoClient _client;
-        private const string DatabaseName = "openrp";
+        private const string connString = "mongodb://localhost:27017";
+        private const string database = "openrp";
+        private DatabaseContext _context;
 
         public DatabaseTests()
         {
-            _client = new MongoClient("mongodb://localhost:27017");
         }
 
         [Fact]
         public async void testing_mongostuff()
         {
-            var test = new DocumentRepository<Account>(_client.GetDatabase(DatabaseName));
+            _context = new DatabaseContext(connString, database);
 
-            Assert.False(test.Exists);
+            var target = _context.Accounts;
+
+            await target.Post(new Account()
+            {
+                
+            })
+
+            Assert.False(target.Exists);
         }
     }
 }

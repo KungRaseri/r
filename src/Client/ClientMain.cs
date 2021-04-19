@@ -17,7 +17,8 @@ namespace OpenRP.Framework.Client
         public readonly VoiceController voiceController;
         public readonly EventController eventController;
         public readonly ChatController chatController;
-        public EventHandlerDictionary Events => EventHandlers;
+
+        internal EventHandlerDictionary Events => EventHandlers;
 
         public ClientMain()
         {
