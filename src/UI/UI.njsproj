@@ -37,6 +37,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="src\assets\logo.svg" />
+    <Content Include="src\components\MessageBox\Bubble.vue">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\components\MessageBox\Main.vue">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\components\MessageBox\MessageBox.vue">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\views\Main.vue" />
     <Content Include="vue.config.js" />
     <Content Include="cypress.json" />
@@ -58,6 +67,7 @@
     <Folder Include="src\" />
     <Folder Include="src\assets\" />
     <Folder Include="src\components\" />
+    <Folder Include="src\components\MessageBox\" />
     <Folder Include="src\plugins\" />
     <Folder Include="src\router\" />
     <Folder Include="src\store\" />
@@ -78,6 +88,8 @@
     <Content Include="babel.config.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\plugins\axios.d.ts" />
+    <TypeScriptCompile Include="src\plugins\axios.ts" />
     <TypeScriptCompile Include="src\plugins\vuetify.ts" />
     <TypeScriptCompile Include="src\router\index.ts" />
     <TypeScriptCompile Include="src\shims-vuetify.d.ts" />

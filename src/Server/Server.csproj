@@ -38,6 +38,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\Users\GalaxyMom\Desktop\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

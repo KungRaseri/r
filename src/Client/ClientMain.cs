@@ -13,14 +13,17 @@ namespace OpenRP.Framework.Client
     public class ClientMain : BaseScript
     {
         public PlayerList players;
-
         public readonly VoiceController voiceController;
+        public readonly EventController eventController;
+        public readonly ChatController chatController;
+        public EventHandlerDictionary Events => EventHandlers;
 
         public ClientMain()
         {
             players = Players;
-
             voiceController = new VoiceController(this);
+            eventController = new EventController(this);
+            chatController = new ChatController(this);
 
             Initialize();
 
@@ -45,9 +48,10 @@ namespace OpenRP.Framework.Client
         {
         }
 
-        public void RegisterKeyBinding(string commandString, string description, string defaultMapper, string defaultParameter)
+        public void RegisterKeyBinding(string commandString, string description, string key, MulticastDelegate callback)
         {
-            RegisterKeyMapping(commandString, description, defaultMapper, defaultParameter);
+            RegisterKeyMapping(commandString, description, "keyboard", key);
+            RegisterCommand(commandString, callback, true);
         }
 
         public void RegisterClientEvent(IEvent e)
