@@ -1,12 +1,5 @@
 <template>
     <v-app app>
-        <v-app-bar app
-                   color="primary"
-                   dark>
-            OpenRP
-            <v-spacer></v-spacer>
-        </v-app-bar>
-
         <v-main>
             <router-view />
         </v-main>
@@ -36,10 +29,6 @@
     export default class App extends Vue {
 
         mounted() {
-            window.addEventListener('message', (e) => {
-                console.log(e);
-            });
-
             console.log("[OpenRP] Application has been mounted.")
         }
     }
