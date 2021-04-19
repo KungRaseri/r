@@ -1,4 +1,5 @@
-﻿using OpenRP.Framework.Database;
+﻿using MongoDB.Driver;
+using OpenRP.Framework.Database;
 using OpenRP.Framework.Database.Document;
 
 namespace OpenRP.Framework.Server
@@ -7,10 +8,14 @@ namespace OpenRP.Framework.Server
     {
         public DocumentRepository<Account> Accounts { get; }
 
-        public DataHandler(ServerMain server)
-        : base(server)
+        public DataHandler(ServerMain server, IMongoDatabase db) : base(server)
         {
-            Accounts = new DocumentRepository<Account>();
+            Initialize(db);
+        }
+
+        private void Initialize(IMongoDatabase db)
+        {
+            Accounts = new DocumentRepository<Account>(db);
         }
     }
 }

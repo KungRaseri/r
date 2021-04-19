@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using OpenRP.Framework.Client.Controllers;
@@ -22,27 +23,53 @@ namespace OpenRP.Framework.Client
 
             voiceController = new VoiceController(this);
 
-            Initialize();
+            InitializeFiveMEvents();
 
             Debug.WriteLine($"[{nameof(ClientMain)}] resources loaded");
+        }
+
+
+        /// <summary>
+        /// Initializes Event Handlers for FiveM provided events.
+        /// </summary>
+        private void InitializeFiveMEvents()
+        {
+
+            //EventHandlers["gameEventTriggered"] += new Action<string, List<int>>(OnGameEventTriggered);
+            EventHandlers["onClientResourceStart"] += new Action<string>(OnClientResourceStart);
+            EventHandlers["onClientResourceStop"] += new Action<string>(OnClientResourceStop);
+            EventHandlers["onResourceStarting"] += new Action<string>(OnResourceStarting);
+            //EventHandlers["populationPedCreating"] += new Action<float, float, float, uint, dynamic>(OnPopulationPedCreating);
+        }
+
+        private void OnPopulationPedCreating(float x, float y, float z, uint model, dynamic overrideCalls)
+        {
+            Debug.WriteLine($"[PED] Created Ped ({model}) @ vector3({x},{y},{z})");
+        }
+
+        private void OnResourceStarting(string resourceName)
+        {
+            Debug.WriteLine($"[{resourceName}] Resource is Starting");
         }
 
         private void OnClientResourceStart(string resourceName)
         {
             if (!GetCurrentResourceName().Equals(resourceName))
                 return;
-            Debug.WriteLine($"[{resourceName}] start");
+            Debug.WriteLine($"[{resourceName}] Resource has Started");
         }
 
         private void OnClientResourceStop(string resourceName)
         {
             if (!GetCurrentResourceName().Equals(resourceName))
                 return;
-            Debug.WriteLine($"[{resourceName}] stop");
+
+            Debug.WriteLine($"[{resourceName}] Resource has Stopped");
         }
 
-        private void Initialize()
+        private void OnGameEventTriggered(string name, List<int> data)
         {
+            Debug.WriteLine($"[NETWORK] {name}: {string.Join(",", data)}");
         }
 
         public void RegisterKeyBinding(string commandString, string description, string defaultMapper, string defaultParameter)

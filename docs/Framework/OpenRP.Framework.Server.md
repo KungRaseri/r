@@ -84,7 +84,7 @@ OpenRP.Framework.Common.Interface
 
 ##### Summary
 
-
+Document interface
 
 <a name='T-OpenRP-Framework-Common-Interface-IEvent'></a>
 ## IEvent `type`

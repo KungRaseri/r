@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CitizenFX.Core;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 using OpenRP.Framework.Common.Interface;
 using OpenRP.Framework.Server.Controllers;
 using static CitizenFX.Core.Native.API;
@@ -15,6 +16,8 @@ namespace OpenRP.Framework.Server
     /// </summary>
     public class ServerMain : BaseScript
     {
+        private readonly IMongoClient _mongodbClient;
+
         public IConfigurationRoot Settings;
 
         public PlayerList players;
@@ -32,10 +35,12 @@ namespace OpenRP.Framework.Server
             players = Players;
             Settings = LoadSettings();
 
-            DB = new DataHandler(this);
+            _mongodbClient = new MongoClient(Settings["mongodb:url"]);
+
+            DB = new DataHandler(this, _mongodbClient.GetDatabase(""));
             CommandController = new CommandController(this);
 
-            Initialize();
+            InitializeFiveMEvents();
 
             Debug.WriteLine($"[{nameof(ServerMain)}] Resources loaded ...");
         }
@@ -53,7 +58,61 @@ namespace OpenRP.Framework.Server
             Settings = LoadSettings();
         }
 
-        private void Initialize()
+        private void InitializeFiveMEvents()
+        {
+            EventHandlers["onResourceListRefresh"] += new Action(OnResourceListRefresh);
+            EventHandlers["onServerResourceStart"] += new Action<string>(OnServerResourceStart);
+            EventHandlers["onServerResourceStop"] += new Action<string>(OnServerResourceStop);
+            EventHandlers["entityCreating"] += new Action<int>(OnEntityCreating);
+            EventHandlers["entityCreated"] += new Action<int>(OnEntityCreated);
+            EventHandlers["entityRemoved"] += new Action<int>(OnEntityRemoved);
+            EventHandlers["playerJoining"] += new Action<Player, string>(OnPlayerJoining);
+            EventHandlers["playerConnecting"] += new Action<string, CallbackDelegate, dynamic, string>(OnPlayerConnecting);
+            EventHandlers["playerEnteredScope"] += new Action<dynamic>(OnPlayerEnteredScope);
+            EventHandlers["playerLeftScope"] += new Action<dynamic>(OnPlayerLeftScope);
+        }
+
+        private void OnPlayerJoining([FromSource] Player player, string oldId)
+        {
+            Debug.WriteLine($"[JOINING][{oldId}] {player.Name.ToUpper()} is joining");
+        }
+
+        private void OnPlayerLeftScope(dynamic data)
+        {
+            Debug.WriteLine($"[SCOPE] {data.playerEnteringScope} has left the scope of {data.playerWithScope}");
+        }
+
+        private void OnPlayerEnteredScope(dynamic data)
+        {
+            Debug.WriteLine($"[SCOPE] {data.playerEnteringScope} has entered the scope of {data.playerWithScope}");
+        }
+
+        private void OnPlayerConnecting(string playerName, CallbackDelegate cb, object arg3, string arg4)
+        {
+            Debug.WriteLine($"[{playerName.ToUpper()}] Connected");
+        }
+
+        private void OnServerResourceStop(string obj)
+        {
+        }
+
+        private void OnServerResourceStart(string obj)
+        {
+        }
+
+        private void OnResourceListRefresh()
+        {
+        }
+
+        private void OnEntityRemoved(int obj)
+        {
+        }
+
+        private void OnEntityCreating(int obj)
+        {
+        }
+
+        private void OnEntityCreated(int obj)
         {
         }
 

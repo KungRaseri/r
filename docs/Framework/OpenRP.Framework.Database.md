@@ -5,8 +5,7 @@
 
 - [Account](#T-OpenRP-Framework-Database-Document-Account 'OpenRP.Framework.Database.Document.Account')
 - [DocumentRepository\`1](#T-OpenRP-Framework-Database-DocumentRepository`1 'OpenRP.Framework.Database.DocumentRepository`1')
-  - [#ctor()](#M-OpenRP-Framework-Database-DocumentRepository`1-#ctor 'OpenRP.Framework.Database.DocumentRepository`1.#ctor')
-- [IDocument](#T-OpenRP-Framework-Database-IDocument 'OpenRP.Framework.Database.IDocument')
+  - [#ctor()](#M-OpenRP-Framework-Database-DocumentRepository`1-#ctor-MongoDB-Driver-IMongoDatabase- 'OpenRP.Framework.Database.DocumentRepository`1.#ctor(MongoDB.Driver.IMongoDatabase)')
 
 <a name='T-OpenRP-Framework-Database-Document-Account'></a>
 ## Account `type`
@@ -17,7 +16,7 @@ OpenRP.Framework.Database.Document
 
 ##### Summary
 
-
+The Account document
 
 <a name='T-OpenRP-Framework-Database-DocumentRepository`1'></a>
 ## DocumentRepository\`1 `type`
@@ -36,7 +35,7 @@ OpenRP.Framework.Database
 | ---- | ----------- |
 | TDocument |  |
 
-<a name='M-OpenRP-Framework-Database-DocumentRepository`1-#ctor'></a>
+<a name='M-OpenRP-Framework-Database-DocumentRepository`1-#ctor-MongoDB-Driver-IMongoDatabase-'></a>
 ### #ctor() `constructor`
 
 ##### Summary
@@ -46,14 +45,3 @@ OpenRP.Framework.Database
 ##### Parameters
 
 This constructor has no parameters.
-
-<a name='T-OpenRP-Framework-Database-IDocument'></a>
-## IDocument `type`
-
-##### Namespace
-
-OpenRP.Framework.Database
-
-##### Summary
-
-
