@@ -38,7 +38,7 @@ namespace OpenRP.Framework.Client.Controllers
         private void OnAddMessage(dynamic args)
         {
             Debug.WriteLine($"Post message: {JsonConvert.SerializeObject(args)}");
-            MessageBox.AddMessage("blue", args.value);
+            MessageBox.AddMessage(255, 196, 79, args.value);
         }
     }
 }

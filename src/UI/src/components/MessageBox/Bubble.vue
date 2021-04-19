@@ -41,8 +41,7 @@
 
 <style scoped>
     .bubble {
-        font-size: calc((0.25em + 0.25vw) + (0.25em + 0.25vh));
-        font-weight: bold;
+        font-size: calc((0.3em + 0.3vw) + (0.3em + 0.3vh));
         color: white !important;
         padding: 5px;
         border-radius: 10px !important;

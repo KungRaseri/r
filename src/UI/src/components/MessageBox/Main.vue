@@ -9,12 +9,13 @@
                             :is-text-field-active="GetTextFieldActive" />
             </v-slide-y-transition>
         </div>         
-        <v-text-field v-show="GetTextFieldActive"
+        <v-textarea v-show="GetTextFieldActive"
                       autofocus=true
                       outlined=true
                       dark
                       dense
-                      height="20px"
+                      auto-grow
+                      rows="1"
                       background-color="rgba(0, 0, 0, 0.5)"
                       @keydown="SendMessage($event)"
                       v-model="GetInput" />
@@ -161,6 +162,6 @@
 
 <style scoped>
     .chatbox {
-        margin-left: 1vw;
+        margin-left: 3vw;
     }
 </style>
