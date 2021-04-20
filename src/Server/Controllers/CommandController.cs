@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using OpenRP.Framework.Common.Classes;
 using System.Linq;
+using OpenRP.Framework.Common.Enumeration;
 
 namespace OpenRP.Framework.Server.Controllers
 {
@@ -12,16 +13,13 @@ namespace OpenRP.Framework.Server.Controllers
     /// </summary>
     public sealed class CommandController : ServerAccessor
     {
-        ServerMain _server;
-
         internal Dictionary<string, ServerCommand> Commands { get; private set; }
 
         internal CommandController(ServerMain server) : base(server)
         {
-            _server = server;
             Commands = new Dictionary<string, ServerCommand>();
 
-            _server.Event.RegisterEvent("COMMAND_VALIDATE", new Action<Player, string>(OnCommandValidate));
+            Server.Event.RegisterEvent(ServerEvent.COMMAND_VALIDATE, new Action<Player, string>(OnCommandValidate));
         }
 
         /// <summary>
@@ -61,12 +59,12 @@ namespace OpenRP.Framework.Server.Controllers
         {
             var split = input.Split(' ');
             var command = split[0];
-            var commands = _server.Command.Commands;
+            var commands = Server.Command.Commands;
             var args = new List<string>();
 
             if (!commands.ContainsKey(command))
             {
-                BaseScript.TriggerClientEvent("ADD_MESSAGE", 255, 0, 0, "Command does not exist.");
+                Server.Event.TriggerClientEvent(player, ClientEvent.ADD_MESSAGE, 255, 0, 0, "Command does not exist.");
             }
             else
             {

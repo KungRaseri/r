@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Enumeration\ClientEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Enumeration\EventType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enumeration\ServerEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\IEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\ServerCommand.cs" />
