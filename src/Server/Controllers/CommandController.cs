@@ -1,7 +1,6 @@
 ﻿using CitizenFX.Core;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using OpenRP.Framework.Common.Classes;
 using System.Linq;
@@ -57,18 +56,28 @@ namespace OpenRP.Framework.Server.Controllers
             else
                 Commands.Remove(name);
         }
+
         private void OnCommandValidate([FromSource] Player player, string input)
         {
             var split = input.Split(' ');
             var command = split[0];
-            var args = split.ToList();
-            args.RemoveAt(0);
             var commands = _server.Command.Commands;
+            var args = new List<string>();
 
             if (!commands.ContainsKey(command))
+            {
                 BaseScript.TriggerClientEvent("ADD_MESSAGE", 255, 0, 0, "Command does not exist.");
+            }
             else
-                commands[command].Command.DynamicInvoke(player.Handle, args);
+            {
+                if (split.Length > 1)
+                {
+                    args = split.ToList();
+                    args.RemoveAt(0);
+                }
+                commands[command].Command.DynamicInvoke(player, args);
+            }
+
         }
     }
 }

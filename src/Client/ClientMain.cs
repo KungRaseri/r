@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using OpenRP.Framework.Client.Controllers;
-using OpenRP.Framework.Common.Interface;
+using OpenRP.Framework.Client.InternalPlugins;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client
@@ -46,6 +46,7 @@ namespace OpenRP.Framework.Client
 
         private void Initialize()
         {
+            new Commands(this);
         }
 
         public void RegisterKeyBinding(string commandString, string description, string key, MulticastDelegate callback)
