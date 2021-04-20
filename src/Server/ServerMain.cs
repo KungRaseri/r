@@ -20,8 +20,9 @@ namespace OpenRP.Framework.Server
         public PlayerList players;
 
         public readonly DataHandler DB;
-
-        public readonly CommandController CommandController;
+        public readonly EventController Event;
+        public readonly CommandController Command;
+        public EventHandlerDictionary Events => EventHandlers;
 
         public ServerMain()
         {
@@ -33,7 +34,8 @@ namespace OpenRP.Framework.Server
             Settings = LoadSettings();
 
             DB = new DataHandler(this);
-            CommandController = new CommandController(this);
+            Event = new EventController(this);
+            Command = new CommandController(this);
 
             Initialize();
 
@@ -62,30 +64,6 @@ namespace OpenRP.Framework.Server
             try
             {
                 //Commands.Register(command);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-        }
-
-        public void RegisterServerEvent(IEvent e)
-        {
-            try
-            {
-                //Events.RegisterEvent(e);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-        }
-
-        public void UnregisterServerEvent(IEvent e)
-        {
-            try
-            {
-                //Events.UnregisterEvent(e);
             }
             catch (Exception ex)
             {

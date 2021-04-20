@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace OpenRP.Framework.Server.Classes
+namespace OpenRP.Framework.Common.Classes
 {
     internal sealed class ServerCommand
     {
-        Action<int> _command;
+        public MulticastDelegate Command { get; internal set; }
         string _help;
         List<string> _args;
 
-        internal ServerCommand(Action<int> command, string help, List<string> args)
+        internal ServerCommand(MulticastDelegate command, string help, List<string> args)
         {
-            _command = command;
+            Command = command;
             _help = help;
             _args = args;
         }
