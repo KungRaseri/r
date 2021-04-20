@@ -31,16 +31,16 @@
                 </v-list>
             </v-card>
         </v-layout>
-        <v-footer app height="auto" class="ma-5 pa-0" fixed>
+        <v-footer app height="auto" class="mx-10 mb-5 pa-0" fixed>
             <v-flex md12 class="ma-0 pa-0">
                 <v-progress-linear background-color="secondary"
                                    color="primary"
                                    :value="totalProgress"
-                                   height="2vw"
+                                   height="1.5vw"
                                    reactive
                                    rounded>
                     <span style="font-size: 1vw;"
-                          :class="(totalProgress >= 50.0) ? 'secondary--text' : 'primary--text'">{{logMessage}}</span>
+                          class="white--text">{{logMessage.toUpperCase()}}</span>
                 </v-progress-linear>
             </v-flex>
             <v-flex md12 class="ma-0 pa-0">
@@ -59,16 +59,10 @@
                 </v-card>
             </v-flex>
         </v-footer>
-        <v-img id="cursor" width="20px" height="20px" :src="cursor" />
     </v-layout>
 </template>
 
 <style lang="scss" scoped>
-    #cursor {
-        position: absolute;
-        z-index: 1000;
-    }
-
     .loadscreen-bg {
         background: #212121;
     }
@@ -102,9 +96,7 @@
 
     @Component
     export default class Main extends Vue {
-        private loadingMessageClass: string = "";
-        private isMute: boolean = false;
-        private socialActions: any[] = [
+        private socialActions: Record<string, string>[] = [
             {
                 to: "redactedgaming.gg",
                 icon: "mdi-bulletin-board",
@@ -118,10 +110,11 @@
                 icon: "mdi-twitter",
             },
         ];
+        private images: Record<string, string>[] = [];
 
-        private logMessage: string = "Initializing...";
-        private totalProgress: number = 0;
-        private redactedUrl: string = "https://redactedgaming.gg";
+        private logMessage = "Initializing...";
+        private totalProgress = 0;
+        private redactedUrl = "https://redactedgaming.gg";
         public initFunctionInvoked(data: any) {
             this.logMessage = `[Initializing] (${data.type}) | ${data.name}`;
         }
@@ -141,26 +134,25 @@
             this.logMessage = `[Loading] ${data.message}`;
         }
         public mounted() {
-            const self = this;
             window.addEventListener("message", (e) => {
                 switch (e.data.eventName) {
                     case "initFunctionInvoked":
-                        self.initFunctionInvoked(e.data);
+                        this.initFunctionInvoked(e.data);
                         break;
                     case "initFunctionInvoking":
-                        self.initFunctionInvoking(e.data);
+                        this.initFunctionInvoking(e.data);
                         break;
                     case "onDataFileEntry":
-                        self.onDataFileEntry(e.data);
+                        this.onDataFileEntry(e.data);
                         break;
                     case "endInitFunction":
-                        self.endInitFunction();
+                        this.endInitFunction();
                         break;
                     case "onLogLine":
-                        self.onLogLine(e.data);
+                        this.onLogLine(e.data);
                         break;
                     case "loadProgress":
-                        self.loadProgress(e.data);
+                        this.loadProgress(e.data);
                         break;
                     default:
                         console.log(e.data.eventName, e.data);
@@ -168,42 +160,7 @@
                 }
             });
 
-            window.addEventListener("mousemove", (e) => {
-                const cursorImg: any = document.getElementById("cursor");
-                cursorImg.style.left = e.pageX + "px";
-                cursorImg.style.top = e.pageY + "px";
-            });
-
             console.log("[OpenRP] Loadscreen has been mounted.");
-
-            // this.LoadScreenTest();
-        }
-
-        public LoadScreenTest() {
-            setTimeout(() => {
-                window.dispatchEvent(
-                    new MessageEvent("message", {
-                        data: {
-                            eventName: "loadProgress",
-                            loadFraction: 0.56875,
-                        },
-                    }),
-                );
-            }, 10000);
-
-            setTimeout(this.messages, 1000);
-        }
-
-        public messages() {
-            window.dispatchEvent(
-                new MessageEvent("message", {
-                    data: {
-                        eventName: "initFunctionInvoked",
-                        type: "test",
-                        name: "test",
-                    },
-                }),
-            );
         }
     }
 </script>
