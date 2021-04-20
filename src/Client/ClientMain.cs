@@ -28,8 +28,14 @@ namespace OpenRP.Framework.Client
             Chat = new ChatController(this);
 
             InitializeFiveMEvents();
+            InitializeInternalPlugins();
 
             Debug.WriteLine($"[{nameof(ClientMain)}] resources loaded");
+        }
+
+        private void InitializeInternalPlugins()
+        {
+            new Commands(this);
         }
 
 
