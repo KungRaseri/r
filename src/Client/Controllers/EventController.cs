@@ -22,5 +22,10 @@ namespace OpenRP.Framework.Client.Controllers
             var nuiName = $"__cfx_nui:{name}";
             _client.Events[nuiName] += callback;
         }
+
+        public void RegisterEvent(string name, MulticastDelegate callback)
+        {
+            _client.Events[name] += callback;
+        }
     }
 }

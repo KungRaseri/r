@@ -14,18 +14,18 @@ namespace OpenRP.Framework.Client
     public class ClientMain : BaseScript
     {
         public PlayerList players;
-        public readonly VoiceController voiceController;
-        public readonly EventController eventController;
-        public readonly ChatController chatController;
+        public readonly VoiceController Voice;
+        public readonly EventController Event;
+        public readonly ChatController Chat;
 
         internal EventHandlerDictionary Events => EventHandlers;
 
         public ClientMain()
         {
             players = Players;
-            voiceController = new VoiceController(this);
-            eventController = new EventController(this);
-            chatController = new ChatController(this);
+            Voice = new VoiceController(this);
+            Event = new EventController(this);
+            Chat = new ChatController(this);
 
             InitializeFiveMEvents();
 
@@ -80,30 +80,6 @@ namespace OpenRP.Framework.Client
         {
             RegisterKeyMapping(commandString, description, "keyboard", key);
             RegisterCommand(commandString, callback, true);
-        }
-
-        public void RegisterClientEvent(IEvent e)
-        {
-            try
-            {
-                //Events.RegisterEvent(e);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-        }
-
-        public void UnregisterClientEvent(IEvent e)
-        {
-            try
-            {
-                //Events.UnregisterEvent(e);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
         }
 
         public void RegisterTickHandler(Func<Task> action)

@@ -12,7 +12,7 @@ namespace OpenRP.Framework.Client.Controllers
 {
     public static class MessageBox
     {
-        const int Alpha = (int)(255 * 0.65);
+        const int Alpha = (int)(255 * 0.8);
 
         public static void AddMessage(int r, int g, int b, string message)
         {
