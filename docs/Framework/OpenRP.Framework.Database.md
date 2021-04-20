@@ -8,7 +8,7 @@
 - [DocumentRepository\`1](#T-OpenRP-Framework-Database-DocumentRepository`1 'OpenRP.Framework.Database.DocumentRepository`1')
   - [#ctor()](#M-OpenRP-Framework-Database-DocumentRepository`1-#ctor-MongoDB-Driver-IMongoDatabase- 'OpenRP.Framework.Database.DocumentRepository`1.#ctor(MongoDB.Driver.IMongoDatabase)')
 - [EventType](#T-OpenRP-Framework-Common-Enumeration-EventType 'OpenRP.Framework.Common.Enumeration.EventType')
-- [IDocument](#T-OpenRP-Framework-Common-Interface-IDocument 'OpenRP.Framework.Common.Interface.IDocument')
+- [IDocument](#T-OpenRP-Framework-Database-IDocument 'OpenRP.Framework.Database.IDocument')
 - [IEvent](#T-OpenRP-Framework-Common-Interface-IEvent 'OpenRP.Framework.Common.Interface.IEvent')
 - [ServerEvent](#T-OpenRP-Framework-Common-Enumeration-ServerEvent 'OpenRP.Framework.Common.Enumeration.ServerEvent')
 
@@ -73,12 +73,12 @@ OpenRP.Framework.Common.Enumeration
 
 
 
-<a name='T-OpenRP-Framework-Common-Interface-IDocument'></a>
+<a name='T-OpenRP-Framework-Database-IDocument'></a>
 ## IDocument `type`
 
 ##### Namespace
 
-OpenRP.Framework.Common.Interface
+OpenRP.Framework.Database
 
 ##### Summary
 

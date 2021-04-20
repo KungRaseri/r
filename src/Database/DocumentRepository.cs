@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -23,20 +24,22 @@ namespace OpenRP.Framework.Database
         public DocumentRepository(IMongoDatabase db)
         {
             _collection = db.GetCollection<TDocument>(_entityName);
-
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-
         }
 
         public async Task<IEnumerable<TDocument>> GetAsync()
         {
             var result = await _collection.FindAsync(FilterDefinition<TDocument>.Empty);
 
-            return result.Current;
+            return await result.ToListAsync();
+        }
+
+        public async Task<TDocument> FindAsync(string identifier)
+        {
+            var filter = Builders<TDocument>.Filter.AnyEq("Identifiers", identifier);
+
+            var result = await (await _collection.FindAsync(filter)).ToListAsync();
+
+            return result.FirstOrDefault();
         }
 
         public async Task PostAsync(TDocument document)
@@ -46,14 +49,18 @@ namespace OpenRP.Framework.Database
 
         public async Task<bool> PatchAsync(TDocument document)
         {
-            var result = await _collection.UpdateOneAsync(FilterDefinition<TDocument>.Empty, new BsonDocumentUpdateDefinition<TDocument>(document.ToBsonDocument()));
+            var filter = Builders<TDocument>.Filter.Eq("_id", document.Id);
+
+            var result = await _collection.UpdateOneAsync(filter, new BsonDocumentUpdateDefinition<TDocument>(document.ToBsonDocument()));
 
             return result.IsAcknowledged;
         }
 
         public async Task<bool> DeleteAsync(TDocument document)
         {
-            var result = await _collection.DeleteOneAsync(FilterDefinition<TDocument>.Empty);
+            var filter = Builders<TDocument>.Filter.Eq("_id", document.Id);
+
+            var result = await _collection.DeleteOneAsync(filter);
 
             return result.IsAcknowledged;
         }

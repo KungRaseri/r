@@ -8,9 +8,9 @@ namespace OpenRP.Framework.Server
     {
         public DatabaseContext Context { get; }
 
-        public DataHandler(ServerMain server, string connString, string database) : base(server)
+        public DataHandler(ServerMain server) : base(server)
         {
-            Context = new DatabaseContext(connString, database);
+            Context = new DatabaseContext(Server.Settings["mongodb:url"], Server.Settings["mongodb:db"]);
         }
 
         private void Initialize()

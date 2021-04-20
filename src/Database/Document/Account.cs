@@ -10,9 +10,9 @@ namespace OpenRP.Framework.Database.Document
     public class Account : IDocument
     {
         [BsonId]
-        public ObjectId Id;
+        public ObjectId Id { get; set; }
 
-        public string[] Identifiers;
-        public ulong[] Roles;
+        public string[] Identifiers { get; set; }
+        public string[] Roles { get; set; }
     }
 }

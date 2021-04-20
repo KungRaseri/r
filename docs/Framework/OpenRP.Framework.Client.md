@@ -7,7 +7,6 @@
 - [ClientMain](#T-OpenRP-Framework-Client-ClientMain 'OpenRP.Framework.Client.ClientMain')
   - [InitializeFiveMEvents()](#M-OpenRP-Framework-Client-ClientMain-InitializeFiveMEvents 'OpenRP.Framework.Client.ClientMain.InitializeFiveMEvents')
 - [EventType](#T-OpenRP-Framework-Common-Enumeration-EventType 'OpenRP.Framework.Common.Enumeration.EventType')
-- [IDocument](#T-OpenRP-Framework-Common-Interface-IDocument 'OpenRP.Framework.Common.Interface.IDocument')
 - [IEvent](#T-OpenRP-Framework-Common-Interface-IEvent 'OpenRP.Framework.Common.Interface.IEvent')
 - [ServerEvent](#T-OpenRP-Framework-Common-Enumeration-ServerEvent 'OpenRP.Framework.Common.Enumeration.ServerEvent')
 
@@ -54,17 +53,6 @@ OpenRP.Framework.Common.Enumeration
 ##### Summary
 
 
-
-<a name='T-OpenRP-Framework-Common-Interface-IDocument'></a>
-## IDocument `type`
-
-##### Namespace
-
-OpenRP.Framework.Common.Interface
-
-##### Summary
-
-Document interface
 
 <a name='T-OpenRP-Framework-Common-Interface-IEvent'></a>
 ## IEvent `type`

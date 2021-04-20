@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CitizenFX.Core;
 using Microsoft.Extensions.Configuration;
 using OpenRP.Framework.Common.Interface;
+using OpenRP.Framework.Database.Document;
 using OpenRP.Framework.Server.Controllers;
 using static CitizenFX.Core.Native.API;
 
@@ -15,11 +17,10 @@ namespace OpenRP.Framework.Server
     /// </summary>
     public class ServerMain : BaseScript
     {
-        public IConfigurationRoot Settings;
+        internal IConfigurationRoot Settings;
+        internal PlayerList PlayersList => Players;
 
-        public PlayerList players;
-
-        public readonly DataHandler DB;
+        public readonly DataHandler Database;
 
         public readonly CommandController CommandController;
 
@@ -28,11 +29,9 @@ namespace OpenRP.Framework.Server
             Debug.WriteLine($"[{nameof(ServerMain)}] Server loading ...");
 
             // Initialize configuration settings
-
-            players = Players;
             Settings = LoadSettings();
 
-            DB = new DataHandler(this, Settings["mongodb:url"], Settings["mongodb:db"]);
+            Database = new DataHandler(this);
             CommandController = new CommandController(this);
 
             InitializeFiveMEvents();
@@ -67,9 +66,27 @@ namespace OpenRP.Framework.Server
             EventHandlers["playerLeftScope"] += new Action<dynamic>(OnPlayerLeftScope);
         }
 
-        private void OnPlayerJoining([FromSource] Player player, string oldId)
+        private async void OnPlayerJoining([FromSource] Player player, string oldId)
         {
-            Debug.WriteLine($"[JOINING][{oldId}] {player.Name.ToUpper()} is joining");
+            var account = await Database.Context.Accounts.FindAsync($"discord:{player.Identifiers["discord"]}");
+
+            if (account == null)
+            {
+                account = new Account()
+                {
+                    Identifiers = player.Identifiers.ToArray()
+                };
+
+                await Database.Context.Accounts.PostAsync(account);
+
+                Debug.WriteLine($"New Account [{account.Id}] created");
+            }
+            else
+            {
+                Debug.WriteLine($"Account [{account.Id}] found");
+            }
+
+            Debug.WriteLine($"[{player.Name.ToUpper()}][{account.Id}][{oldId}] is joining");
         }
 
         private void OnPlayerLeftScope(dynamic data)
