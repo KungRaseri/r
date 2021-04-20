@@ -9,13 +9,14 @@
     <Import_RootNamespace>OpenRP.Framework.Common</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\ResourceAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enumeration\ClientEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Enumeration\EventType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enumeration\NuiEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enumeration\ServerEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\IEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\ServerCommand.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Classes\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Attributes\" />
   </ItemGroup>
 </Project>

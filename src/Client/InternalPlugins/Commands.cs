@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
 using OpenRP.Framework.Client.Controllers;
+using OpenRP.Framework.Common.Enumeration;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,15 +9,14 @@ using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.InternalPlugins
 {
+    /// <summary>
+    /// Commands internal plugin.
+    /// </summary>
     public class Commands : ClientAccessor
     {
-        ClientMain _client;
-
         internal Commands (ClientMain client) : base (client)
         {
-            _client = client;
-
-            _client.Event.RegisterEvent("COMMAND_TP", new Action<string>(OnTpCommand));
+            Client.Event.RegisterEvent(ClientEvent.COMMAND_TP, new Action<string>(OnTpCommand));
         }
 
         private async void OnTpCommand(string args)
@@ -32,7 +32,7 @@ namespace OpenRP.Framework.Client.InternalPlugins
                 }
                 catch (FormatException e)
                 {
-                    MessageBox.AddMessage(255, 0, 0, "Invalid arguments.");
+                    ChatController.AddMessage(255, 0, 0, "Invalid arguments.");
                     return;
                 }
             }
@@ -40,7 +40,7 @@ namespace OpenRP.Framework.Client.InternalPlugins
             if (length == 0)
             {
                 if (!DoesBlipExist(GetFirstBlipInfoId(8)))
-                    MessageBox.AddMessage(255, 0, 0, "Waypoint not set.");
+                    ChatController.AddMessage(255, 0, 0, "Waypoint not set.");
                 else
                 {
                     var gps = GetFirstBlipInfoId(8);
@@ -52,7 +52,7 @@ namespace OpenRP.Framework.Client.InternalPlugins
             {
                 var found = GetPlayerFromServerId(int.Parse(list[0]));
                 if (found == -1)
-                    MessageBox.AddMessage(255, 0, 0, "Player does not exist.");
+                    ChatController.AddMessage(255, 0, 0, "Player does not exist.");
                 else
                 {
                     var ped = GetPlayerPed(found);
@@ -68,7 +68,7 @@ namespace OpenRP.Framework.Client.InternalPlugins
                 await Teleport(pos);
             }
             else
-                MessageBox.AddMessage(255, 0, 0, "Invalid number of arguments.");
+                ChatController.AddMessage(255, 0, 0, "Invalid number of arguments.");
         }
 
         private static async Task Teleport(Vector3 pos)

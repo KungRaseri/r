@@ -37,6 +37,7 @@ namespace OpenRP.Framework.Server
             Database = new DataHandler(this);
             Event = new EventController(this);
             Command = new CommandController(this);
+            new Commands(this);
 
             InitializeFiveMEvents();
 
@@ -130,7 +131,6 @@ namespace OpenRP.Framework.Server
 
         private void OnEntityCreated(int obj)
         {
-            new Commands(this);
         }
 
         public void RegisterServerCommand(ICommand command)

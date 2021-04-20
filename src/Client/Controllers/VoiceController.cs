@@ -1,9 +1,5 @@
 ﻿using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
-using System;
-using System.Collections;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Threading.Tasks;
 using CitizenFX.Core.UI;
@@ -14,15 +10,13 @@ namespace OpenRP.Framework.Client.Controllers
 {
     public class VoiceController : ClientAccessor
     {
-        ClientMain _client;
         int _grid;
         int _lastGrid;
         List<int> _zones;
         string _zonesList;
 
-        public VoiceController(ClientMain client) : base(client)
+        internal VoiceController(ClientMain client) : base(client)
         {
-            _client = client;
             _grid = 0;
             _lastGrid = 0;
             _zones = new List<int>();
@@ -42,7 +36,7 @@ namespace OpenRP.Framework.Client.Controllers
             MumbleClearVoiceTarget(1);
             MumbleSetVoiceTarget(1);
 
-            _client.RegisterTickHandler(GameTick);
+            Client.RegisterTickHandler(GameTick);
         }
 
         private async Task GameTick()
