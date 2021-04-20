@@ -66,7 +66,7 @@ namespace OpenRP.Framework.Server.Controllers
             var commands = _server.Command.Commands;
 
             if (!commands.ContainsKey(command))
-                throw new IndexOutOfRangeException("Command not found");
+                BaseScript.TriggerClientEvent("ADD_MESSAGE", 255, 0, 0, "Command does not exist.");
             else
                 commands[command].Command.DynamicInvoke(player.Handle, args);
         }
