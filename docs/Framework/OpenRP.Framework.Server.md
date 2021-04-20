@@ -8,7 +8,6 @@
   - [Register(name,command,help,args)](#M-OpenRP-Framework-Server-Controllers-CommandController-Register-System-String,System-Action{System-Int32},System-String,System-Collections-Generic-List{System-String}- 'OpenRP.Framework.Server.Controllers.CommandController.Register(System.String,System.Action{System.Int32},System.String,System.Collections.Generic.List{System.String})')
   - [Unregister(name)](#M-OpenRP-Framework-Server-Controllers-CommandController-Unregister-System-String- 'OpenRP.Framework.Server.Controllers.CommandController.Unregister(System.String)')
 - [EventType](#T-OpenRP-Framework-Common-Enumeration-EventType 'OpenRP.Framework.Common.Enumeration.EventType')
-- [IDocument](#T-OpenRP-Framework-Common-Interface-IDocument 'OpenRP.Framework.Common.Interface.IDocument')
 - [IEvent](#T-OpenRP-Framework-Common-Interface-IEvent 'OpenRP.Framework.Common.Interface.IEvent')
 - [ServerEvent](#T-OpenRP-Framework-Common-Enumeration-ServerEvent 'OpenRP.Framework.Common.Enumeration.ServerEvent')
 - [ServerMain](#T-OpenRP-Framework-Server-ServerMain 'OpenRP.Framework.Server.ServerMain')
@@ -70,17 +69,6 @@ Unregisters a server command.
 ##### Namespace
 
 OpenRP.Framework.Common.Enumeration
-
-##### Summary
-
-
-
-<a name='T-OpenRP-Framework-Common-Interface-IDocument'></a>
-## IDocument `type`
-
-##### Namespace
-
-OpenRP.Framework.Common.Interface
 
 ##### Summary
 
