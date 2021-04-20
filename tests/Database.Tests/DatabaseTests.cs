@@ -19,7 +19,7 @@ namespace OpenRP.Framework.Tests
             _sut = _context.Accounts;
         }
 
-        [Fact/*(Skip = "Should be ran locally")*/]
+        [Fact(Skip = "Should be ran locally")]
         public async void PostingNewAccount_and_GettingAccounts_ReturnsList_WithNewAccount()
         {
             //arrange 
@@ -38,7 +38,7 @@ namespace OpenRP.Framework.Tests
             Assert.True(results.Any());
         }
 
-        [Fact/*(Skip = "Should be ran locally")*/]
+        [Fact(Skip = "Should be ran locally")]
         public async void FindingAccount_ReturnsAccount()
         {
             //arrange
