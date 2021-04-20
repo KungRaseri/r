@@ -14,8 +14,15 @@ namespace OpenRP.Framework.Client
     public class ClientMain : BaseScript
     {
         public PlayerList players;
-        public readonly VoiceController Voice;
+
+        /// <summary>
+        /// Controller that handles event registration and invocation.
+        /// </summary>
         public readonly EventController Event;
+
+        /// <summary>
+        /// Controller that handles the Message Box.
+        /// </summary>
         public readonly ChatController Chat;
 
         internal EventHandlerDictionary Events => EventHandlers;
@@ -23,7 +30,8 @@ namespace OpenRP.Framework.Client
         public ClientMain()
         {
             players = Players;
-            Voice = new VoiceController(this);
+            new VoiceController(this);
+
             Event = new EventController(this);
             Chat = new ChatController(this);
 

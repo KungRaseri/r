@@ -2,7 +2,7 @@
 using OpenRP.Framework.Client.Classes;
 using Xunit;
 
-namespace OpenRP.Framework.Tests.Controllers
+namespace OpenRP.Framework.Client.Controllers.Tests
 {
     public class VoiceControllerTests
     {

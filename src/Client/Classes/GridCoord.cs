@@ -1,17 +1,21 @@
 ﻿namespace OpenRP.Framework.Client.Classes
 {
-    public class GridCoord
+    internal class GridCoord
     {
         public int X { get; private set; }
         public int Y { get; private set; }
 
-        public GridCoord(int x, int y)
+        internal GridCoord(int x, int y)
         {
             X = x;
             Y = y;
         }
 
-        public string GetHashCode()
+        /// <summary>
+        /// Get a unique grid ID.
+        /// </summary>
+        /// <returns></returns>
+        public new string GetHashCode()
         {
             var length = 3;
             var x = X.ToString("D" + length);

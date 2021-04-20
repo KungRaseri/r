@@ -4,7 +4,7 @@ using CitizenFX.Core;
 
 namespace OpenRP.Framework.Client.Classes
 {
-    public class VoiceZone
+    internal class VoiceZone
     {
         static readonly Dictionary<string, int> _grid = new Dictionary<string, int>();
         static readonly int minX = -5000;

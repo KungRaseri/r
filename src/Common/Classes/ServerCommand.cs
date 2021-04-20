@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using OpenRP.Framework.Common.Attributes;
 
 namespace OpenRP.Framework.Common.Classes
 {
@@ -14,6 +16,15 @@ namespace OpenRP.Framework.Common.Classes
             Command = command;
             _help = help;
             _args = args;
+        }
+
+        internal static 
+
+        string GenerateEventName(Enum eventName)
+        {
+            var resource = eventName.GetType().GetCustomAttribute<ResourceAttribute>().Name;
+            var name = $"{resource}:{eventName}";
+            return name;
         }
     }
 }
