@@ -102,11 +102,9 @@
         }
 
         async SetMessageBoxActive(value: boolean) {
-            console.log("Loop");
             let j = 100;
             for (let i = 0; i <= 5000; i += j) {
                 if (this.GetTextFieldActive) {
-                    console.log("Break");
                     return;
                 }
                 await this.delay(j);

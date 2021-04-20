@@ -6,8 +6,6 @@
 - [ClientEvent](#T-OpenRP-Framework-Common-Enumeration-ClientEvent 'OpenRP.Framework.Common.Enumeration.ClientEvent')
   - [ADD_MESSAGE](#F-OpenRP-Framework-Common-Enumeration-ClientEvent-ADD_MESSAGE 'OpenRP.Framework.Common.Enumeration.ClientEvent.ADD_MESSAGE')
   - [COMMAND_TP](#F-OpenRP-Framework-Common-Enumeration-ClientEvent-COMMAND_TP 'OpenRP.Framework.Common.Enumeration.ClientEvent.COMMAND_TP')
-  - [POST_MESSAGE](#F-OpenRP-Framework-Common-Enumeration-ClientEvent-POST_MESSAGE 'OpenRP.Framework.Common.Enumeration.ClientEvent.POST_MESSAGE')
-  - [RESET_FOCUS](#F-OpenRP-Framework-Common-Enumeration-ClientEvent-RESET_FOCUS 'OpenRP.Framework.Common.Enumeration.ClientEvent.RESET_FOCUS')
 - [CommandController](#T-OpenRP-Framework-Server-Controllers-CommandController 'OpenRP.Framework.Server.Controllers.CommandController')
   - [Register(name,command,help,args)](#M-OpenRP-Framework-Server-Controllers-CommandController-Register-System-String,System-MulticastDelegate,System-String,System-Collections-Generic-List{System-String}- 'OpenRP.Framework.Server.Controllers.CommandController.Register(System.String,System.MulticastDelegate,System.String,System.Collections.Generic.List{System.String})')
   - [Unregister(name)](#M-OpenRP-Framework-Server-Controllers-CommandController-Unregister-System-String- 'OpenRP.Framework.Server.Controllers.CommandController.Unregister(System.String)')
@@ -18,6 +16,9 @@
   - [TriggerClientEvent(eventName,args)](#M-OpenRP-Framework-Server-Controllers-EventController-TriggerClientEvent-System-Enum,System-Object[]- 'OpenRP.Framework.Server.Controllers.EventController.TriggerClientEvent(System.Enum,System.Object[])')
   - [TriggerEvent(eventName,args)](#M-OpenRP-Framework-Server-Controllers-EventController-TriggerEvent-System-Enum,System-Object[]- 'OpenRP.Framework.Server.Controllers.EventController.TriggerEvent(System.Enum,System.Object[])')
 - [IEvent](#T-OpenRP-Framework-Common-Interface-IEvent 'OpenRP.Framework.Common.Interface.IEvent')
+- [NuiEvent](#T-OpenRP-Framework-Common-Enumeration-NuiEvent 'OpenRP.Framework.Common.Enumeration.NuiEvent')
+  - [POST_MESSAGE](#F-OpenRP-Framework-Common-Enumeration-NuiEvent-POST_MESSAGE 'OpenRP.Framework.Common.Enumeration.NuiEvent.POST_MESSAGE')
+  - [RESET_FOCUS](#F-OpenRP-Framework-Common-Enumeration-NuiEvent-RESET_FOCUS 'OpenRP.Framework.Common.Enumeration.NuiEvent.RESET_FOCUS')
 - [ServerEvent](#T-OpenRP-Framework-Common-Enumeration-ServerEvent 'OpenRP.Framework.Common.Enumeration.ServerEvent')
   - [COMMAND_VALIDATE](#F-OpenRP-Framework-Common-Enumeration-ServerEvent-COMMAND_VALIDATE 'OpenRP.Framework.Common.Enumeration.ServerEvent.COMMAND_VALIDATE')
 - [ServerMain](#T-OpenRP-Framework-Server-ServerMain 'OpenRP.Framework.Server.ServerMain')
@@ -28,10 +29,6 @@
 ##### Namespace
 
 OpenRP.Framework.Common.Enumeration
-
-##### Summary
-
-Enum to house Client Event names
 
 <a name='F-OpenRP-Framework-Common-Enumeration-ClientEvent-ADD_MESSAGE'></a>
 ### ADD_MESSAGE `constants`
@@ -45,21 +42,7 @@ Executes the OpenRP.Framework.Client.Controllers.MessageBox.AddMessage() method.
 
 ##### Summary
 
-
-
-<a name='F-OpenRP-Framework-Common-Enumeration-ClientEvent-POST_MESSAGE'></a>
-### POST_MESSAGE `constants`
-
-##### Summary
-
-Triggers server event COMMAND_VALIDATE when the Message Box module posts user input.
-
-<a name='F-OpenRP-Framework-Common-Enumeration-ClientEvent-RESET_FOCUS'></a>
-### RESET_FOCUS `constants`
-
-##### Summary
-
-Returns focus from NUI back to the game.
+Invokes the teleport command.
 
 <a name='T-OpenRP-Framework-Server-Controllers-CommandController'></a>
 ## CommandController `type`
@@ -187,16 +170,33 @@ OpenRP.Framework.Common.Interface
 
 
 
+<a name='T-OpenRP-Framework-Common-Enumeration-NuiEvent'></a>
+## NuiEvent `type`
+
+##### Namespace
+
+OpenRP.Framework.Common.Enumeration
+
+<a name='F-OpenRP-Framework-Common-Enumeration-NuiEvent-POST_MESSAGE'></a>
+### POST_MESSAGE `constants`
+
+##### Summary
+
+Triggers server event COMMAND_VALIDATE when the Message Box module posts user input.
+
+<a name='F-OpenRP-Framework-Common-Enumeration-NuiEvent-RESET_FOCUS'></a>
+### RESET_FOCUS `constants`
+
+##### Summary
+
+Returns focus from NUI back to the game.
+
 <a name='T-OpenRP-Framework-Common-Enumeration-ServerEvent'></a>
 ## ServerEvent `type`
 
 ##### Namespace
 
 OpenRP.Framework.Common.Enumeration
-
-##### Summary
-
-
 
 <a name='F-OpenRP-Framework-Common-Enumeration-ServerEvent-COMMAND_VALIDATE'></a>
 ### COMMAND_VALIDATE `constants`

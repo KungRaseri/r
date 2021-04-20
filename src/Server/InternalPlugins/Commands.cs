@@ -11,15 +11,11 @@ namespace OpenRP.Framework.Server.InternalPlugins
     /// </summary>
     public class Commands : ServerAccessor
     {
-        ServerMain _server;
-
         internal Commands (ServerMain server) : base (server)
         {
-            _server = server;
-
-            _server.Command.Register("me", new Action<Player, List<string>>(OnMeCommand), "Emote through text.", new List<string>());
-            _server.Command.Register("id", new Action<Player, List<string>>(OnIdCommand), "Get your server ID.", new List<string>());
-            _server.Command.Register("tp", new Action<Player, List<string>>(OnTpCommand), "Teleport to another location.", new List<string>());
+            Server.Command.Register("me", new Action<Player, List<string>>(OnMeCommand), "Emote through text.", new List<string>());
+            Server.Command.Register("id", new Action<Player, List<string>>(OnIdCommand), "Get your server ID.", new List<string>());
+            Server.Command.Register("tp", new Action<Player, List<string>>(OnTpCommand), "Teleport to another location.", new List<string>());
         }
 
         private void OnMeCommand(Player player, List<string> message)
@@ -39,7 +35,7 @@ namespace OpenRP.Framework.Server.InternalPlugins
 
         private void OnTpCommand(Player player, List<string> message)
         {
-            Server.Event.TriggerClientEvent(player, ClientEvent.COMMAND_TP, message);
+            Server.Event.TriggerClientEvent(player, ClientEvent.COMMAND_TP, JsonConvert.SerializeObject(message));
         }
     }
 }

@@ -4,18 +4,18 @@ namespace OpenRP.Framework.Common.Enumeration
 {
     [Resource("framework")]
     /// <summary>
-    /// Enum to house Client Event names.
+    /// Enum to house NUI Event names.
     /// </summary>
-    public enum ClientEvent
+    public enum NuiEvent
     {
         /// <summary>
-        /// Executes the OpenRP.Framework.Client.Controllers.MessageBox.AddMessage() method.
+        /// Triggers server event COMMAND_VALIDATE when the Message Box module posts user input.
         /// </summary>
-        ADD_MESSAGE,
+        POST_MESSAGE,
 
         /// <summary>
-        /// Invokes the teleport command.
+        /// Returns focus from NUI back to the game.
         /// </summary>
-        COMMAND_TP,
+        RESET_FOCUS,
     }
 }

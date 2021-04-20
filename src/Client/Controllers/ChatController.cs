@@ -12,8 +12,8 @@ namespace OpenRP.Framework.Client.Controllers
 
         internal ChatController(ClientMain client) : base(client)
         {
-            Client.Event.RegisterNuiEvent(ClientEvent.POST_MESSAGE, new Action<dynamic>(OnPostMessage));
-            Client.Event.RegisterNuiEvent(ClientEvent.RESET_FOCUS, new Action<dynamic>(OnResetFocus));
+            Client.Event.RegisterNuiEvent(NuiEvent.POST_MESSAGE, new Action<dynamic>(OnPostMessage));
+            Client.Event.RegisterNuiEvent(NuiEvent.RESET_FOCUS, new Action<dynamic>(OnResetFocus));
             Client.Event.RegisterEvent(ClientEvent.ADD_MESSAGE, new Action<int, int, int, string>(AddMessage));
 
             Client.RegisterKeyBinding("ToggleChatModule", "(HUD) Open chat", "t", new Action(ToggleChatModule));
@@ -33,6 +33,7 @@ namespace OpenRP.Framework.Client.Controllers
 
         private void OnPostMessage(dynamic args)
         {
+            Debug.WriteLine($"Posting message: {ServerEvent.COMMAND_VALIDATE.GetType().FullName}");
             Client.Event.TriggerServerEvent(ServerEvent.COMMAND_VALIDATE, args.value);
         }
 

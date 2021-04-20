@@ -62,6 +62,7 @@ namespace OpenRP.Framework.Server.Controllers
             var commands = Server.Command.Commands;
             var args = new List<string>();
 
+            Debug.WriteLine("Validating command");
             if (!commands.ContainsKey(command))
             {
                 Server.Event.TriggerClientEvent(player, ClientEvent.ADD_MESSAGE, 255, 0, 0, "Command does not exist.");

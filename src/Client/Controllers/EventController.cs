@@ -18,7 +18,7 @@ namespace OpenRP.Framework.Client.Controllers
         /// <param name="callback">Method to call when the event is triggered.</param>
         public void RegisterNuiEvent(Enum eventName, MulticastDelegate callback)
         {
-            var name = ServerCommand.GenerateEventName(eventName);
+            var name = eventName.ToString();
             RegisterNuiCallbackType(name);
             var nuiName = $"__cfx_nui:{name}";
             Client.Events[nuiName] += callback;
@@ -32,7 +32,6 @@ namespace OpenRP.Framework.Client.Controllers
         public void RegisterEvent(Enum eventName, MulticastDelegate callback)
         {
             var name = ServerCommand.GenerateEventName(eventName);
-            Debug.WriteLine(name);
             Client.Events[name] += callback;
         }
 
