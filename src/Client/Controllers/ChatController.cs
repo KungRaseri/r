@@ -14,7 +14,7 @@ namespace OpenRP.Framework.Client.Controllers
     {
         ClientMain _client;
 
-        internal ChatController (ClientMain client) : base (client)
+        internal ChatController(ClientMain client) : base(client)
         {
             _client = client;
 
