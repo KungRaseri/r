@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using OpenRP.Framework.Common.Interface;
 using OpenRP.Framework.Database.Document;
 using OpenRP.Framework.Server.Controllers;
+using OpenRP.Framework.Server.InternalPlugins;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Server
@@ -129,6 +130,7 @@ namespace OpenRP.Framework.Server
 
         private void OnEntityCreated(int obj)
         {
+            new Commands(this);
         }
 
         public void RegisterServerCommand(ICommand command)
