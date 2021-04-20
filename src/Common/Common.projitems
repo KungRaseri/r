@@ -14,5 +14,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enumeration\ServerEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\IDocument.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\IEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\ServerCommand.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Classes\" />
   </ItemGroup>
 </Project>
