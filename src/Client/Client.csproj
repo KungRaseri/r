@@ -55,6 +55,7 @@
     <Compile Include="ClientMain.cs" />
     <Compile Include="Classes\GridCoord.cs" />
     <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\DiscordController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\VoiceController.cs" />
     <Compile Include="Classes\VoiceZone.cs" />
