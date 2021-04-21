@@ -77,17 +77,64 @@ steps:
     ProjectDirectory: 'src/UI'
     Arguments: 'build'
 
-- task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
-  displayName: 'Prepare analysis on SonarCloud'
+- task: Yarn@2
   inputs:
-    SonarCloud: sonarcloud
+    ProjectDirectory: 'src/Loadscreen'
+    Arguments: 'install'
+
+- task: Yarn@2
+  inputs:
+    ProjectDirectory: 'src/Loadscreen'
+    Arguments: 'build'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'sonarcloud'
     organization: 'redacted-gaming'
-    scannerMode: CLI
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'kungraseri_roleplay-framework'
+    cliProjectName: 'roleplay-framework-ui'
+    cliProjectVersion: '$(Build.BuildNumber)'
+    cliSources: './src/UI'
     extraProperties: |
-     # Additional properties that will be passed to the scanner, 
-     # Put one key=value per line, example:
-     sonar.projectVersion=$(version)$(rev:.r)
-     
+      # Additional properties that will be passed to the scanner, 
+      # Put one key=value per line, example:
+      sonar.projectVersion=$(version)$(rev:.r)
+      sonar.exclusions=node_modules
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'sonarcloud'
+    organization: 'redacted-gaming'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'kungraseri_roleplay-framework'
+    cliProjectName: 'roleplay-framework-loadscreen'
+    cliProjectVersion: '$(Build.BuildNumber)'
+    cliSources: './src/Loadscreen'
+    extraProperties: |
+      # Additional properties that will be passed to the scanner, 
+      # Put one key=value per line, example:
+      sonar.projectVersion=$(version)$(rev:.r)
+      sonar.exclusions=node_modules
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'sonarcloud'
+    organization: 'redacted-gaming'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'kungraseri_roleplay-framework'
+    cliProjectName: 'roleplay-framework'
+    cliProjectVersion: '$(Build.BuildNumber)'
+    cliSources: './src'
+    extraProperties: |
+      # Additional properties that will be passed to the scanner, 
+      # Put one key=value per line, example:
+      sonar.projectVersion=$(version)$(rev:.r)
+      sonar.exclusions=Loadscreen,UI
+
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
   displayName: 'Run Code Analysis'
 
