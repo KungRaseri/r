@@ -37,6 +37,8 @@
         isTextFieldActive = false;
         isMessageBoxActive = false;
         input = "";
+        history = new Set("");
+        historyCount = 0;
         $axios: any;
 
         mounted() {
@@ -52,8 +54,13 @@
         }
 
         SendMessage(value: any) {
+            console.log(value.key);
             if (value.key === "Enter") {
-                this.PostMessage(this.GetInput);
+                if (this.GetInput !== "") {
+                    this.PostMessage(this.GetInput);
+                    this.AddHistory(this.GetInput);
+                    this.GetHistoryCount = this.history.size;
+                }
                 this.GetInput = "";
                 this.GetTextFieldActive = false;
                 this.ResetFocus();
@@ -68,7 +75,17 @@
                 this.messageBox.$el.scrollTop = 0;
             } else if (value.key === "End") {
                 this.setScroll();
+            } else if (value.key === "ArrowUp") {
+                this.ReturnHistory(-1);
+            } else if (value.key === "ArrowDown") {
+                this.ReturnHistory(1);
             }
+        }
+
+        ReturnHistory(value: number) {
+            let tempHistory = Array.from(this.history);
+            this.GetHistoryCount += value;
+            this.GetInput = tempHistory[this.GetHistoryCount];
         }
 
         PostMessage(value: string) {
@@ -146,6 +163,27 @@
             if (value) {
                 this.$nextTick(this.setScroll);
             }
+        }
+
+        get GetHistoryCount() {
+            return this.historyCount;
+        }
+
+        set GetHistoryCount(value: number) {
+            if (value < 0) {
+                this.historyCount = 0;
+            } else if (value > this.history.size) {
+                this.historyCount = this.history.size;
+            } else {
+                this.historyCount = value;
+            }
+        }
+
+        AddHistory(value: string) {
+            if (this.history.has(value)) {
+                this.history.delete(value);
+            }
+            this.history.add(value);
         }
     }
 </script>
