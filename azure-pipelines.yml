@@ -93,8 +93,8 @@ steps:
     organization: 'redacted-gaming'
     scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: 'kungraseri_roleplay-framework'
-    cliProjectName: 'roleplay-framework-ui'
+    cliProjectKey: 'openrp-framework-ui'
+    cliProjectName: 'OpenRP Framework UI'
     cliProjectVersion: '$(Build.BuildNumber)'
     cliSources: './src/UI'
     extraProperties: |
@@ -115,8 +115,8 @@ steps:
     organization: 'redacted-gaming'
     scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: 'kungraseri_roleplay-framework'
-    cliProjectName: 'roleplay-framework-loadscreen'
+    cliProjectKey: 'openrp-loadscreen'
+    cliProjectName: 'OpenRP Loadscreen'
     cliProjectVersion: '$(Build.BuildNumber)'
     cliSources: './src/Loadscreen'
     extraProperties: |
@@ -137,15 +137,15 @@ steps:
     organization: 'redacted-gaming'
     scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: 'kungraseri_roleplay-framework'
-    cliProjectName: 'roleplay-framework'
+    cliProjectKey: 'openrp-framework'
+    cliProjectName: 'OpenRP Framework'
     cliProjectVersion: '$(Build.BuildNumber)'
     cliSources: './src'
     extraProperties: |
       # Additional properties that will be passed to the scanner, 
       # Put one key=value per line, example:
       sonar.projectVersion=$(version)$(rev:.r)
-      sonar.exclusions=Loadscreen,UI
+      sonar.exclusions=./src/Loadscreen,./src/UI
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
   displayName: 'Run Code Analysis'
