@@ -22,9 +22,6 @@ namespace OpenRP.Framework.Client.Controllers
         int _currentRange;
         int _lastRange;
 
-        float _speakingRange;
-        float _hearingRange;
-
         internal VoiceController(ClientMain client) : base(client)
         {
             _grid = -1;
@@ -37,13 +34,10 @@ namespace OpenRP.Framework.Client.Controllers
             _currentRange = 1;
             _lastRange = _currentRange;
 
-            _speakingRange = GetVoiceRange();
-            _hearingRange = _ranges[_ranges.Length - 1];
-
             Client.RegisterKeyBinding("ToggleVoiceRange", "(Voice) Toggle voice range", "z", new Action(ToggleVoiceRange));
 
-            MumbleSetAudioOutputDistance(_speakingRange);
-            MumbleSetAudioInputDistance(_hearingRange);
+            MumbleSetAudioInputDistance(GetVoiceRange());
+            MumbleSetAudioOutputDistance(10f);
             CheckMumbleLoaded();
         }
 
@@ -57,8 +51,7 @@ namespace OpenRP.Framework.Client.Controllers
             _currentRange++;
             if (_currentRange >= _ranges.Length)
                 _currentRange = 0;
-            _speakingRange = GetVoiceRange();
-            MumbleSetAudioOutputDistance(_speakingRange);
+            MumbleSetAudioInputDistance(GetVoiceRange());
         }
 
         private async void CheckMumbleLoaded()
