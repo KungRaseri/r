@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core.UI;
 using OpenRP.Framework.Client.Classes;
 using System.Collections.Generic;
+using System;
 
 namespace OpenRP.Framework.Client.Controllers
 {
@@ -14,17 +15,43 @@ namespace OpenRP.Framework.Client.Controllers
         int _lastGrid;
         List<int> _zones;
         string _zonesList;
+        Text _textGrid;
+        Text _textNearby;
+
+        readonly float[] _ranges = new float[3] { 1f, 2f, 10f }; // { Whisper, Normal, Shouting }
+        int _currentRange;
+        int _lastRange;
 
         internal VoiceController(ClientMain client) : base(client)
         {
-            _grid = 0;
-            _lastGrid = 0;
+            _grid = -1;
+            _lastGrid = -1;
             _zones = new List<int>();
             _zonesList = "";
+            _textGrid = new Text($"", new PointF(1f, 1f), 0.5f);
+            _textNearby = new Text($"", new PointF(1.0f, 24.0f), 0.5f);
 
-            MumbleSetAudioInputDistance(30f);
-            MumbleSetAudioOutputDistance(30f);
+            _currentRange = 1;
+            _lastRange = _currentRange;
+
+            Client.RegisterKeyBinding("ToggleVoiceRange", "(Voice) Toggle voice range", "z", new Action(ToggleVoiceRange));
+
+            MumbleSetAudioInputDistance(GetVoiceRange());
+            MumbleSetAudioOutputDistance(10f);
             CheckMumbleLoaded();
+        }
+
+        private float GetVoiceRange()
+        {
+            return _ranges[_currentRange];
+        }
+
+        private void ToggleVoiceRange()
+        {
+            _currentRange++;
+            if (_currentRange >= _ranges.Length)
+                _currentRange = 0;
+            MumbleSetAudioInputDistance(GetVoiceRange());
         }
 
         private async void CheckMumbleLoaded()
@@ -37,6 +64,7 @@ namespace OpenRP.Framework.Client.Controllers
             MumbleSetVoiceTarget(1);
 
             Client.RegisterTickHandler(GameTick);
+            Client.RegisterTickHandler(DrawDebug);
         }
 
         private async Task GameTick()
@@ -49,7 +77,6 @@ namespace OpenRP.Framework.Client.Controllers
             if (_lastGrid != _grid)
             {
                 MumbleClearVoiceTargetChannels(1);
-                NetworkSetVoiceChannel(_grid);
 
                 foreach (var zone in _zones)
                 {
@@ -59,13 +86,25 @@ namespace OpenRP.Framework.Client.Controllers
 
                 _zonesList = temp;
                 _lastGrid = _grid;
+
+                _textGrid.Caption = $"Grid: {_grid} | Range: {GetVoiceRange()}";
+                _textNearby.Caption = $"{_zonesList}";
             }
 
-            var textGrid = new Text($"Grid: {_grid} | {NetworkIsPlayerTalking(Game.Player.Handle)}", new PointF(1f, 1f), 0.5f);
-            var textNearby = new Text($"{_zonesList}", new PointF(1.0f, 20.0f), 0.5f);
+            if (_lastRange != _currentRange)
+            {
+                _lastRange = _currentRange;
 
-            textGrid.Draw();
-            textNearby.Draw();
+                _textGrid.Caption = $"Grid: {_grid} | Range: {GetVoiceRange()}";
+            }
+
+            await BaseScript.Delay(50);
+        }
+
+        private async Task DrawDebug()
+        {
+            _textGrid.Draw();
+            _textNearby.Draw();
         }
     }
 }
