@@ -13,7 +13,6 @@ namespace OpenRP.Framework.Client.Controllers
     {
         int _grid;
         int _lastGrid;
-        List<int> _zones;
         string _zonesList;
         Text _textGrid;
         Text _textNearby;
@@ -26,7 +25,6 @@ namespace OpenRP.Framework.Client.Controllers
         {
             _grid = -1;
             _lastGrid = -1;
-            _zones = new List<int>();
             _zonesList = "";
             _textGrid = new Text($"", new PointF(1f, 1f), 0.5f);
             _textNearby = new Text($"", new PointF(1.0f, 24.0f), 0.5f);
@@ -70,18 +68,18 @@ namespace OpenRP.Framework.Client.Controllers
         private async Task GameTick()
         {
             var pos = Game.PlayerPed.Position;
-            _zones = VoiceZone.GetZones(pos);
-            _grid = _zones[0];
+            _grid = VoiceZone.GetGrid(pos);
             var temp = "";
 
             if (_lastGrid != _grid)
             {
                 MumbleClearVoiceTargetChannels(1);
+                NetworkSetVoiceChannel(_grid);
 
-                foreach (var zone in _zones)
+                for (var i = _grid - 3; i <= _grid + 3; i++)
                 {
-                    temp += zone + " | ";
-                    MumbleAddVoiceTargetChannel(1, zone);
+                    temp += i.ToString() + " | ";
+                    MumbleAddVoiceTargetChannel(1, i);
                 }
 
                 _zonesList = temp;
