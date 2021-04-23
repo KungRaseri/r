@@ -96,12 +96,12 @@ steps:
     cliProjectKey: 'openrp-framework-ui'
     cliProjectName: 'OpenRP Framework UI'
     cliProjectVersion: '$(Build.BuildNumber)'
-    cliSources: './src/UI'
+    cliSources: 'src/UI'
     extraProperties: |
       # Additional properties that will be passed to the scanner, 
       # Put one key=value per line, example:
       sonar.projectVersion=$(version)$(rev:.r)
-      sonar.exclusions=src/UI/node_modules/**/*,src/UI/openrp-loadscreen-ui/**/*
+      sonar.exclusions=src/UI/node_modules/**/*,src/UI/openrp-client-ui/**/*
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
   displayName: 'Run Code Analysis'
