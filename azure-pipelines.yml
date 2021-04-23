@@ -101,7 +101,7 @@ steps:
       # Additional properties that will be passed to the scanner, 
       # Put one key=value per line, example:
       sonar.projectVersion=$(version)$(rev:.r)
-      sonar.exclusions=node_modules
+      sonar.exclusions=src/UI/node_modules/**/*,src/UI/openrp-loadscreen-ui/**/*
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
   displayName: 'Run Code Analysis'
@@ -118,12 +118,12 @@ steps:
     cliProjectKey: 'openrp-loadscreen'
     cliProjectName: 'OpenRP Loadscreen'
     cliProjectVersion: '$(Build.BuildNumber)'
-    cliSources: './src/Loadscreen'
+    cliSources: 'src/Loadscreen'
     extraProperties: |
       # Additional properties that will be passed to the scanner, 
       # Put one key=value per line, example:
       sonar.projectVersion=$(version)$(rev:.r)
-      sonar.exclusions=node_modules
+      sonar.exclusions=src/Loadscreen/node_modules/**/*,src/Loadscreen/openrp-loadscreen-ui/**/*
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
   displayName: 'Run Code Analysis'
@@ -140,12 +140,12 @@ steps:
     cliProjectKey: 'openrp-framework'
     cliProjectName: 'OpenRP Framework'
     cliProjectVersion: '$(Build.BuildNumber)'
-    cliSources: './src'
+    cliSources: 'src/'
     extraProperties: |
       # Additional properties that will be passed to the scanner, 
       # Put one key=value per line, example:
       sonar.projectVersion=$(version)$(rev:.r)
-      sonar.exclusions=./src/Loadscreen,./src/UI
+      sonar.exclusions=src/Loadscreen/**/*,src/UI/**/*
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
   displayName: 'Run Code Analysis'
