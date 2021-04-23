@@ -31,6 +31,8 @@ namespace OpenRP.Framework.Client
         {
             players = Players;
             new VoiceController(this);
+            new PlayerController(this);
+            new PedTrafficController(this);
 
             Event = new EventController(this);
             Chat = new ChatController(this);
