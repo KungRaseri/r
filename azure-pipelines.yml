@@ -98,7 +98,7 @@ steps:
       # Additional properties that will be passed to the scanner, 
       # Put one key=value per line, example:
       sonar.projectVersion=$(version)$(rev:.r)
-      sonar.exclusions=src/UI/node_modules/**/*,src/UI/openrp-client-ui/**/*
+      sonar.exclusions=src/UI/tests/**/*,src/UI/node_modules/**/*,src/UI/openrp-client-ui/**/*
       sonar.tests=src/UI/tests
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
@@ -121,7 +121,7 @@ steps:
       # Additional properties that will be passed to the scanner, 
       # Put one key=value per line, example:
       sonar.projectVersion=$(version)$(rev:.r)
-      sonar.exclusions=src/Loadscreen/node_modules/**/*,src/Loadscreen/openrp-loadscreen-ui/**/*
+      sonar.exclusions=src/Loadscreen/tests/**/*,src/Loadscreen/node_modules/**/*,src/Loadscreen/openrp-loadscreen-ui/**/*
       sonar.tests=src/Loadscreen/tests
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
