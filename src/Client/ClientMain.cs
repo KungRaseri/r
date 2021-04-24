@@ -25,22 +25,32 @@ namespace OpenRP.Framework.Client
         /// </summary>
         public readonly ChatController Chat;
 
+        public readonly DiscordController Discord;
+
         internal EventHandlerDictionary Events => EventHandlers;
 
         public ClientMain()
         {
             players = Players;
+
             new VoiceController(this);
             new PlayerController(this);
             new PedTrafficController(this);
 
+            Discord = new DiscordController(this);
             Event = new EventController(this);
             Chat = new ChatController(this);
 
+            InitializeTickHandlers();
             InitializeFiveMEvents();
             InitializeInternalPlugins();
 
             Debug.WriteLine($"[{nameof(ClientMain)}] resources loaded");
+        }
+
+        private void InitializeTickHandlers()
+        {
+            Tick += OnFirstTick;
         }
 
         private void InitializeInternalPlugins()
@@ -60,6 +70,17 @@ namespace OpenRP.Framework.Client
             EventHandlers["onClientResourceStop"] += new Action<string>(OnClientResourceStop);
             EventHandlers["onResourceStarting"] += new Action<string>(OnResourceStarting);
             //EventHandlers["populationPedCreating"] += new Action<float, float, float, uint, dynamic>(OnPopulationPedCreating);
+        }
+
+        private async Task OnFirstTick()
+        {
+            if (NetworkIsSessionActive())
+            {
+                ShutdownLoadingScreen();
+                ShutdownLoadingScreenNui();
+            }
+
+            Tick -= OnFirstTick;
         }
 
         private void OnPopulationPedCreating(float x, float y, float z, uint model, dynamic overrideCalls)

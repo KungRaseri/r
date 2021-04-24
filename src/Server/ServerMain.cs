@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CitizenFX.Core;
 using Microsoft.Extensions.Configuration;
-using OpenRP.Framework.Common.Interface;
 using OpenRP.Framework.Database.Document;
 using OpenRP.Framework.Server.Controllers;
 using OpenRP.Framework.Server.InternalPlugins;
@@ -67,33 +66,22 @@ namespace OpenRP.Framework.Server
             EventHandlers["entityCreating"] += new Action<int>(OnEntityCreating);
             EventHandlers["entityCreated"] += new Action<int>(OnEntityCreated);
             EventHandlers["entityRemoved"] += new Action<int>(OnEntityRemoved);
+            EventHandlers["playerConnecting"] += new Action<string, CallbackDelegate, dynamic, Player>(OnPlayerConnecting);
             EventHandlers["playerJoining"] += new Action<Player, string>(OnPlayerJoining);
-            EventHandlers["playerConnecting"] += new Action<string, CallbackDelegate, dynamic, string>(OnPlayerConnecting);
+            EventHandlers["playerDropped"] += new Action<Player, string>(OnPlayerDropped);
             EventHandlers["playerEnteredScope"] += new Action<dynamic>(OnPlayerEnteredScope);
             EventHandlers["playerLeftScope"] += new Action<dynamic>(OnPlayerLeftScope);
         }
 
+        private void OnPlayerDropped([FromSource] Player player, string reason)
+        {
+
+            Debug.WriteLine($"[{player.Name.ToUpper()}] LEFT | Reason: {reason}");
+        }
+
         private async void OnPlayerJoining([FromSource] Player player, string oldId)
         {
-            var account = await Database.Context.Accounts.FindAsync($"discord:{player.Identifiers["discord"]}");
-
-            if (account == null)
-            {
-                account = new Account()
-                {
-                    Identifiers = player.Identifiers.ToArray()
-                };
-
-                await Database.Context.Accounts.PostAsync(account);
-
-                Debug.WriteLine($"New Account [{account.Id}] created");
-            }
-            else
-            {
-                Debug.WriteLine($"Account [{account.Id}] found");
-            }
-
-            Debug.WriteLine($"[{player.Name.ToUpper()}][{account.Id}][{oldId}] is joining");
+            Debug.WriteLine($"[{player.Name.ToUpper()}] JOINING");
         }
 
         private void OnPlayerLeftScope(dynamic data)
@@ -106,9 +94,37 @@ namespace OpenRP.Framework.Server
             Debug.WriteLine($"[SCOPE] {data.playerEnteringScope} has entered the scope of {data.playerWithScope}");
         }
 
-        private void OnPlayerConnecting(string playerName, CallbackDelegate cb, object arg3, string arg4)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="playerName"></param>
+        /// <param name="setKickReason"></param>
+        /// <param name="deferrals"></param>
+        /// <param name="player"></param>
+        private async void OnPlayerConnecting(string playerName, CallbackDelegate setKickReason, dynamic deferrals, [FromSource] Player player)
         {
-            Debug.WriteLine($"[{playerName.ToUpper()}] Connected");
+            Debug.WriteLine($"[{playerName.ToUpper()}] CONNECTING");
+
+            var account = await Database.Context.Accounts.FindAsync($"discord:{player.Identifiers["discord"]}");
+
+            if (account == null)
+            {
+                account = new Account()
+                {
+                    Identifiers = player.Identifiers.ToArray()
+                };
+
+                await Database.Context.Accounts.PostAsync(account);
+
+                Debug.WriteLine($"[{account.Id}] New Account created");
+            }
+            else
+            {
+                Debug.WriteLine($"[{account.Id}] Existing Account found");
+            }
+
+            // This is where we do authentication, allow/deny listing, queue, etc.
+            Debug.WriteLine($"[{playerName.ToUpper()}][{account.Id}] CONNECTED");
         }
 
         private void OnServerResourceStop(string obj)

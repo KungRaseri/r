@@ -55,6 +55,7 @@
     <Compile Include="ClientMain.cs" />
     <Compile Include="Classes\GridCoord.cs" />
     <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\DiscordController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\PedTrafficController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
@@ -65,12 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CitizenFX.Core.Client">
-      <Version>1.0.3816</Version>
-    </PackageReference>
-    <PackageReference Include="Vsxmd">
-      <Version>1.4.5</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
+      <Version>1.0.3848</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

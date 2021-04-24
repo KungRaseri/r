@@ -16,11 +16,6 @@ steps:
     versionSpec: '4.x'
     checkLatest: true
 
-- task: YarnInstaller@3
-  inputs:
-    versionSpec: '1.x'
-    checkLatest: true
-
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
@@ -67,32 +62,96 @@ steps:
     command: 'build'
     projects: 'src/Server/Server.csproj'
 
-- task: Yarn@2
+- task: Npm@1
   inputs:
-    ProjectDirectory: 'src/UI'
-    Arguments: 'install'
+    command: 'install'
+    workingDir: 'src/UI'
 
-- task: Yarn@2
+- task: Npm@1
   inputs:
-    ProjectDirectory: 'src/UI'
-    Arguments: 'build'
+    command: 'custom'
+    workingDir: 'src/UI'
+    customCommand: 'run-script build'
 
-# - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
-#   displayName: 'Prepare analysis on SonarCloud'
-#   inputs:
-#     SonarCloud: sonarcloud
-#     organization: 'redacted-gaming'
-#     scannerMode: CLI
-#     extraProperties: |
-#      # Additional properties that will be passed to the scanner, 
-#      # Put one key=value per line, example:
-#      sonar.projectVersion=$(version)$(rev:.r)
-     
-# - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
-#   displayName: 'Run Code Analysis'
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'src/Loadscreen'
 
-# - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
-#   displayName: 'Publish Quality Gate Result'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'src/Loadscreen'
+    customCommand: 'run-script build'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'sonarcloud'
+    organization: 'redacted-gaming'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'openrp-framework-ui'
+    cliProjectName: 'OpenRP Framework UI'
+    cliProjectVersion: '$(Build.BuildNumber)'
+    cliSources: 'src/UI'
+    extraProperties: |
+      # Additional properties that will be passed to the scanner, 
+      # Put one key=value per line, example:
+      sonar.projectVersion=$(version)$(rev:.r)
+      sonar.exclusions=src/UI/tests/**/*,src/UI/node_modules/**/*,src/UI/openrp-client-ui/**/*
+      sonar.tests=src/UI/tests
+
+- task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+  displayName: 'Run Code Analysis'
+
+- task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
+  displayName: 'Publish Quality Gate Result'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'sonarcloud'
+    organization: 'redacted-gaming'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'openrp-loadscreen'
+    cliProjectName: 'OpenRP Loadscreen'
+    cliProjectVersion: '$(Build.BuildNumber)'
+    cliSources: 'src/Loadscreen'
+    extraProperties: |
+      # Additional properties that will be passed to the scanner, 
+      # Put one key=value per line, example:
+      sonar.projectVersion=$(version)$(rev:.r)
+      sonar.exclusions=src/Loadscreen/tests/**/*,src/Loadscreen/node_modules/**/*,src/Loadscreen/openrp-loadscreen-ui/**/*
+      sonar.tests=src/Loadscreen/tests
+
+- task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+  displayName: 'Run Code Analysis'
+
+- task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
+  displayName: 'Publish Quality Gate Result'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'sonarcloud'
+    organization: 'redacted-gaming'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'openrp-framework'
+    cliProjectName: 'OpenRP Framework'
+    cliProjectVersion: '$(Build.BuildNumber)'
+    cliSources: 'src/'
+    extraProperties: |
+      # Additional properties that will be passed to the scanner, 
+      # Put one key=value per line, example:
+      sonar.projectVersion=$(version)$(rev:.r)
+      sonar.exclusions=src/Loadscreen/**/*,src/UI/**/*
+      sonar.tests=tests/
+
+- task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+  displayName: 'Run Code Analysis'
+
+- task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
+  displayName: 'Publish Quality Gate Result'
 
 - task: PowerShell@2
   displayName: 'Compile server-data'
