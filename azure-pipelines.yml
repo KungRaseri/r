@@ -71,7 +71,7 @@ steps:
   inputs:
     command: 'custom'
     workingDir: 'src/UI'
-    customCommand: 'build'
+    customCommand: 'run-script build'
 
 - task: Npm@1
   inputs:
@@ -82,7 +82,7 @@ steps:
   inputs:
     command: 'custom'
     workingDir: 'src/Loadscreen'
-    customCommand: 'build'
+    customCommand: 'run-script build'
 
 - task: SonarCloudPrepare@1
   inputs:
