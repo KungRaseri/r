@@ -1,5 +1,4 @@
 ﻿using CitizenFX.Core;
-using OpenRP.Framework.Common.Classes;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,7 +30,7 @@ namespace OpenRP.Framework.Client.Controllers
 
             SetDiscordRichPresenceAction(0, "Our Website!", "https://redactedgaming.gg/");
             SetDiscordRichPresenceAction(0, "Apply Now!", "https://redactedgaming.gg/index.php?/forms/4-community-allow-list-roleplay-application/");
-            SetDiscordRichPresenceAction(0, "Join Server!", "fivem://");
+            SetDiscordRichPresenceAction(0, "Join Server!", "fivem://localhost:30120");
 
             await BaseScript.Delay(TimeSpan.FromMinutes(1).Milliseconds);
         }

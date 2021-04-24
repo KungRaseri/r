@@ -1,10 +1,10 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
 using OpenRP.Framework.Client.Controllers;
-using OpenRP.Framework.Common.Enumeration;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using OpenRP.Framework.Common.Enumeration;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.InternalPlugins
@@ -14,7 +14,7 @@ namespace OpenRP.Framework.Client.InternalPlugins
     /// </summary>
     public class Commands : ClientAccessor
     {
-        internal Commands (ClientMain client) : base (client)
+        internal Commands(ClientMain client) : base(client)
         {
             Client.Event.RegisterEvent(ClientEvent.COMMAND_TP, new Action<string>(OnTpCommand));
         }

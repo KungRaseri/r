@@ -1,13 +1,13 @@
 ﻿using CitizenFX.Core;
-using OpenRP.Framework.Common.Classes;
 using System;
+using OpenRP.Framework.Common.Classes;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Controllers
 {
     public class EventController : ClientAccessor
     {
-        internal EventController (ClientMain client) : base (client)
+        internal EventController(ClientMain client) : base(client)
         {
         }
 

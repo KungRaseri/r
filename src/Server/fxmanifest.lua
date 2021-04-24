@@ -11,11 +11,12 @@ files{
 	'ui/js/*.*',
 	'ui/img/*.*',
 	'ui/index.html',
-	'Newtonsoft.Json.dll'
+	'client/Newtonsoft.Json.dll',
+	'client/OpenRP.Framework.Common.dll'
 }
 
 client_scripts{
-    'OpenRP.Framework.Client.net.dll'
+    'client/OpenRP.Framework.Client.net.dll'
 }
 
 server_scripts{

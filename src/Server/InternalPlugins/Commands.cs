@@ -11,7 +11,7 @@ namespace OpenRP.Framework.Server.InternalPlugins
     /// </summary>
     public class Commands : ServerAccessor
     {
-        internal Commands (ServerMain server) : base (server)
+        internal Commands(ServerMain server) : base(server)
         {
             Server.Command.Register("me", new Action<Player, List<string>>(OnMeCommand), "Emote through text.", new List<string>());
             Server.Command.Register("id", new Action<Player, List<string>>(OnIdCommand), "Get your server ID.", new List<string>());
