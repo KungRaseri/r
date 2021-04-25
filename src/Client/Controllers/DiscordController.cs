@@ -1,7 +1,5 @@
 ﻿using CitizenFX.Core;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
@@ -14,23 +12,22 @@ namespace OpenRP.Framework.Client.Controllers
     {
         internal DiscordController(ClientMain client) : base(client)
         {
-            //TODO: change to configuration value
-            SetDiscordAppId("567639583219515410");
             Client.RegisterTickHandler(OnDiscordPresenceTick);
         }
 
         private async Task OnDiscordPresenceTick()
         {
+            //TODO: change to configuration values
+            SetDiscordAppId("567639583219515410");
 
-            SetDiscordRichPresenceAsset("redacted_short");
-            SetDiscordRichPresenceAssetText("");
+            SetDiscordRichPresenceAsset("redacted_700x700_stacked");
+            SetDiscordRichPresenceAssetText("[REDACTED] Roleplay");
 
-            SetDiscordRichPresenceAssetSmall("");
-            SetDiscordRichPresenceAssetSmallText("");
+            //SetDiscordRichPresenceAssetSmall("redacted_700x700_mono");
+            //SetDiscordRichPresenceAssetSmallText("Join us today!");
 
-            SetDiscordRichPresenceAction(0, "Our Website!", "https://redactedgaming.gg/");
-            SetDiscordRichPresenceAction(0, "Apply Now!", "https://redactedgaming.gg/index.php?/forms/4-community-allow-list-roleplay-application/");
-            SetDiscordRichPresenceAction(0, "Join Server!", "fivem://localhost:30120");
+            SetDiscordRichPresenceAction(0, "Connect to Server", "fivem://connect/ca.node2.redactedgaming.gg:7000");
+            SetDiscordRichPresenceAction(1, "Website", "https://redactedgaming.gg/");
 
             await BaseScript.Delay(TimeSpan.FromMinutes(1).Milliseconds);
         }
