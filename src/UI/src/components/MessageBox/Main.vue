@@ -9,16 +9,18 @@
                             :is-text-field-active="GetTextFieldActive" />
             </v-slide-y-transition>
         </div>         
-        <v-textarea v-show="GetTextFieldActive"
-                      autofocus=true
-                      outlined=true
-                      dark
-                      dense
-                      auto-grow
-                      rows="1"
-                      background-color="rgba(0, 0, 0, 0.5)"
-                      @keydown="SendMessage($event)"
-                      v-model="GetInput" />
+        <v-textarea ref="inputBox"
+                    v-show="GetTextFieldActive"
+                    autofocus=true
+                    outlined=true
+                    dark
+                    dense
+                    auto-grow
+                    rows="1"
+                    background-color="rgba(0, 0, 0, 0.5)"
+                    @keydown="SendMessage($event)"
+                    @blur="Refocus($event)"
+                    v-model="GetInput" />
     </div>
 </template>
 
@@ -33,6 +35,7 @@
     })
     export default class ChatModule extends Vue {
         @Ref() readonly messageBox!: MessageBox;
+        @Ref() readonly inputBox!: HTMLTextAreaElement;
 
         isTextFieldActive = false;
         isMessageBoxActive = false;
@@ -54,7 +57,6 @@
         }
 
         SendMessage(value: any) {
-            console.log(value.key);
             if (value.key === "Enter") {
                 if (this.GetInput !== "") {
                     this.PostMessage(this.GetInput);
@@ -80,6 +82,10 @@
             } else if (value.key === "ArrowDown") {
                 this.ReturnHistory(1);
             }
+        }
+
+        Refocus() {
+            this.inputBox.focus();
         }
 
         ReturnHistory(value: number) {
