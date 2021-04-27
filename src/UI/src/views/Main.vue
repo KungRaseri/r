@@ -1,6 +1,7 @@
 <template>
     <v-layout>
         <ChatModule />
+        <VehiclePanel />
     </v-layout>
 </template>
 
@@ -12,11 +13,13 @@
 
 <script lang="ts">
     import ChatModule from '../components/MessageBox/Main.vue';
+    import VehiclePanel from '../components/VehiclePanel/Main.vue';
     import { Component, Vue } from 'vue-property-decorator';
 
     @Component({
         components: {
-            ChatModule
+            ChatModule,
+            VehiclePanel
         },
     })
     export default class Home extends Vue { }
