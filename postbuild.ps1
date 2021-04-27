@@ -46,12 +46,13 @@ New-Item -ItemType Directory -Path $resources -Force
 New-Item -ItemType Directory -Path $framework -Force
 New-Item -ItemType Directory -Path $loadscreen_resource -Force
 New-Item -ItemType Directory -Path "$framework/ui" -Force
+New-Item -ItemType Directory -Path "$framework/client" -Force
 
 Write-Output "Copying resources to $serverdata ..."
 
 # Client-side and Server-side resources
 Copy-Item -Path $source$server$output_server/* -Destination "$framework" -Recurse -Force
-Copy-Item -Path $source$client$output_client/* -Destination "$framework" -Recurse -Force
+Copy-Item -Path $source$client$output_client/* -Destination "$framework/client" -Recurse -Force
 Copy-Item -Path $source$ui$output_ui/* -Destination "$framework/ui" -Recurse -Force
 Copy-Item -Path $source$loadscreen$output_loadscreen/* -Destination "$loadscreen_resource" -Recurse -Force
 
