@@ -23,6 +23,13 @@ steps:
     feedsToUse: 'select'
     vstsFeed: 'f0ee62af-6b8c-4164-8e10-8697924e97f3/c6478b1c-ac51-494d-874d-bf33d7788827'
 
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: 'src/Common/Common.csproj'
+    feedsToUse: 'select'
+    vstsFeed: 'f0ee62af-6b8c-4164-8e10-8697924e97f3/c6478b1c-ac51-494d-874d-bf33d7788827'
+
 - task: Assembly-Info-NetFramework@2
   inputs:
     Path: '$(Build.SourcesDirectory)'
