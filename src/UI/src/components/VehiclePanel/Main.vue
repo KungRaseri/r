@@ -16,7 +16,7 @@
                 </v-row>
                 <v-row class="outer-row" dense>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus()">
+                        <v-btn height="100%" block :color="GetStatus(GetDFL)" @click="ToggleDFL()">
                             D
                         </v-btn>
                     </v-col>
@@ -95,6 +95,7 @@
         $axios: any;
 
         Engine = false;
+        DFL = false;
         
         mounted() {
             window.addEventListener("message", (e) => {
@@ -131,6 +132,7 @@
 
         PanelStatus(value: any) {
             this.GetEngine = value._engine;
+            this.GetDFL = value._dfl;
         }
 
         get GetVehiclePanelActive() {
@@ -159,11 +161,34 @@
 
         ToggleEngine() {
             this.GetEngine = !this.GetEngine;
-            let engine = this.GetEngine;
+            let type = "engine";
+            let status = this.GetEngine;
             this.$axios
                 .post(
-                    "http://framework/TOGGLE_ENGINE",
-                    { engine }
+                    "http://framework/TOGGLE_COMPONENT",
+                    { type, status }
+                )
+                .catch((error: any) => {
+                    console.log("error", error);
+                });
+        }
+
+        get GetDFL() {
+            return this.DFL;
+        }
+
+        set GetDFL(value: boolean) {
+            this.DFL = value;
+        }
+
+        ToggleDFL() {
+            this.GetDFL = !this.GetDFL;
+            let type = "dfl";
+            let status = this.GetDFL;
+            this.$axios
+                .post(
+                    "http://framework/TOGGLE_COMPONENT",
+                    { type, status }
                 )
                 .catch((error: any) => {
                     console.log("error", error);

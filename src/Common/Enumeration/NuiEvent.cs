@@ -18,6 +18,6 @@ namespace OpenRP.Framework.Common.Enumeration
         /// </summary>
         RESET_FOCUS,
 
-        TOGGLE_ENGINE
+        TOGGLE_COMPONENT
     }
 }
