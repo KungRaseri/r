@@ -13,7 +13,7 @@ namespace OpenRP.Framework.Client.Controllers
     {
         Vehicle _vehicle;
 
-        Dictionary<Vehicle, bool> _vehStates;
+        Dictionary<int, bool> _vehStates;
 
         bool _forceEngine;
         bool _engine;
@@ -25,14 +25,21 @@ namespace OpenRP.Framework.Client.Controllers
         internal VehicleController (ClientMain client) : base (client)
         {
             _vehicle = new Vehicle(0);
-            _vehStates = new Dictionary<Vehicle, bool>();
+            _vehStates = new Dictionary<int, bool>();
             _forceEngine = false;
 
             Client.Event.RegisterNuiEvent(NuiEvent.TOGGLE_COMPONENT, new Action<dynamic>(ToggleComponent));
+            Client.Event.RegisterEvent(ClientEvent.SEND_VEHILCE_STATE, new Action<dynamic>(StoreVehicleState));
 
             Client.RegisterKeyBinding("ToggleVehiclePanel", "(HUD) Vehicle Panel", "grave", new Action(ToggleVehiclePanel));
             Client.RegisterTickHandler(VehicleMonitor);
             Client.RegisterTickHandler(PlayerStateMonitor);
+        }
+
+        void StoreVehicleState(dynamic state)
+        {
+            var temp = JsonConvert.DeserializeObject<Dictionary<int, bool>>(state);
+            _vehStates = temp;
         }
 
         private async Task PlayerStateMonitor()
@@ -40,18 +47,17 @@ namespace OpenRP.Framework.Client.Controllers
             if (Game.PlayerPed.VehicleTryingToEnter != null)
             {
                 _vehicle = Game.PlayerPed.VehicleTryingToEnter;
-                if (!_vehStates.ContainsKey(_vehicle))
-                    _vehStates[_vehicle] = _vehicle.IsEngineRunning;
-                SetVehicleEngineOn(_vehicle.Handle, _vehStates[_vehicle], true, true);
+                Client.Event.TriggerServerEvent(ServerEvent.RECEIVE_VEHICLE_STATE, _vehicle.Handle, _vehicle.IsEngineRunning);
+                SetVehicleEngineOn(_vehicle.Handle, _vehicle.IsEngineRunning, true, true);
 
                 while (Game.PlayerPed.VehicleTryingToEnter != null)
                     await BaseScript.Delay(50);
             }
 
-            if (_vehStates.ContainsKey(_vehicle))
+            if (_vehStates.ContainsKey(_vehicle.Handle))
             {
-                if (_vehicle.IsEngineRunning != _vehStates[_vehicle])
-                    SetVehicleEngineOn(_vehicle.Handle, _vehStates[_vehicle], true, true);
+                if (_vehicle.IsEngineRunning != _vehStates[_vehicle.Handle])
+                    SetVehicleEngineOn(_vehicle.Handle, _vehStates[_vehicle.Handle], true, true);
             }
 
             await BaseScript.Delay(0);
@@ -61,7 +67,7 @@ namespace OpenRP.Framework.Client.Controllers
         {
             if (args.type == "engine")
             {
-                _vehStates[_vehicle] = args.status;
+                Client.Event.TriggerServerEvent(ServerEvent.RECEIVE_VEHICLE_STATE, _vehicle.Handle, args.status);
                 _vehicle.IsEngineRunning = args.status;
             }
             else if (args.type == "dfl")

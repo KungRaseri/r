@@ -144,7 +144,6 @@
         }
 
         GetStatus(value: any) {
-            console.log(value);
             if (value) {
                 return "green";
             }
