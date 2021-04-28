@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
+using OpenRP.Framework.Client.Classes;
 using OpenRP.Framework.Common.Enumeration;
 using System;
 using static CitizenFX.Core.Native.API;
@@ -22,13 +23,12 @@ namespace OpenRP.Framework.Client.Controllers
         private void ToggleChatModule()
         {
             var eventName = "TOGGLE_CHAT_MODULE";
-            SendNuiMessage(JsonConvert.SerializeObject(new { eventName }));
-            SetNuiFocus(true, false);
+            UIElement.ToggleNuiModule(eventName, true, false);
         }
 
         private void OnResetFocus(dynamic args)
         {
-            SetNuiFocus(false, false);
+            UIElement.ResetFocus();
         }
 
         private void OnPostMessage(dynamic args)

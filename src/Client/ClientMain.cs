@@ -33,13 +33,14 @@ namespace OpenRP.Framework.Client
         {
             players = Players;
 
-            new VoiceController(this);
-            new PlayerController(this);
-            new PedTrafficController(this);
-
             Discord = new DiscordController(this);
             Event = new EventController(this);
             Chat = new ChatController(this);
+
+            new VoiceController(this);
+            new PlayerController(this);
+            new PedTrafficController(this);
+            new VehicleController(this);
 
             InitializeTickHandlers();
             InitializeFiveMEvents();

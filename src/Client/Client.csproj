@@ -59,6 +59,8 @@
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\PedTrafficController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
+    <Compile Include="Classes\UIElement.cs" />
+    <Compile Include="Controllers\VehicleController.cs" />
     <Compile Include="Controllers\VoiceController.cs" />
     <Compile Include="Classes\VoiceZone.cs" />
     <Compile Include="InternalPlugins\Commands.cs" />
