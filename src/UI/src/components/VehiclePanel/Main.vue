@@ -4,17 +4,17 @@
             <v-container class="inset">
                 <v-row class="outer-row" dense>
                     <v-col cols="4">
-                        <v-btn height="100%"  block :color="GetStatus(GetEngine)" @click="ToggleComponent('engine')">
+                        <v-btn height="100%" block :color="GetStatus(GetEngine)" @click="ToggleComponent('engine')" :disabled="GetSeat !== -1">
                             Engine
                         </v-btn>
                     </v-col>
                     <v-col cols="2">
-                        <v-btn height="100%" :color="GetStatus(GetHood)" @click="ToggleComponent('hood')" block>
+                        <v-btn height="100%" :color="GetStatus(GetHood)" @click="ToggleComponent('hood')" block :disabled="GetSeat !== -1">
                             Hood
                         </v-btn>
                     </v-col>
                     <v-col cols="2">
-                        <v-btn height="100%" :color="GetStatus(GetTrunk)" @click="ToggleComponent('trunk')" block>
+                        <v-btn height="100%" :color="GetStatus(GetTrunk)" @click="ToggleComponent('trunk')" block :disabled="GetSeat !== -1">
                             Trunk
                         </v-btn>
                     </v-col>
@@ -26,64 +26,64 @@
                 </v-row>
                 <v-row class="outer-row" dense>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetDFL)" @click="ToggleComponent('dfl')">
+                        <v-btn height="100%" block :color="GetStatus(GetDFL)" @click="ToggleComponent('dfl')" :disabled="GetSeat !== -1">
                             D
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetWFL)" @click="ToggleComponent('wfl')">
+                        <v-btn height="100%" block :color="GetStatus(GetWFL)" @click="ToggleComponent('wfl')" :disabled="GetSeat !== -1">
                             W
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetSFL)" @click="ToggleComponent('sfl')" :disabled="GetSFL">
+                        <v-btn :class="{'button-seat-in': GetSFL && GetSeat === -1, 'button-seat': GetSFL && GetSeat !== -1}" height="100%" block :color="GetStatus(GetSFL)" @click="ToggleComponent('sfl')">
                             S
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetSFR)" @click="ToggleComponent('sfr')" :disabled="GetSFR">
+                        <v-btn :class="{'button-seat-in': GetSFR && GetSeat === 0, 'button-seat': GetSFR && GetSeat !== 0}" height="100%" block :color="GetStatus(GetSFR)" @click="ToggleComponent('sfr')">
                             S
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetWFR)" @click="ToggleComponent('wfr')">
+                        <v-btn height="100%" block :color="GetStatus(GetWFR)" @click="ToggleComponent('wfr')" :disabled="GetSeat !== -1 && GetSeat !== 0">
                             W
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetDFR)" @click="ToggleComponent('dfr')">
+                        <v-btn height="100%" block :color="GetStatus(GetDFR)" @click="ToggleComponent('dfr')" :disabled="GetSeat !== 0">
                             D
                         </v-btn>
                     </v-col>
                 </v-row>
                 <v-row class="outer-row" dense>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetDBL)" @click="ToggleComponent('dbl')">
+                        <v-btn height="100%" block :color="GetStatus(GetDBL)" @click="ToggleComponent('dbl')" :disabled="GetSeat !== 1">
                             D
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetWBL)" @click="ToggleComponent('wbl')">
+                        <v-btn height="100%" block :color="GetStatus(GetWBL)" @click="ToggleComponent('wbl')" :disabled="GetSeat !== -1 && GetSeat !== 1">
                             W
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetSBL)" @click="ToggleComponent('sbl')" :disabled="GetSBL">
+                        <v-btn :class="{'button-seat-in': GetSBL && GetSeat === 1, 'button-seat': GetSBL && GetSeat !== 1}" height="100%" block :color="GetStatus(GetSBL)" @click="ToggleComponent('sbl')">
                             S
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetSBR)" @click="ToggleComponent('sbr')" :disabled="GetSBR">
+                        <v-btn :class="{'button-seat-in': GetSBR && GetSeat === 2, 'button-seat': GetSBR && GetSeat !== 2}" height="100%" block :color="GetStatus(GetSBR)" @click="ToggleComponent('sbr')">
                             S
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetWBR)" @click="ToggleComponent('wbr')">
+                        <v-btn height="100%" block :color="GetStatus(GetWBR)" @click="ToggleComponent('wbr')" :disabled="GetSeat !== -1 && GetSeat !== 2">
                             W
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetDBR)" @click="ToggleComponent('dbr')">
+                        <v-btn height="100%" block :color="GetStatus(GetDBR)" @click="ToggleComponent('dbr')" :disabled="GetSeat !== 2">
                             D
                         </v-btn>
                     </v-col>
@@ -122,6 +122,8 @@
         SBL = false;
         SBR = false;
 
+        seat = -1;
+
         mounted() {
             window.addEventListener("message", (e) => {
                 switch (e.data.eventName) {
@@ -157,6 +159,8 @@
 
         PanelStatus(value: any) {
             this.GetEngine = value._engine;
+
+            this.GetSeat = value._seat;
 
             this.GetDFL = value._dfl;
             this.GetDFR = value._dfr;
@@ -363,6 +367,14 @@
         set GetSBR(value: boolean) {
             this.SBR = value;
         }
+
+        get GetSeat() {
+            return this.seat;
+        }
+
+        set GetSeat(value: number) {
+            this.seat = value;
+        }
     }
 </script>
 
@@ -406,8 +418,14 @@
         padding: 0 !important;
     }
 
-    .theme--light.v-btn.v-btn--disabled.v-btn--has-bg {
+    .button-seat-in {
+        pointer-events: none;
         background-color: rgb(0 128 0 / 0.53) !important;
+    }
+
+    .button-seat {
+        pointer-events: none;
+        background-color: rgb(128 0 0 / 0.53) !important;
     }
 
     .v-card {

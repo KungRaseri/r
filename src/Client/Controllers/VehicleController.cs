@@ -41,6 +41,8 @@ namespace OpenRP.Framework.Client.Controllers
         bool _sbr;
         bool _lastSbr;
 
+        int _seat;
+
         internal VehicleController (ClientMain client) : base (client)
         {
             _vehicle = new Vehicle(0);
@@ -66,8 +68,15 @@ namespace OpenRP.Framework.Client.Controllers
             if (Game.PlayerPed.VehicleTryingToEnter != null)
             {
                 _vehicle = Game.PlayerPed.VehicleTryingToEnter;
+                _seat = -2;
                 Client.Event.TriggerServerEvent(ServerEvent.RECEIVE_VEHICLE_STATE, _vehicle.Handle, _vehicle.IsEngineRunning);
                 SetVehicleEngineOn(_vehicle.Handle, _vehicle.IsEngineRunning, true, true);
+
+                while (_seat < -1)
+                {
+                    _seat = (int)Game.PlayerPed.SeatIndex;
+                    await BaseScript.Delay(50);
+                }
 
                 while (Game.PlayerPed.VehicleTryingToEnter != null)
                     await BaseScript.Delay(50);
@@ -135,10 +144,19 @@ namespace OpenRP.Framework.Client.Controllers
                 _vehicle.Windows[window].RollUp();
         }
 
-        private void SeatChange(VehicleSeat seat, bool status)
+        private async void SeatChange(VehicleSeat seat, bool status)
         {
             if (_vehicle.IsSeatFree(seat) && status)
+            {
                 SetPedIntoVehicle(Game.PlayerPed.Handle, _vehicle.Handle, (int)seat);
+
+                _seat = -2;
+                while (_seat < -1)
+                {
+                    _seat = (int)Game.PlayerPed.SeatIndex;
+                    await BaseScript.Delay(50);
+                }
+            }
         }
 
         private async Task VehicleMonitor()
@@ -261,7 +279,8 @@ namespace OpenRP.Framework.Client.Controllers
                 _sfl,
                 _sfr,
                 _sbl,
-                _sbr
+                _sbr,
+                _seat
             };
             SendNuiMessage(JsonConvert.SerializeObject(data));
         }
