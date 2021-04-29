@@ -26,12 +26,12 @@
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block>
+                        <v-btn height="100%" block :color="GetStatus(GetSFL)" @click="ToggleComponent('sfl')">
                             S
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block>
+                        <v-btn height="100%" block :color="GetStatus(GetSFR)" @click="ToggleComponent('sfr')">
                             S
                         </v-btn>
                     </v-col>
@@ -58,12 +58,12 @@
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block>
+                        <v-btn height="100%" block :color="GetStatus(GetSBL)" @click="ToggleComponent('sbl')">
                             S
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block>
+                        <v-btn height="100%" block :color="GetStatus(GetSBR)" @click="ToggleComponent('sbr')">
                             S
                         </v-btn>
                     </v-col>
@@ -104,7 +104,12 @@
         WFR = false;
         WBL = false;
         WBR = false;
-        
+
+        SFL = false;
+        SFR = false;
+        SBL = false;
+        SBR = false;
+
         mounted() {
             window.addEventListener("message", (e) => {
                 switch (e.data.eventName) {
@@ -140,7 +145,16 @@
 
         PanelStatus(value: any) {
             this.GetEngine = value._engine;
+
             this.GetDFL = value._dfl;
+            this.GetDFR = value._dfr;
+            this.GetDBL = value._dbl;
+            this.GetDBR = value._dbr;
+
+            this.GetSFL = value._sfl;
+            this.GetSFR = value._sfr;
+            this.GetSBL = value._sbl;
+            this.GetSBR = value._sbr;
         }
 
         get GetVehiclePanelActive() {
@@ -195,6 +209,18 @@
             } else if (type === "wbr") {
                 this.GetWBR = !this.GetWBR;
                 status = this.GetWBR;
+            } else if (type === "sfl") {
+                this.GetSFL = !this.GetSFL;
+                status = this.GetSFL;
+            } else if (type === "sfr") {
+                this.GetSFR = !this.GetSFR;
+                status = this.GetSFR;
+            } else if (type === "sbl") {
+                this.GetSBL = !this.GetSBL;
+                status = this.GetSBL;
+            } else if (type === "sbr") {
+                this.GetSBR = !this.GetSBR;
+                status = this.GetSBR;
             }
             this.$axios
                 .post(
@@ -268,6 +294,38 @@
 
         set GetWBR(value: boolean) {
             this.WBR = value;
+        }
+
+        get GetSFL() {
+            return this.SFL;
+        }
+
+        set GetSFL(value: boolean) {
+            this.SFL = value;
+        }
+
+        get GetSFR() {
+            return this.SFR;
+        }
+
+        set GetSFR(value: boolean) {
+            this.SFR = value;
+        }
+
+        get GetSBL() {
+            return this.SBL;
+        }
+
+        set GetSBL(value: boolean) {
+            this.SBL = value;
+        }
+
+        get GetSBR() {
+            return this.SBR;
+        }
+
+        set GetSBR(value: boolean) {
+            this.SBR = value;
         }
     }
 </script>

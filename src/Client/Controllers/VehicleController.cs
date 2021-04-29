@@ -28,6 +28,15 @@ namespace OpenRP.Framework.Client.Controllers
         bool _dbr;
         bool _lastDbr;
 
+        bool _sfl;
+        bool _lastSfl;
+        bool _sfr;
+        bool _lastSfr;
+        bool _sbl;
+        bool _lastSbl;
+        bool _sbr;
+        bool _lastSbr;
+
         internal VehicleController (ClientMain client) : base (client)
         {
             _vehicle = new Vehicle(0);
@@ -92,6 +101,14 @@ namespace OpenRP.Framework.Client.Controllers
                 WindowOpenClose(VehicleWindowIndex.BackLeftWindow, args.status);
             else if (args.type == "wbr")
                 WindowOpenClose(VehicleWindowIndex.BackRightWindow, args.status);
+            else if (args.type == "sfl")
+                SeatChange(VehicleSeat.Driver, args.status);
+            else if (args.type == "sfr")
+                SeatChange(VehicleSeat.Passenger, args.status);
+            else if (args.type == "sbl")
+                SeatChange(VehicleSeat.LeftRear, args.status);
+            else if (args.type == "sbr")
+                SeatChange(VehicleSeat.RightRear, args.status);
         }
 
         private void DoorOpenClose(VehicleDoorIndex door, bool status)
@@ -108,6 +125,12 @@ namespace OpenRP.Framework.Client.Controllers
                 _vehicle.Windows[window].RollDown();
             else
                 _vehicle.Windows[window].RollUp();
+        }
+
+        private void SeatChange(VehicleSeat seat, bool status)
+        {
+            if (_vehicle.IsSeatFree(seat) && status)
+                SetPedIntoVehicle(Game.PlayerPed.Handle, _vehicle.Handle, (int)seat);
         }
 
         private async Task VehicleMonitor()
@@ -152,6 +175,38 @@ namespace OpenRP.Framework.Client.Controllers
                 SendData();
             }
 
+            _sfl = !_vehicle.IsSeatFree(VehicleSeat.Driver);
+
+            if (_sfl != _lastSfl)
+            {
+                _lastSfl = _sfl;
+                SendData();
+            }
+
+            _sfr = !_vehicle.IsSeatFree(VehicleSeat.Passenger);
+
+            if (_sfr != _lastSfr)
+            {
+                _lastSfr = _sfr;
+                SendData();
+            }
+
+            _sbl = !_vehicle.IsSeatFree(VehicleSeat.LeftRear);
+
+            if (_sbl != _lastSbl)
+            {
+                _lastSbl = _sbl;
+                SendData();
+            }
+
+            _sbr = !_vehicle.IsSeatFree(VehicleSeat.RightRear);
+
+            if (_sbr != _lastSbr)
+            {
+                _lastSbr = _sbr;
+                SendData();
+            }
+
             await BaseScript.Delay(50);
         }
 
@@ -176,7 +231,11 @@ namespace OpenRP.Framework.Client.Controllers
                 _dfl,
                 _dfr,
                 _dbl,
-                _dbr
+                _dbr,
+                _sfl,
+                _sfr,
+                _sbl,
+                _sbr
             };
             SendNuiMessage(JsonConvert.SerializeObject(data));
         }
