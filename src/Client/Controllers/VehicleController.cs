@@ -21,6 +21,12 @@ namespace OpenRP.Framework.Client.Controllers
 
         bool _dfl;
         bool _lastDfl;
+        bool _dfr;
+        bool _lastDfr;
+        bool _dbl;
+        bool _lastDbl;
+        bool _dbr;
+        bool _lastDbr;
 
         internal VehicleController (ClientMain client) : base (client)
         {
@@ -71,12 +77,37 @@ namespace OpenRP.Framework.Client.Controllers
                 _vehicle.IsEngineRunning = args.status;
             }
             else if (args.type == "dfl")
-            {
-                if (args.status)
-                    _vehicle.Doors[VehicleDoorIndex.FrontLeftDoor].Open();
-                else
-                    _vehicle.Doors[VehicleDoorIndex.FrontLeftDoor].Close();
-            }
+                DoorOpenClose(VehicleDoorIndex.FrontLeftDoor, args.status);
+            else if (args.type == "dfr")
+                DoorOpenClose(VehicleDoorIndex.FrontRightDoor, args.status);
+            else if (args.type == "dbl")
+                DoorOpenClose(VehicleDoorIndex.BackLeftDoor, args.status);
+            else if (args.type == "dbr")
+                DoorOpenClose(VehicleDoorIndex.BackRightDoor, args.status);
+            else if (args.type == "wfl")
+                WindowOpenClose(VehicleWindowIndex.FrontLeftWindow, args.status);
+            else if (args.type == "wfr")
+                WindowOpenClose(VehicleWindowIndex.FrontRightWindow, args.status);
+            else if (args.type == "wbl")
+                WindowOpenClose(VehicleWindowIndex.BackLeftWindow, args.status);
+            else if (args.type == "wbr")
+                WindowOpenClose(VehicleWindowIndex.BackRightWindow, args.status);
+        }
+
+        private void DoorOpenClose(VehicleDoorIndex door, bool status)
+        {
+            if (status)
+                _vehicle.Doors[door].Open();
+            else
+                _vehicle.Doors[door].Close();
+        }
+
+        private void WindowOpenClose(VehicleWindowIndex window, bool status)
+        {
+            if (status)
+                _vehicle.Windows[window].RollDown();
+            else
+                _vehicle.Windows[window].RollUp();
         }
 
         private async Task VehicleMonitor()
@@ -94,6 +125,30 @@ namespace OpenRP.Framework.Client.Controllers
             if (_dfl != _lastDfl)
             {
                 _lastDfl = _dfl;
+                SendData();
+            }
+
+            _dfr = _vehicle.Doors[VehicleDoorIndex.FrontRightDoor].IsOpen;
+
+            if (_dfr != _lastDfr)
+            {
+                _lastDfr = _dfr;
+                SendData();
+            }
+
+            _dbl = _vehicle.Doors[VehicleDoorIndex.BackLeftDoor].IsOpen;
+
+            if (_dbl != _lastDbl)
+            {
+                _lastDbl = _dbl;
+                SendData();
+            }
+
+            _dbr = _vehicle.Doors[VehicleDoorIndex.BackRightDoor].IsOpen;
+
+            if (_dbr != _lastDbr)
+            {
+                _lastDbr = _dbr;
                 SendData();
             }
 
@@ -118,7 +173,10 @@ namespace OpenRP.Framework.Client.Controllers
             {
                 eventName,
                 _engine,
-                _dfl
+                _dfl,
+                _dfr,
+                _dbl,
+                _dbr
             };
             SendNuiMessage(JsonConvert.SerializeObject(data));
         }
