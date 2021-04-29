@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\VehicleEngineToggle.cs" />
+    <Compile Include="Classes\VehicleSwitchSeats.cs" />
     <Compile Include="Classes\VehicleToggleComponent.cs" />
     <Compile Include="Classes\VehicleToggleWindow.cs" />
     <Compile Include="Classes\VehicleToggleDoor.cs" />

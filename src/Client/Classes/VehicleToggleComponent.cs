@@ -39,13 +39,12 @@ namespace OpenRP.Framework.Client.Classes
                 SetVehicleEngineOn(Vehicle.Handle, Vehicle.IsEngineRunning, true, true);
                 await SeatTaken();
                 await BaseScript.Delay(3000);
-                SendData();
             }
 
             await BaseScript.Delay(0);
         }
 
-        private async Task SeatTaken()
+        internal async Task SeatTaken()
         {
             Seat = -2;
 
@@ -57,6 +56,8 @@ namespace OpenRP.Framework.Client.Classes
 
             for (var i = -1; i < 3; i++)
                 Taken[i + 1] = !IsVehicleSeatFree(Vehicle.Handle, i);
+
+            SendData();
         }
     }
 }

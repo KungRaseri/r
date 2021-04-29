@@ -30,6 +30,11 @@ namespace OpenRP.Framework.Client.Controllers
             new VehicleToggleWindow(2);
             new VehicleToggleWindow(3);
 
+            new VehicleSwitchSeats(-1);
+            new VehicleSwitchSeats(0);
+            new VehicleSwitchSeats(1);
+            new VehicleSwitchSeats(2);
+
             VehicleToggleComponent.Vehicle = new Vehicle(0);
             Seat = -1;
             Taken = new bool[] { false, false, false, false };

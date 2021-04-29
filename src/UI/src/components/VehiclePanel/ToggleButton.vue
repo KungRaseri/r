@@ -56,6 +56,8 @@
                     return false;
                 } else if (this.seat === -1 && (this.index === 4 || this.index === 5)) {
                     return false;
+                } else if (this.type === "window" && this.seat === -1) {
+                    return false;
                 } else {
                     return true;
                 }

@@ -12,7 +12,6 @@
         },
     })
     export default class SeatButton extends Vue {
-        @Prop(Boolean) status = this.Status;
         @Prop(Number) index = this.Index;
         @Prop(Number) seat = this.Seat;
         @Prop(String) icon = this.Icon;
@@ -21,25 +20,16 @@
         $axios: any;
 
         ToggleComponent() {
-            this.Status = !this.Status;
-            let status = this.Status;
+            let index = this.Index;
             let type = "seat";
             this.$axios
                 .post(
                     "http://framework/TOGGLE_COMPONENT",
-                    { type, status }
+                    { type, index }
                 )
                 .catch((error: any) => {
                     console.log("error", error);
                 });
-        }
-
-        get Status() {
-            return this.status;
-        }
-
-        set Status(value: boolean) {
-            this.status = value;
         }
 
         get Index() {
