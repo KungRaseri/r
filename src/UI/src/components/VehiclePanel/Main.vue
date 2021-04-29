@@ -2,14 +2,24 @@
     <v-slide-y-reverse-transition>
         <v-card v-show="GetVehiclePanelActive" class="panel" color="rgba(0, 0, 0, 0.6)" rounded="lg">
             <v-container class="inset">
-                <v-row class="top-row">
-                    <v-col>
-                        <v-btn block :color="GetStatus(GetEngine)" @click="ToggleComponent('engine')">
+                <v-row class="outer-row" dense>
+                    <v-col cols="4">
+                        <v-btn height="100%"  block :color="GetStatus(GetEngine)" @click="ToggleComponent('engine')">
                             Engine
                         </v-btn>
                     </v-col>
-                    <v-col>
-                        <v-btn block>
+                    <v-col cols="2">
+                        <v-btn height="100%" :color="GetStatus(GetHood)" @click="ToggleComponent('hood')" block>
+                            Hood
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="2">
+                        <v-btn height="100%" :color="GetStatus(GetTrunk)" @click="ToggleComponent('trunk')" block>
+                            Trunk
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="4">
+                        <v-btn height="100%" block>
                             Belt
                         </v-btn>
                     </v-col>
@@ -99,6 +109,8 @@
         DFR = false;
         DBL = false;
         DBR = false;
+        Hood = false;
+        Trunk = false;
 
         WFL = false;
         WFR = false;
@@ -197,6 +209,12 @@
             } else if (type === "dbr") {
                 this.GetDBR = !this.GetDBR;
                 status = this.GetDBR;
+            } else if (type === "hood") {
+                this.GetHood = !this.GetHood;
+                status = this.GetHood;
+            } else if (type === "trunk") {
+                this.GetTrunk = !this.GetTrunk;
+                status = this.GetTrunk;
             } else if (type === "wfl") {
                 this.GetWFL = !this.GetWFL;
                 status = this.GetWFL;
@@ -210,25 +228,17 @@
                 this.GetWBR = !this.GetWBR;
                 status = this.GetWBR;
             } else if (type === "sfl") {
-                if (!this.GetSFL) {
-                    this.GetSFL = !this.GetSFL;
-                    status = this.GetSFL;
-                }
+                this.GetSFL = !this.GetSFL;
+                status = this.GetSFL;
             } else if (type === "sfr") {
-                if (!this.GetSFR) {
-                    this.GetSFR = !this.GetSFR;
-                    status = this.GetSFR;
-                }
+                this.GetSFR = !this.GetSFR;
+                status = this.GetSFR;
             } else if (type === "sbl") {
-                if (!this.GetSBL) {
-                    this.GetSBL = !this.GetSBL;
-                    status = this.GetSBL;
-                }
+                this.GetSBL = !this.GetSBL;
+                status = this.GetSBL;
             } else if (type === "sbr") {
-                if (!this.GetSBR) {
-                    this.GetSBR = !this.GetSBR;
-                    status = this.GetSBR;
-                }
+                this.GetSBR = !this.GetSBR;
+                status = this.GetSBR;
             }
             this.$axios
                 .post(
@@ -270,6 +280,22 @@
 
         set GetDBR(value: boolean) {
             this.DBR = value;
+        }
+
+        get GetHood() {
+            return this.Hood;
+        }
+
+        set GetHood(value: boolean) {
+            this.Hood = value;
+        }
+
+        get GetTrunk() {
+            return this.Trunk;
+        }
+
+        set GetTrunk(value: boolean) {
+            this.Trunk = value;
         }
 
         get GetWFL() {

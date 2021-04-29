@@ -27,6 +27,10 @@ namespace OpenRP.Framework.Client.Controllers
         bool _lastDbl;
         bool _dbr;
         bool _lastDbr;
+        bool _hood;
+        bool _lastHood;
+        bool _trunk;
+        bool _lastTrunk;
 
         bool _sfl;
         bool _lastSfl;
@@ -93,6 +97,10 @@ namespace OpenRP.Framework.Client.Controllers
                 DoorOpenClose(VehicleDoorIndex.BackLeftDoor, args.status);
             else if (args.type == "dbr")
                 DoorOpenClose(VehicleDoorIndex.BackRightDoor, args.status);
+            else if (args.type == "hood")
+                DoorOpenClose(VehicleDoorIndex.Hood, args.status);
+            else if (args.type == "trunk")
+                DoorOpenClose(VehicleDoorIndex.Trunk, args.status);
             else if (args.type == "wfl")
                 WindowOpenClose(VehicleWindowIndex.FrontLeftWindow, args.status);
             else if (args.type == "wfr")
@@ -172,6 +180,22 @@ namespace OpenRP.Framework.Client.Controllers
             if (_dbr != _lastDbr)
             {
                 _lastDbr = _dbr;
+                SendData();
+            }
+
+            _hood = _vehicle.Doors[VehicleDoorIndex.Hood].IsOpen;
+
+            if (_hood != _lastHood)
+            {
+                _lastHood = _hood;
+                SendData();
+            }
+
+            _trunk = _vehicle.Doors[VehicleDoorIndex.Trunk].IsOpen;
+
+            if (_trunk != _lastTrunk)
+            {
+                _lastTrunk = _trunk;
                 SendData();
             }
 
