@@ -1,22 +1,16 @@
 <template>
     <v-slide-y-reverse-transition>
-        <v-card v-show="GetVehiclePanelActive" class="panel" color="rgba(0, 0, 0, 0.6)" rounded="lg">
+        <v-card v-show="IsVehiclePanelActive" class="panel" color="rgba(0, 0, 0, 0.5)" rounded="lg">
             <v-container class="inset">
                 <v-row class="outer-row" dense>
                     <v-col cols="4">
-                        <v-btn height="100%" block :color="GetStatus(GetEngine)" @click="ToggleComponent('engine')" :disabled="GetSeat !== -1">
-                            Engine
-                        </v-btn>
+                        <ToggleButton :status="false" type="engine" :seat="Seat" icon="mdi-power"/>
                     </v-col>
                     <v-col cols="2">
-                        <v-btn height="100%" :color="GetStatus(GetHood)" @click="ToggleComponent('hood')" block :disabled="GetSeat !== -1">
-                            Hood
-                        </v-btn>
+                        <ToggleButton :status="false" type="door" :index="4" :seat="Seat" icon="mdi-car" />
                     </v-col>
                     <v-col cols="2">
-                        <v-btn height="100%" :color="GetStatus(GetTrunk)" @click="ToggleComponent('trunk')" block :disabled="GetSeat !== -1">
-                            Trunk
-                        </v-btn>
+                        <ToggleButton :status="false" type="door" :index="5" :seat="Seat" icon="mdi-car-back" />
                     </v-col>
                     <v-col cols="4">
                         <v-btn height="100%" block>
@@ -26,66 +20,38 @@
                 </v-row>
                 <v-row class="outer-row" dense>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetDFL)" @click="ToggleComponent('dfl')" :disabled="GetSeat !== -1">
-                            D
-                        </v-btn>
+                        <ToggleButton :status="false" type="door" :index="0" :seat="Seat" icon="mdi-car-door" />
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetWFL)" @click="ToggleComponent('wfl')" :disabled="GetSeat !== -1">
-                            W
-                        </v-btn>
+                        <ToggleButton :status="false" type="window" :index="0" :seat="Seat" icon="mdi-window-closed" />
                     </v-col>
                     <v-col>
-                        <v-btn :class="{'button-seat-in': GetSFL && GetSeat === -1, 'button-seat': GetSFL && GetSeat !== -1}" height="100%" block :color="GetStatus(GetSFL)" @click="ToggleComponent('sfl')">
-                            S
-                        </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn :class="{'button-seat-in': GetSFR && GetSeat === 0, 'button-seat': GetSFR && GetSeat !== 0}" height="100%" block :color="GetStatus(GetSFR)" @click="ToggleComponent('sfr')">
-                            S
-                        </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetWFR)" @click="ToggleComponent('wfr')" :disabled="GetSeat !== -1 && GetSeat !== 0">
-                            W
-                        </v-btn>
+                        <ToggleButton :status="false" type="window" :index="1" :seat="Seat" icon="mdi-window-closed" />
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetDFR)" @click="ToggleComponent('dfr')" :disabled="GetSeat !== 0">
-                            D
-                        </v-btn>
+                        <ToggleButton :status="false" type="door" :index="1" :seat="Seat" icon="mdi-car-door mdi-flip-h" />
                     </v-col>
                 </v-row>
                 <v-row class="outer-row" dense>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetDBL)" @click="ToggleComponent('dbl')" :disabled="GetSeat !== 1">
-                            D
-                        </v-btn>
+                        <ToggleButton :status="false" type="door" :index="2" :seat="Seat" icon="mdi-car-door mdi-flip-v" />
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetWBL)" @click="ToggleComponent('wbl')" :disabled="GetSeat !== -1 && GetSeat !== 1">
-                            W
-                        </v-btn>
+                        <ToggleButton :status="false" type="window" :index="2" :seat="Seat" icon="mdi-window-closed" />
                     </v-col>
                     <v-col>
-                        <v-btn :class="{'button-seat-in': GetSBL && GetSeat === 1, 'button-seat': GetSBL && GetSeat !== 1}" height="100%" block :color="GetStatus(GetSBL)" @click="ToggleComponent('sbl')">
-                            S
-                        </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn :class="{'button-seat-in': GetSBR && GetSeat === 2, 'button-seat': GetSBR && GetSeat !== 2}" height="100%" block :color="GetStatus(GetSBR)" @click="ToggleComponent('sbr')">
-                            S
-                        </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetWBR)" @click="ToggleComponent('wbr')" :disabled="GetSeat !== -1 && GetSeat !== 2">
-                            W
-                        </v-btn>
+                        <ToggleButton :status="false" type="window" :index="3" :seat="Seat" icon="mdi-window-closed" />
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetDBR)" @click="ToggleComponent('dbr')" :disabled="GetSeat !== 2">
-                            D
-                        </v-btn>
+                        <ToggleButton :status="false" type="door" :index="3" :seat="Seat" icon="mdi-car-door mdi-rotate-180" />
                     </v-col>
                 </v-row>
             </v-container>
@@ -95,40 +61,23 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
+    import ToggleButton from './ToggleButton.vue';
 
     @Component({
         components: {
+            ToggleButton
         },
     })
     export default class VehiclePanel extends Vue {
-        isVehiclePanelActive = false;
-        $axios: any;
-
-        Engine = false;
-        DFL = false;
-        DFR = false;
-        DBL = false;
-        DBR = false;
-        Hood = false;
-        Trunk = false;
-
-        WFL = false;
-        WFR = false;
-        WBL = false;
-        WBR = false;
-
-        SFL = false;
-        SFR = false;
-        SBL = false;
-        SBR = false;
-
+        isVehiclePanelActive = true;
         seat = -1;
+        $axios: any;
 
         mounted() {
             window.addEventListener("message", (e) => {
                 switch (e.data.eventName) {
                     case "TOGGLE_VEHICLE_PANEL_MODULE":
-                        this.GetVehiclePanelActive = e.data.visible;
+                        this.isVehiclePanelActive = e.data.visible;
                         break;
                     case "VEHICLE_PANEL_DATA":
                         this.PanelStatus(e.data);
@@ -140,7 +89,7 @@
 
             window.addEventListener("keydown", (e) => {
                 if (e.key === "Escape") {
-                    this.GetVehiclePanelActive = false;
+                    this.isVehiclePanelActive = false;
                     this.ResetFocus();
                 }
             });
@@ -158,29 +107,7 @@
         }
 
         PanelStatus(value: any) {
-            this.GetEngine = value._engine;
-
-            this.GetSeat = value._seat;
-
-            this.GetDFL = value._dfl;
-            this.GetDFR = value._dfr;
-            this.GetDBL = value._dbl;
-            this.GetDBR = value._dbr;
-            this.GetHood = value._hood;
-            this.GetTrunk = value._trunk;
-
-            this.GetSFL = value._sfl;
-            this.GetSFR = value._sfr;
-            this.GetSBL = value._sbl;
-            this.GetSBR = value._sbr;
-        }
-
-        get GetVehiclePanelActive() {
-            return this.isVehiclePanelActive;
-        }
-
-        set GetVehiclePanelActive(value: boolean) {
-            this.isVehiclePanelActive = value;
+            this.seat = value._seat;
         }
 
         GetStatus(value: any) {
@@ -190,62 +117,8 @@
             return "";
         }
 
-        get GetEngine() {
-            return this.Engine;
-        }
-
-        set GetEngine(value: boolean) {
-            this.Engine = value;
-        }
-
         ToggleComponent(type: string) {
             let status = false;
-            if (type === "engine") {
-                this.GetEngine = !this.GetEngine;
-                status = this.GetEngine;
-            } else if (type === "dfl") {
-                this.GetDFL = !this.GetDFL;
-                status = this.GetDFL;
-            } else if (type === "dfr") {
-                this.GetDFR = !this.GetDFR;
-                status = this.GetDFR;
-            } else if (type === "dbl") {
-                this.GetDBL = !this.GetDBL;
-                status = this.GetDBL;
-            } else if (type === "dbr") {
-                this.GetDBR = !this.GetDBR;
-                status = this.GetDBR;
-            } else if (type === "hood") {
-                this.GetHood = !this.GetHood;
-                status = this.GetHood;
-            } else if (type === "trunk") {
-                this.GetTrunk = !this.GetTrunk;
-                status = this.GetTrunk;
-            } else if (type === "wfl") {
-                this.GetWFL = !this.GetWFL;
-                status = this.GetWFL;
-            } else if (type === "wfr") {
-                this.GetWFR = !this.GetWFR;
-                status = this.GetWFR;
-            } else if (type === "wbl") {
-                this.GetWBL = !this.GetWBL;
-                status = this.GetWBL;
-            } else if (type === "wbr") {
-                this.GetWBR = !this.GetWBR;
-                status = this.GetWBR;
-            } else if (type === "sfl") {
-                this.GetSFL = !this.GetSFL;
-                status = this.GetSFL;
-            } else if (type === "sfr") {
-                this.GetSFR = !this.GetSFR;
-                status = this.GetSFR;
-            } else if (type === "sbl") {
-                this.GetSBL = !this.GetSBL;
-                status = this.GetSBL;
-            } else if (type === "sbr") {
-                this.GetSBR = !this.GetSBR;
-                status = this.GetSBR;
-            }
             this.$axios
                 .post(
                     "http://framework/TOGGLE_COMPONENT",
@@ -256,123 +129,19 @@
                 });
         }
 
-        get GetDFL() {
-            return this.DFL;
+        get IsVehiclePanelActive() {
+            return this.isVehiclePanelActive;
         }
 
-        set GetDFL(value: boolean) {
-            this.DFL = value;
+        set IsVehiclePanelActive(value: boolean) {
+            this.isVehiclePanelActive = value;
         }
 
-        get GetDFR() {
-            return this.DFR;
-        }
-
-        set GetDFR(value: boolean) {
-            this.DFR = value;
-        }
-
-        get GetDBL() {
-            return this.DBL;
-        }
-
-        set GetDBL(value: boolean) {
-            this.DBL = value;
-        }
-
-        get GetDBR() {
-            return this.DBR;
-        }
-
-        set GetDBR(value: boolean) {
-            this.DBR = value;
-        }
-
-        get GetHood() {
-            return this.Hood;
-        }
-
-        set GetHood(value: boolean) {
-            this.Hood = value;
-        }
-
-        get GetTrunk() {
-            return this.Trunk;
-        }
-
-        set GetTrunk(value: boolean) {
-            this.Trunk = value;
-        }
-
-        get GetWFL() {
-            return this.WFL;
-        }
-
-        set GetWFL(value: boolean) {
-            this.WFL = value;
-        }
-
-        get GetWFR() {
-            return this.WFR;
-        }
-
-        set GetWFR(value: boolean) {
-            this.WFR = value;
-        }
-
-        get GetWBL() {
-            return this.WBL;
-        }
-
-        set GetWBL(value: boolean) {
-            this.WBL = value;
-        }
-
-        get GetWBR() {
-            return this.WBR;
-        }
-
-        set GetWBR(value: boolean) {
-            this.WBR = value;
-        }
-
-        get GetSFL() {
-            return this.SFL;
-        }
-
-        set GetSFL(value: boolean) {
-            this.SFL = value;
-        }
-
-        get GetSFR() {
-            return this.SFR;
-        }
-
-        set GetSFR(value: boolean) {
-            this.SFR = value;
-        }
-
-        get GetSBL() {
-            return this.SBL;
-        }
-
-        set GetSBL(value: boolean) {
-            this.SBL = value;
-        }
-
-        get GetSBR() {
-            return this.SBR;
-        }
-
-        set GetSBR(value: boolean) {
-            this.SBR = value;
-        }
-
-        get GetSeat() {
+        get Seat() {
             return this.seat;
         }
 
-        set GetSeat(value: number) {
+        set Seat(value: number) {
             this.seat = value;
         }
     }

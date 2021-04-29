@@ -47,6 +47,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="src\components\VehiclePanel\Main.vue" />
+    <Content Include="src\components\VehiclePanel\ToggleButton.vue" />
     <Content Include="src\views\Main.vue" />
     <Content Include="vue.config.js" />
     <Content Include="cypress.json" />
