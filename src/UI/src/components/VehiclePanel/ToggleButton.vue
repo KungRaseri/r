@@ -12,27 +12,14 @@
         },
     })
     export default class ToggleButton extends Vue {
-        @Prop(Boolean) status = this.Status;
         @Prop(String) type = this.Type;
         @Prop(Number) index = this.Index;
         @Prop(Number) seat = this.Seat;
         @Prop(String) icon = this.Icon;
 
-        $axios: any;
+        status = false;
 
-        mounted() {
-            window.addEventListener("message", (e) => {
-                switch (e.data.eventName) {
-                    case "VEHICLE_PANEL_DATA":
-                        if (e.data._type === this.Type) {
-                            this.Status = e.data._status;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            });
-        }
+        $axios: any;
 
         GetStatus() {
             if (this.status) {
@@ -46,6 +33,7 @@
             let type = this.Type;
             let index = this.Index;
             let status = this.Status;
+            console.log(type);
             this.$axios
                 .post(
                     "http://framework/TOGGLE_COMPONENT",

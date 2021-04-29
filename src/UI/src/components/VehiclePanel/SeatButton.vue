@@ -20,20 +20,6 @@
 
         $axios: any;
 
-        mounted() {
-            window.addEventListener("message", (e) => {
-                switch (e.data.eventName) {
-                    case "VEHICLE_PANEL_DATA":
-                        if (e.data._type === "seat") {
-                            this.Status = e.data._status;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            });
-        }
-
         ToggleComponent() {
             this.Status = !this.Status;
             let status = this.Status;

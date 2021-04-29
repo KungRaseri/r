@@ -5,12 +5,12 @@ using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Classes
 {
-    public class VehicleToggleDoor : VehicleToggleComponent
+    public class VehicleToggleWindow : VehicleToggleComponent
     {
         int _index;
         bool _status;
 
-        internal VehicleToggleDoor(int index)
+        internal VehicleToggleWindow(int index)
         {
             _index = index;
             _status = false;
@@ -20,13 +20,13 @@ namespace OpenRP.Framework.Client.Classes
 
         void ToggleComponent(dynamic args)
         {
-            if (args.type == "door" && args.index == _index)
+            if (args.type == "window" && args.index == _index)
             {
                 _status = args.status;
                 if (_status)
-                    SetVehicleDoorOpen(Vehicle.Handle, _index, false, false);
+                    RollDownWindow(Vehicle.Handle, _index);
                 else
-                    SetVehicleDoorShut(Vehicle.Handle, _index, false);
+                    RollUpWindow(Vehicle.Handle, _index);
             }
         }
     }
