@@ -1,5 +1,5 @@
 <template>
-    <v-btn height="100%" block dark :color="GetStatus()" @click="ToggleComponent()" :disabled="CheckSeat()">
+    <v-btn :class="{'button-seat-in': Index === Seat, 'button-seat': Index !== Seat && Taken}" height="100%" block dark @click="ToggleComponent()">
         <v-icon>{{ Icon }}</v-icon>
     </v-btn>
 </template>
@@ -11,12 +11,12 @@
         components: {
         },
     })
-    export default class ToggleButton extends Vue {
+    export default class SeatButton extends Vue {
         @Prop(Boolean) status = this.Status;
-        @Prop(String) type = this.Type;
         @Prop(Number) index = this.Index;
         @Prop(Number) seat = this.Seat;
         @Prop(String) icon = this.Icon;
+        @Prop(Boolean) taken = this.Taken;
 
         $axios: any;
 
@@ -24,7 +24,7 @@
             window.addEventListener("message", (e) => {
                 switch (e.data.eventName) {
                     case "VEHICLE_PANEL_DATA":
-                        if (e.data._type === this.Type) {
+                        if (e.data._type === "seat") {
                             this.Status = e.data._status;
                         }
                         break;
@@ -34,17 +34,10 @@
             });
         }
 
-        GetStatus() {
-            if (this.status) {
-                return "green";
-            }
-            return "";
-        }
-
         ToggleComponent() {
             this.Status = !this.Status;
             let status = this.Status;
-            let type = this.Type;
+            let type = "seat";
             this.$axios
                 .post(
                     "http://framework/TOGGLE_COMPONENT",
@@ -55,38 +48,12 @@
                 });
         }
 
-        CheckSeat() {
-            if (this.type === "engine") {
-                if (this.seat === -1) {
-                    return false;
-                } else {
-                    return true;
-                }
-            } else if (this.type === "door" || this.type === "window") {
-                if (this.seat + 1 === this.index) {
-                    return false;
-                } else if (this.seat === -1 && (this.index === 4 || this.index === 5)) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
         get Status() {
             return this.status;
         }
 
         set Status(value: boolean) {
             this.status = value;
-        }
-
-        get Type() {
-            return this.type;
-        }
-
-        set Type(value: string) {
-            this.type = value;
         }
 
         get Index() {
@@ -112,8 +79,25 @@
         set Icon(value: string) {
             this.icon = value;
         }
+
+        get Taken() {
+            return this.taken;
+        }
+
+        set Taken(value: boolean) {
+            this.taken = value;
+        }
     }
 </script>
 
 <style scoped>
+    .button-seat-in {
+        pointer-events: none;
+        background-color: rgb(0 128 0 / 0.53) !important;
+    }
+
+    .button-seat {
+        pointer-events: none;
+        background-color: rgb(128 0 0 / 0.53) !important;
+    }
 </style>

@@ -26,8 +26,10 @@
                         <ToggleButton :status="false" type="window" :index="0" :seat="Seat" icon="mdi-window-closed" />
                     </v-col>
                     <v-col>
+                        <SeatButton :status="false" :index="-1" :seat="Seat" :taken="Taken[0]" icon="mdi-seat-passenger mdi-flip-h" />
                     </v-col>
                     <v-col>
+                        <SeatButton :status="false" :index="0" :seat="Seat" :taken="Taken[1]" icon="mdi-seat-passenger" />
                     </v-col>
                     <v-col>
                         <ToggleButton :status="false" type="window" :index="1" :seat="Seat" icon="mdi-window-closed" />
@@ -44,8 +46,10 @@
                         <ToggleButton :status="false" type="window" :index="2" :seat="Seat" icon="mdi-window-closed" />
                     </v-col>
                     <v-col>
+                        <SeatButton :status="false" :index="1" :seat="Seat" :taken="Taken[2]" icon="mdi-seat-passenger mdi-rotate-180" />
                     </v-col>
                     <v-col>
+                        <SeatButton :status="false" :index="2" :seat="Seat" :taken="Taken[3]" icon="mdi-seat-passenger mdi-flip-v" />
                     </v-col>
                     <v-col>
                         <ToggleButton :status="false" type="window" :index="3" :seat="Seat" icon="mdi-window-closed" />
@@ -62,15 +66,18 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
     import ToggleButton from './ToggleButton.vue';
+    import SeatButton from './SeatButton.vue';
 
     @Component({
         components: {
-            ToggleButton
+            ToggleButton,
+            SeatButton
         },
     })
     export default class VehiclePanel extends Vue {
         isVehiclePanelActive = true;
         seat = -1;
+        taken = [true, false, false, false];
         $axios: any;
 
         mounted() {
@@ -107,7 +114,8 @@
         }
 
         PanelStatus(value: any) {
-            this.seat = value._seat;
+            this.Seat = value._seat;
+            this.Taken = value._taken;
         }
 
         GetStatus(value: any) {
@@ -143,6 +151,14 @@
 
         set Seat(value: number) {
             this.seat = value;
+        }
+
+        get Taken() {
+            return this.taken;
+        }
+
+        set Taken(value: boolean[]) {
+            this.taken = value;
         }
     }
 </script>
