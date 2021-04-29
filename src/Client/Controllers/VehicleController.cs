@@ -19,37 +19,28 @@ namespace OpenRP.Framework.Client.Controllers
         bool _engine;
         bool _lastEngine;
 
-        bool _dfl;
-        bool _lastDfl;
-        bool _dfr;
-        bool _lastDfr;
-        bool _dbl;
-        bool _lastDbl;
-        bool _dbr;
-        bool _lastDbr;
-        bool _hood;
-        bool _lastHood;
-        bool _trunk;
-        bool _lastTrunk;
-
-        bool _sfl;
-        bool _lastSfl;
-        bool _sfr;
-        bool _lastSfr;
-        bool _sbl;
-        bool _lastSbl;
-        bool _sbr;
-        bool _lastSbr;
+        List<VehicleToggleDoor> _components;
 
         int _seat;
+        bool[] _taken;
 
         internal VehicleController (ClientMain client) : base (client)
         {
             _vehicle = new Vehicle(0);
             _vehStates = new Dictionary<int, bool>();
             _forceEngine = false;
+            _taken = new bool[]{ false, false, false, false };
 
-            Client.Event.RegisterNuiEvent(NuiEvent.TOGGLE_COMPONENT, new Action<dynamic>(ToggleComponent));
+            _components = new List<VehicleToggleDoor>
+            {
+                new VehicleToggleDoor(Client, 0, false),
+                new VehicleToggleDoor(Client, 1, false),
+                new VehicleToggleDoor(Client, 2, false),
+                new VehicleToggleDoor(Client, 3, false),
+                new VehicleToggleDoor(Client, 4, false),
+                new VehicleToggleDoor(Client, 5, false)
+            };
+
             Client.Event.RegisterEvent(ClientEvent.SEND_VEHILCE_STATE, new Action<dynamic>(StoreVehicleState));
 
             Client.RegisterKeyBinding("ToggleVehiclePanel", "(HUD) Vehicle Panel", "grave", new Action(ToggleVehiclePanel));
@@ -67,16 +58,10 @@ namespace OpenRP.Framework.Client.Controllers
         {
             if (Game.PlayerPed.VehicleTryingToEnter != null)
             {
-                _vehicle = Game.PlayerPed.VehicleTryingToEnter;
-                _seat = -2;
+                SetVehicle(Game.PlayerPed.VehicleTryingToEnter);
                 Client.Event.TriggerServerEvent(ServerEvent.RECEIVE_VEHICLE_STATE, _vehicle.Handle, _vehicle.IsEngineRunning);
                 SetVehicleEngineOn(_vehicle.Handle, _vehicle.IsEngineRunning, true, true);
-
-                while (_seat < -1)
-                {
-                    _seat = (int)Game.PlayerPed.SeatIndex;
-                    await BaseScript.Delay(50);
-                }
+                await SeatTaken();
 
                 while (Game.PlayerPed.VehicleTryingToEnter != null)
                     await BaseScript.Delay(50);
@@ -91,41 +76,23 @@ namespace OpenRP.Framework.Client.Controllers
             await BaseScript.Delay(0);
         }
 
-        private void ToggleComponent(dynamic args)
+        private async Task SeatTaken()
         {
-            if (args.type == "engine")
+            _seat = -2;
+
+            while (_seat < -1)
             {
-                Client.Event.TriggerServerEvent(ServerEvent.RECEIVE_VEHICLE_STATE, _vehicle.Handle, args.status);
-                _vehicle.IsEngineRunning = args.status;
+                _seat = (int)Game.PlayerPed.SeatIndex;
+                await BaseScript.Delay(50);
             }
-            else if (args.type == "dfl")
-                DoorOpenClose(VehicleDoorIndex.FrontLeftDoor, args.status);
-            else if (args.type == "dfr")
-                DoorOpenClose(VehicleDoorIndex.FrontRightDoor, args.status);
-            else if (args.type == "dbl")
-                DoorOpenClose(VehicleDoorIndex.BackLeftDoor, args.status);
-            else if (args.type == "dbr")
-                DoorOpenClose(VehicleDoorIndex.BackRightDoor, args.status);
-            else if (args.type == "hood")
-                DoorOpenClose(VehicleDoorIndex.Hood, args.status);
-            else if (args.type == "trunk")
-                DoorOpenClose(VehicleDoorIndex.Trunk, args.status);
-            else if (args.type == "wfl")
-                WindowOpenClose(VehicleWindowIndex.FrontLeftWindow, args.status);
-            else if (args.type == "wfr")
-                WindowOpenClose(VehicleWindowIndex.FrontRightWindow, args.status);
-            else if (args.type == "wbl")
-                WindowOpenClose(VehicleWindowIndex.BackLeftWindow, args.status);
-            else if (args.type == "wbr")
-                WindowOpenClose(VehicleWindowIndex.BackRightWindow, args.status);
-            else if (args.type == "sfl")
-                SeatChange(VehicleSeat.Driver, args.status);
-            else if (args.type == "sfr")
-                SeatChange(VehicleSeat.Passenger, args.status);
-            else if (args.type == "sbl")
-                SeatChange(VehicleSeat.LeftRear, args.status);
-            else if (args.type == "sbr")
-                SeatChange(VehicleSeat.RightRear, args.status);
+
+            for (var i = -1; i < 3; i++)
+                _taken[i + 1] = !IsVehicleSeatFree(_vehicle.Handle, i);
+
+            foreach (var item in _taken)
+                Debug.WriteLine(item.ToString());
+
+            SendData();
         }
 
         private void DoorOpenClose(VehicleDoorIndex door, bool status)
@@ -169,86 +136,6 @@ namespace OpenRP.Framework.Client.Controllers
                 SendData();
             }
 
-            _dfl = _vehicle.Doors[VehicleDoorIndex.FrontLeftDoor].IsOpen;
-
-            if (_dfl != _lastDfl)
-            {
-                _lastDfl = _dfl;
-                SendData();
-            }
-
-            _dfr = _vehicle.Doors[VehicleDoorIndex.FrontRightDoor].IsOpen;
-
-            if (_dfr != _lastDfr)
-            {
-                _lastDfr = _dfr;
-                SendData();
-            }
-
-            _dbl = _vehicle.Doors[VehicleDoorIndex.BackLeftDoor].IsOpen;
-
-            if (_dbl != _lastDbl)
-            {
-                _lastDbl = _dbl;
-                SendData();
-            }
-
-            _dbr = _vehicle.Doors[VehicleDoorIndex.BackRightDoor].IsOpen;
-
-            if (_dbr != _lastDbr)
-            {
-                _lastDbr = _dbr;
-                SendData();
-            }
-
-            _hood = _vehicle.Doors[VehicleDoorIndex.Hood].IsOpen;
-
-            if (_hood != _lastHood)
-            {
-                _lastHood = _hood;
-                SendData();
-            }
-
-            _trunk = _vehicle.Doors[VehicleDoorIndex.Trunk].IsOpen;
-
-            if (_trunk != _lastTrunk)
-            {
-                _lastTrunk = _trunk;
-                SendData();
-            }
-
-            _sfl = !_vehicle.IsSeatFree(VehicleSeat.Driver);
-
-            if (_sfl != _lastSfl)
-            {
-                _lastSfl = _sfl;
-                SendData();
-            }
-
-            _sfr = !_vehicle.IsSeatFree(VehicleSeat.Passenger);
-
-            if (_sfr != _lastSfr)
-            {
-                _lastSfr = _sfr;
-                SendData();
-            }
-
-            _sbl = !_vehicle.IsSeatFree(VehicleSeat.LeftRear);
-
-            if (_sbl != _lastSbl)
-            {
-                _lastSbl = _sbl;
-                SendData();
-            }
-
-            _sbr = !_vehicle.IsSeatFree(VehicleSeat.RightRear);
-
-            if (_sbr != _lastSbr)
-            {
-                _lastSbr = _sbr;
-                SendData();
-            }
-
             await BaseScript.Delay(50);
         }
 
@@ -256,11 +143,18 @@ namespace OpenRP.Framework.Client.Controllers
         {
             if (Game.PlayerPed.IsInVehicle())
             {
-                _vehicle = Game.PlayerPed.CurrentVehicle;
+                SetVehicle(Game.PlayerPed.CurrentVehicle);
                 var eventName = "TOGGLE_VEHICLE_PANEL_MODULE";
                 UIElement.ToggleNuiModule(eventName, true, true);
                 SendData();
             }
+        }
+
+        private void SetVehicle(Vehicle vehicle)
+        {
+            _vehicle = vehicle;
+            foreach (var component in _components)
+                component.Vehicle = _vehicle;
         }
 
         private void SendData()
@@ -269,18 +163,8 @@ namespace OpenRP.Framework.Client.Controllers
             var data = new
             {
                 eventName,
-                _engine,
-                _dfl,
-                _dfr,
-                _dbl,
-                _dbr,
-                _hood,
-                _trunk,
-                _sfl,
-                _sfr,
-                _sbl,
-                _sbr,
-                _seat
+                _seat,
+                _taken
             };
             SendNuiMessage(JsonConvert.SerializeObject(data));
         }

@@ -43,12 +43,13 @@
 
         ToggleComponent() {
             this.Status = !this.Status;
-            let status = this.Status;
             let type = this.Type;
+            let index = this.Index;
+            let status = this.Status;
             this.$axios
                 .post(
                     "http://framework/TOGGLE_COMPONENT",
-                    { type, status }
+                    { type, index, status }
                 )
                 .catch((error: any) => {
                     console.log("error", error);

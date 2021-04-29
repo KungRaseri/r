@@ -75,7 +75,7 @@
         },
     })
     export default class VehiclePanel extends Vue {
-        isVehiclePanelActive = true;
+        isVehiclePanelActive = false;
         seat = -1;
         taken = [true, false, false, false];
         $axios: any;
@@ -84,7 +84,7 @@
             window.addEventListener("message", (e) => {
                 switch (e.data.eventName) {
                     case "TOGGLE_VEHICLE_PANEL_MODULE":
-                        this.isVehiclePanelActive = e.data.visible;
+                        this.IsVehiclePanelActive = e.data.visible;
                         break;
                     case "VEHICLE_PANEL_DATA":
                         this.PanelStatus(e.data);
@@ -96,7 +96,7 @@
 
             window.addEventListener("keydown", (e) => {
                 if (e.key === "Escape") {
-                    this.isVehiclePanelActive = false;
+                    this.IsVehiclePanelActive = false;
                     this.ResetFocus();
                 }
             });
@@ -123,18 +123,6 @@
                 return "green";
             }
             return "";
-        }
-
-        ToggleComponent(type: string) {
-            let status = false;
-            this.$axios
-                .post(
-                    "http://framework/TOGGLE_COMPONENT",
-                    { type, status }
-                )
-                .catch((error: any) => {
-                    console.log("error", error);
-                });
         }
 
         get IsVehiclePanelActive() {
