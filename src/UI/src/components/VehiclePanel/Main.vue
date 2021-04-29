@@ -26,12 +26,12 @@
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetSFL)" @click="ToggleComponent('sfl')">
+                        <v-btn height="100%" block :color="GetStatus(GetSFL)" @click="ToggleComponent('sfl')" :disabled="GetSFL">
                             S
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetSFR)" @click="ToggleComponent('sfr')">
+                        <v-btn height="100%" block :color="GetStatus(GetSFR)" @click="ToggleComponent('sfr')" :disabled="GetSFR">
                             S
                         </v-btn>
                     </v-col>
@@ -58,12 +58,12 @@
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetSBL)" @click="ToggleComponent('sbl')">
+                        <v-btn height="100%" block :color="GetStatus(GetSBL)" @click="ToggleComponent('sbl')" :disabled="GetSBL">
                             S
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block :color="GetStatus(GetSBR)" @click="ToggleComponent('sbr')">
+                        <v-btn height="100%" block :color="GetStatus(GetSBR)" @click="ToggleComponent('sbr')" :disabled="GetSBR">
                             S
                         </v-btn>
                     </v-col>
@@ -210,17 +210,25 @@
                 this.GetWBR = !this.GetWBR;
                 status = this.GetWBR;
             } else if (type === "sfl") {
-                this.GetSFL = !this.GetSFL;
-                status = this.GetSFL;
+                if (!this.GetSFL) {
+                    this.GetSFL = !this.GetSFL;
+                    status = this.GetSFL;
+                }
             } else if (type === "sfr") {
-                this.GetSFR = !this.GetSFR;
-                status = this.GetSFR;
+                if (!this.GetSFR) {
+                    this.GetSFR = !this.GetSFR;
+                    status = this.GetSFR;
+                }
             } else if (type === "sbl") {
-                this.GetSBL = !this.GetSBL;
-                status = this.GetSBL;
+                if (!this.GetSBL) {
+                    this.GetSBL = !this.GetSBL;
+                    status = this.GetSBL;
+                }
             } else if (type === "sbr") {
-                this.GetSBR = !this.GetSBR;
-                status = this.GetSBR;
+                if (!this.GetSBR) {
+                    this.GetSBR = !this.GetSBR;
+                    status = this.GetSBR;
+                }
             }
             this.$axios
                 .post(
@@ -368,6 +376,10 @@
 
     .v-btn {
         padding: 0 !important;
+    }
+
+    .theme--light.v-btn.v-btn--disabled.v-btn--has-bg {
+        background-color: rgb(0 128 0 / 0.53) !important;
     }
 
     .v-card {
