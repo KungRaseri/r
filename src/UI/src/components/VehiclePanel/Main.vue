@@ -162,6 +162,8 @@
             this.GetDFR = value._dfr;
             this.GetDBL = value._dbl;
             this.GetDBR = value._dbr;
+            this.GetHood = value._hood;
+            this.GetTrunk = value._trunk;
 
             this.GetSFL = value._sfl;
             this.GetSFR = value._sfr;

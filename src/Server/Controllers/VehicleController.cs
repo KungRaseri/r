@@ -31,9 +31,6 @@ namespace OpenRP.Framework.Server.Controllers
                 vehState.TryUpdate(handle, engine, !engine);
             }
 
-            foreach (var item in vehState)
-                Debug.WriteLine($"Handle: {item.Key}, Engine: {item.Value}");
-
             Server.Event.TriggerClientEvent(ClientEvent.SEND_VEHILCE_STATE, JsonConvert.SerializeObject(vehState));
         }
     }

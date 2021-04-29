@@ -256,6 +256,8 @@ namespace OpenRP.Framework.Client.Controllers
                 _dfr,
                 _dbl,
                 _dbr,
+                _hood,
+                _trunk,
                 _sfl,
                 _sfr,
                 _sbl,
