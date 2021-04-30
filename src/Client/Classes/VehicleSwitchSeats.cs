@@ -7,10 +7,7 @@ namespace OpenRP.Framework.Client.Classes
 {
     public class VehicleSwitchSeats : VehicleToggleComponent
     {
-        int _index;
-        bool _status;
-
-        internal VehicleSwitchSeats(int index)
+        internal VehicleSwitchSeats()
         {
             Client.Event.RegisterNuiEvent(NuiEvent.TOGGLE_COMPONENT, new Action<dynamic>(ToggleComponent));
         }

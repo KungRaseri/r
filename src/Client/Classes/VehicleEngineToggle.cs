@@ -9,11 +9,14 @@ namespace OpenRP.Framework.Client.Classes
     public class VehicleEngineToggle : VehicleToggleComponent
     {
         bool _status;
+        bool _lastStatus;
 
         internal VehicleEngineToggle()
         {
             _status = false;
             Client.Event.RegisterNuiEvent(NuiEvent.TOGGLE_COMPONENT, new Action<dynamic>(ToggleComponent));
+            Client.Event.RegisterEvent(ClientEvent.SEND_VEHILCE_STATE, new Action(OnSendVehicleState));
+            Client.RegisterTickHandler(ComponentMonitor);
             Client.RegisterTickHandler(VehicleStateMonitor);
         }
 
@@ -34,6 +37,11 @@ namespace OpenRP.Framework.Client.Classes
             }
         }
 
+        void OnSendVehicleState()
+        {
+            SendPanelState("engine", 0, Vehicle.IsEngineRunning);
+        }
+
         private async void SeatChange(VehicleSeat seat, bool status)
         {
             if (Vehicle.IsSeatFree(seat) && status)
@@ -47,6 +55,19 @@ namespace OpenRP.Framework.Client.Classes
                     await BaseScript.Delay(50);
                 }
             }
+        }
+
+        async Task ComponentMonitor()
+        {
+            _status = Vehicle.IsEngineRunning;
+
+            if (_status != _lastStatus)
+            {
+                SendPanelState("engine", 0, _status);
+                _lastStatus = _status;
+            }
+
+            await BaseScript.Delay(50);
         }
     }
 }

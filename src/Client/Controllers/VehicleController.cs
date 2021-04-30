@@ -30,10 +30,7 @@ namespace OpenRP.Framework.Client.Controllers
             new VehicleToggleWindow(2);
             new VehicleToggleWindow(3);
 
-            new VehicleSwitchSeats(-1);
-            new VehicleSwitchSeats(0);
-            new VehicleSwitchSeats(1);
-            new VehicleSwitchSeats(2);
+            new VehicleSwitchSeats();
 
             VehicleToggleComponent.Vehicle = new Vehicle(0);
             Seat = -1;
@@ -42,14 +39,15 @@ namespace OpenRP.Framework.Client.Controllers
             Client.RegisterKeyBinding("ToggleVehiclePanel", "(HUD) Vehicle Panel", "grave", new Action(ToggleVehiclePanel));
         }
 
-        private void ToggleVehiclePanel()
+        private async void ToggleVehiclePanel()
         {
             if (Game.PlayerPed.IsInVehicle())
             {
                 VehicleToggleComponent.Vehicle = Game.PlayerPed.CurrentVehicle;
                 var eventName = "TOGGLE_VEHICLE_PANEL_MODULE";
                 UIElement.ToggleNuiModule(eventName, true, true);
-                SendData();
+                Client.Event.TriggerEvent(ClientEvent.SEND_VEHILCE_STATE);
+                await SeatTaken();
             }
         }
     }

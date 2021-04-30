@@ -12,20 +12,35 @@ namespace OpenRP.Framework.Client.Classes
         internal static Vehicle Vehicle { get; set; }
         internal static int Seat { get; set; }
         internal static bool[] Taken { get; set; }
+        internal static int Seats { get; set; }
 
         internal VehicleToggleComponent()
         {
             Client.RegisterTickHandler(PlayerStateMonitor);
         }
 
-        internal static void SendData()
+        internal static void SendPanelData()
         {
             string eventName = "VEHICLE_PANEL_DATA";
             var data = new
             {
                 eventName,
                 Seat,
-                Taken
+                Taken,
+                Seats
+            };
+            SendNuiMessage(JsonConvert.SerializeObject(data));
+        }
+
+        internal static void SendPanelState(string type, int index, bool status)
+        {
+            string eventName = "VEHICLE_PANEL_STATE";
+            var data = new
+            {
+                eventName,
+                type,
+                index,
+                status
             };
             SendNuiMessage(JsonConvert.SerializeObject(data));
         }
@@ -44,9 +59,10 @@ namespace OpenRP.Framework.Client.Classes
             await BaseScript.Delay(0);
         }
 
-        internal async Task SeatTaken()
+        internal static async Task SeatTaken()
         {
             Seat = -2;
+            Seats = 0;
 
             while (Seat < -1)
             {
@@ -57,7 +73,10 @@ namespace OpenRP.Framework.Client.Classes
             for (var i = -1; i < 3; i++)
                 Taken[i + 1] = !IsVehicleSeatFree(Vehicle.Handle, i);
 
-            SendData();
+            Seats = GetVehicleModelNumberOfSeats((uint)Vehicle.Model.Hash);
+
+            Debug.WriteLine($"Seats: {Seats}");
+            SendPanelData();
         }
     }
 }

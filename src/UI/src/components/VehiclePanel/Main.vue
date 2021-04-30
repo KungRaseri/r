@@ -23,7 +23,7 @@
                         <ToggleButton type="door" :index="0" :seat="Seat" icon="mdi-car-door" />
                     </v-col>
                     <v-col>
-                        <ToggleButton type="window" :index="0" :seat="Seat" icon="mdi-window-closed" />
+                        <ToggleButton type="window" :index="0" :seat="Seat" icon="mdi-window-closed" :seats="Seats"/>
                     </v-col>
                     <v-col>
                         <SeatButton :index="-1" :seat="Seat" :taken="Taken[0]" icon="mdi-seat-passenger mdi-flip-h" />
@@ -32,7 +32,7 @@
                         <SeatButton :index="0" :seat="Seat" :taken="Taken[1]" icon="mdi-seat-passenger" />
                     </v-col>
                     <v-col>
-                        <ToggleButton type="window" :index="1" :seat="Seat" icon="mdi-window-closed" />
+                        <ToggleButton type="window" :index="1" :seat="Seat" icon="mdi-window-closed" :seats="Seats"/>
                     </v-col>
                     <v-col>
                         <ToggleButton type="door" :index="1" :seat="Seat" icon="mdi-car-door mdi-flip-h" />
@@ -43,7 +43,7 @@
                         <ToggleButton type="door" :index="2" :seat="Seat" icon="mdi-car-door mdi-flip-v" />
                     </v-col>
                     <v-col>
-                        <ToggleButton type="window" :index="2" :seat="Seat" icon="mdi-window-closed" />
+                        <ToggleButton type="window" :index="2" :seat="Seat" icon="mdi-window-closed" :seats="Seats"/>
                     </v-col>
                     <v-col>
                         <SeatButton :index="1" :seat="Seat" :taken="Taken[2]" icon="mdi-seat-passenger mdi-rotate-180" />
@@ -52,7 +52,7 @@
                         <SeatButton :index="2" :seat="Seat" :taken="Taken[3]" icon="mdi-seat-passenger mdi-flip-v" />
                     </v-col>
                     <v-col>
-                        <ToggleButton type="window" :index="3" :seat="Seat" icon="mdi-window-closed" />
+                        <ToggleButton type="window" :index="3" :seat="Seat" icon="mdi-window-closed" :seats="Seats"/>
                     </v-col>
                     <v-col>
                         <ToggleButton type="door" :index="3" :seat="Seat" icon="mdi-car-door mdi-rotate-180" />
@@ -78,6 +78,7 @@
         isVehiclePanelActive = false;
         seat = -1;
         taken = [true, false, false, false];
+        seats = 1;
         $axios: any;
 
         mounted() {
@@ -116,6 +117,7 @@
         PanelStatus(value: any) {
             this.Seat = value.Seat;
             this.Taken = value.Taken;
+            this.Seats = value.Seats;
         }
 
         GetStatus(value: any) {
@@ -147,6 +149,14 @@
 
         set Taken(value: boolean[]) {
             this.taken = value;
+        }
+
+        get Seats() {
+            return this.seats;
+        }
+
+        set Seats(value: number) {
+            this.seats = value;
         }
     }
 </script>
