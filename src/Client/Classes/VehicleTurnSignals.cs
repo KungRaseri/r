@@ -31,15 +31,19 @@ namespace OpenRP.Framework.Client.Classes
             if (Game.PlayerPed.IsInVehicle())
             {
                 var state = GetVehicleIndicatorLights(Vehicle.Handle);
-                
-                foreach (var signal in signals)
-                    SetVehicleIndicatorLights(Vehicle.Handle, signal.Key, false);
+                TurnOffSignals();
 
                 if (signals[index] != state)
                     SetVehicleIndicatorLights(Vehicle.Handle, index, true);
                 else
                     SetVehicleIndicatorLights(Vehicle.Handle, index, false);
             }
+        }
+
+        public static void TurnOffSignals()
+        {
+            foreach (var signal in signals)
+                SetVehicleIndicatorLights(Vehicle.Handle, signal.Key, false);
         }
     }
 }

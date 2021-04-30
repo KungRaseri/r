@@ -12,6 +12,9 @@ namespace OpenRP.Framework.Client.Controllers
 {
     public class VehicleController : ClientAccessor
     {
+        bool _gate;
+        const float _gateAngle = 15;
+
         internal VehicleController (ClientMain client) : base (client)
         {
             VehicleToggleComponent.Client = client;
@@ -35,10 +38,13 @@ namespace OpenRP.Framework.Client.Controllers
             VehicleToggleComponent.Vehicle = new Vehicle(0);
             Seat = -1;
             Taken = new bool[] { false, false, false, false };
+            _gate = false;
 
             Client.RegisterKeyBinding("ToggleVehiclePanel", "(HUD) Vehicle Panel", "grave", new Action(ToggleVehiclePanel));
             Client.RegisterKeyBinding("ToggleLeftSignal", "(Vehicle) Left Signal", "minus", new Action(VehicleTurnSignals.ToggleLeftSignal));
             Client.RegisterKeyBinding("ToggleRightSignal", "(Vehicle) Right Signal", "equals", new Action(VehicleTurnSignals.ToggleRightSignal));
+
+            Client.RegisterTickHandler(WheelMonitor);
         }
 
         private async void ToggleVehiclePanel()
@@ -51,6 +57,32 @@ namespace OpenRP.Framework.Client.Controllers
                 Client.Event.TriggerEvent(ClientEvent.SEND_VEHILCE_STATE);
                 await SeatTaken();
             }
+        }
+
+        async Task WheelMonitor()
+        {
+            var state = GetVehicleIndicatorLights(VehicleToggleComponent.Vehicle.Handle);
+
+            if (state == 1 || state == 2)
+            {
+                var angle = VehicleToggleComponent.Vehicle.SteeringAngle;
+
+                if ((angle >= _gateAngle || angle <= _gateAngle * -1) && !_gate)
+                {
+                    await BaseScript.Delay(1200);
+                    angle = VehicleToggleComponent.Vehicle.SteeringAngle;
+                    if ((angle >= _gateAngle || angle <= _gateAngle * -1) && !_gate)
+                        _gate = true;
+                }
+
+                if ((angle < _gateAngle && angle > _gateAngle * -1) && _gate)
+                {
+                    VehicleTurnSignals.TurnOffSignals();
+                    _gate = false;
+                }
+            }
+
+            await BaseScript.Delay(50);
         }
     }
 }
