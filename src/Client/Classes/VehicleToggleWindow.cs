@@ -1,7 +1,6 @@
 ﻿using CitizenFX.Core;
 using OpenRP.Framework.Common.Enumeration;
 using System;
-using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Classes

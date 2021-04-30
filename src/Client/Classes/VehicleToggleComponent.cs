@@ -63,7 +63,6 @@ namespace OpenRP.Framework.Client.Classes
         internal static async Task SeatTaken()
         {
             Seat = -2;
-            Seats = 0;
 
             while (Seat < -1)
             {
@@ -75,8 +74,6 @@ namespace OpenRP.Framework.Client.Classes
                 Taken[i + 1] = !IsVehicleSeatFree(Vehicle.Handle, i);
 
             Seats = GetVehicleModelNumberOfSeats((uint)Vehicle.Model.Hash);
-
-            Debug.WriteLine($"Seats: {Seats}");
             SendPanelData();
         }
     }

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CitizenFX.Core;
 using Microsoft.Extensions.Configuration;
-using OpenRP.Framework.Common.Enumeration;
 using OpenRP.Framework.Database.Document;
 using OpenRP.Framework.Server.Controllers;
 using OpenRP.Framework.Server.InternalPlugins;
@@ -38,7 +37,6 @@ namespace OpenRP.Framework.Server
             Event = new EventController(this);
             Command = new CommandController(this);
             new VoiceController(this);
-            new VehicleController(this);
 
             new Commands(this);
 
