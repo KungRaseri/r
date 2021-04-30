@@ -13,7 +13,7 @@ namespace OpenRP.Framework.Client.Controllers
     public class VehicleController : ClientAccessor
     {
         bool _gate;
-        const float _gateAngle = 15;
+        const float _gateAngle = 25;
 
         internal VehicleController (ClientMain client) : base (client)
         {
@@ -69,7 +69,7 @@ namespace OpenRP.Framework.Client.Controllers
 
                 if ((angle >= _gateAngle || angle <= _gateAngle * -1) && !_gate)
                 {
-                    await BaseScript.Delay(1200);
+                    await BaseScript.Delay(400);
                     angle = VehicleToggleComponent.Vehicle.SteeringAngle;
                     if ((angle >= _gateAngle || angle <= _gateAngle * -1) && !_gate)
                         _gate = true;
