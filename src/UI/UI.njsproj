@@ -46,13 +46,16 @@
     <Content Include="src\components\MessageBox\MessageBox.vue">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\components\VehiclePanel\Main.vue" />
+    <Content Include="src\components\VehiclePanel\SeatButton.vue" />
+    <Content Include="src\components\VehiclePanel\ToggleButton.vue" />
     <Content Include="src\views\Main.vue" />
     <Content Include="vue.config.js" />
     <Content Include="cypress.json" />
     <Content Include="public\index.html" />
     <Content Include="src\App.vue" />
     <Content Include="src\assets\logo.png" />
-    <Content Include="src\components\HelloWorld.vue" />
+    <Content Include="src\components\Template.vue" />
     <Content Include="tests\e2e\.eslintrc.js" />
     <Content Include="tests\e2e\plugins\index.js" />
     <Content Include="tests\e2e\specs\test.js" />
@@ -68,6 +71,7 @@
     <Folder Include="src\assets\" />
     <Folder Include="src\components\" />
     <Folder Include="src\components\MessageBox\" />
+    <Folder Include="src\components\VehiclePanel\" />
     <Folder Include="src\plugins\" />
     <Folder Include="src\router\" />
     <Folder Include="src\store\" />

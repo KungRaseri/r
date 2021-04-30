@@ -48,7 +48,7 @@
             window.addEventListener("message", (e) => {
                 switch (e.data.eventName) {
                     case "TOGGLE_CHAT_MODULE":
-                        this.GetTextFieldActive = true;
+                        this.GetTextFieldActive = e.data.visible;
                         break;
                     default:
                         break;

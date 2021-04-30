@@ -17,5 +17,7 @@ namespace OpenRP.Framework.Common.Enumeration
         /// Invokes the teleport command.
         /// </summary>
         COMMAND_TP,
+
+        SEND_VEHILCE_STATE
     }
 }

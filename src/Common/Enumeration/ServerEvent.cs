@@ -12,5 +12,7 @@ namespace OpenRP.Framework.Common.Enumeration
         /// Validates inputs from the MessageBox.
         /// </summary>
         COMMAND_VALIDATE,
+
+        RECEIVE_VEHICLE_STATE
     }
 }

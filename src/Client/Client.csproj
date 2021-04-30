@@ -51,6 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\VehicleEngineToggle.cs" />
+    <Compile Include="Classes\VehicleSwitchSeats.cs" />
+    <Compile Include="Classes\VehicleToggleComponent.cs" />
+    <Compile Include="Classes\VehicleToggleWindow.cs" />
+    <Compile Include="Classes\VehicleToggleDoor.cs" />
     <Compile Include="ClientAccessor.cs" />
     <Compile Include="ClientMain.cs" />
     <Compile Include="Classes\GridCoord.cs" />
@@ -59,6 +64,8 @@
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\PedTrafficController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
+    <Compile Include="Classes\UIElement.cs" />
+    <Compile Include="Controllers\VehicleController.cs" />
     <Compile Include="Controllers\VoiceController.cs" />
     <Compile Include="Classes\VoiceZone.cs" />
     <Compile Include="InternalPlugins\Commands.cs" />

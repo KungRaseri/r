@@ -33,7 +33,7 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Loadscreen", "src\Loadscree
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GUI", "GUI", "{6EBECF6F-ED06-4A47-9C49-7D030C406ED0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "src\Common\Common.csproj", "{65B47A8E-955C-4F7C-AC55-9114A6072BEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "src\Common\Common.csproj", "{65B47A8E-955C-4F7C-AC55-9114A6072BEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

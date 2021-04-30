@@ -17,5 +17,7 @@ namespace OpenRP.Framework.Common.Enumeration
         /// Returns focus from NUI back to the game.
         /// </summary>
         RESET_FOCUS,
+
+        TOGGLE_COMPONENT
     }
 }
