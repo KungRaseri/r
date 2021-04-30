@@ -65,7 +65,7 @@ namespace OpenRP.Framework.Client.Controllers
             if (Game.PlayerPed.VehicleTryingToEnter != null)
             {
                 VehicleToggleComponent.Vehicle = Game.PlayerPed.VehicleTryingToEnter;
-                Client.Event.TriggerServerEvent(ServerEvent.RECEIVE_VEHICLE_STATE, VehicleToggleComponent.Vehicle.Handle, VehicleToggleComponent.Vehicle.IsEngineRunning);
+                Client.Event.TriggerServerEvent(ServerEvent.STORE_ENGINE_STATE, VehicleToggleComponent.Vehicle.Handle, VehicleToggleComponent.Vehicle.IsEngineRunning);
                 SetVehicleEngineOn(VehicleToggleComponent.Vehicle.Handle, VehicleToggleComponent.Vehicle.IsEngineRunning, true, true);
                 await SeatTaken();
                 await BaseScript.Delay(3000);
