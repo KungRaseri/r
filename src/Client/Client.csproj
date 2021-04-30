@@ -77,11 +77,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fxmanifest.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{65b47a8e-955c-4f7c-ac55-9114a6072bec}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="..\Common\Common.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

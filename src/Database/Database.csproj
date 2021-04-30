@@ -20,7 +20,10 @@
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>Database.Tests,Server</_Parameter1>
+      <_Parameter1>OpenRP.Framework.Server.net</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Database.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 
@@ -29,5 +32,7 @@
     <PackageReference Include="MongoDB.Driver" Version="2.12.2" />
   </ItemGroup>
 
-  <Import Project="..\Common\Common.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+  </ItemGroup>
 </Project>

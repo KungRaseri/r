@@ -1,6 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using OpenRP.Framework.Common.Interface;
 
 namespace OpenRP.Framework.Database.Document
 {

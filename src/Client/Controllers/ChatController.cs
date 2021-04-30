@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using OpenRP.Framework.Client.Classes;
 using OpenRP.Framework.Common.Enumeration;
-using System;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Controllers

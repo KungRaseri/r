@@ -8,8 +8,8 @@ namespace OpenRP.Framework.Common.Classes
     internal sealed class ServerCommand
     {
         public MulticastDelegate Command { get; internal set; }
-        string _help;
-        List<string> _args;
+        private string _help;
+        private List<string> _args;
 
         internal ServerCommand(MulticastDelegate command, string help, List<string> args)
         {
@@ -18,9 +18,7 @@ namespace OpenRP.Framework.Common.Classes
             _args = args;
         }
 
-        internal static 
-
-        string GenerateEventName(Enum eventName)
+        internal static string GenerateEventName(Enum eventName)
         {
             var resource = eventName.GetType().GetCustomAttribute<ResourceAttribute>().Name;
             var name = $"{resource}:{eventName}";

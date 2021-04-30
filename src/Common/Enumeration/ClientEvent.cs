@@ -2,10 +2,10 @@
 
 namespace OpenRP.Framework.Common.Enumeration
 {
-    [Resource("framework")]
     /// <summary>
     /// Enum to house Client Event names.
     /// </summary>
+    [Resource("framework")]
     public enum ClientEvent
     {
         /// <summary>
