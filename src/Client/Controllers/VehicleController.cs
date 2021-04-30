@@ -44,7 +44,6 @@ namespace OpenRP.Framework.Client.Controllers
             Client.RegisterKeyBinding("ToggleLeftSignal", "(Vehicle) Left Signal", "minus", new Action(VehicleTurnSignals.ToggleLeftSignal));
             Client.RegisterKeyBinding("ToggleRightSignal", "(Vehicle) Right Signal", "equals", new Action(VehicleTurnSignals.ToggleRightSignal));
 
-            Client.RegisterTickHandler(PlayerStateMonitor);
             Client.RegisterTickHandler(WheelMonitor);
         }
 
@@ -58,23 +57,6 @@ namespace OpenRP.Framework.Client.Controllers
                 Client.Event.TriggerEvent(ClientEvent.SEND_VEHILCE_STATE);
                 await SeatTaken();
             }
-        }
-
-        private async Task PlayerStateMonitor()
-        {
-            if (Game.PlayerPed.VehicleTryingToEnter != null)
-            {
-                VehicleToggleComponent.Vehicle = Game.PlayerPed.VehicleTryingToEnter;
-                Client.Event.TriggerServerEvent(ServerEvent.STORE_ENGINE_STATE, VehicleToggleComponent.Vehicle.Handle, VehicleToggleComponent.Vehicle.IsEngineRunning);
-                SetVehicleEngineOn(VehicleToggleComponent.Vehicle.Handle, VehicleToggleComponent.Vehicle.IsEngineRunning, true, true);
-                await SeatTaken();
-                await BaseScript.Delay(3000);
-            }
-
-            if (!Game.PlayerPed.IsInVehicle() && VehicleToggleComponent.Vehicle.Handle != 0)
-                VehicleToggleComponent.Vehicle = new Vehicle(0);
-
-            await BaseScript.Delay(0);
         }
 
         async Task WheelMonitor()
