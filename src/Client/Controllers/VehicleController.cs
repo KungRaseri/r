@@ -37,6 +37,8 @@ namespace OpenRP.Framework.Client.Controllers
             Taken = new bool[] { false, false, false, false };
 
             Client.RegisterKeyBinding("ToggleVehiclePanel", "(HUD) Vehicle Panel", "grave", new Action(ToggleVehiclePanel));
+            Client.RegisterKeyBinding("ToggleLeftSignal", "(Vehicle) Left Signal", "minus", new Action(VehicleTurnSignals.ToggleLeftSignal));
+            Client.RegisterKeyBinding("ToggleRightSignal", "(Vehicle) Right Signal", "equals", new Action(VehicleTurnSignals.ToggleRightSignal));
         }
 
         private async void ToggleVehiclePanel()
