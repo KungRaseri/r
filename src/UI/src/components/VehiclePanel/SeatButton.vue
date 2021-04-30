@@ -1,5 +1,6 @@
 <template>
-    <v-btn :class="{'button-seat-in': Index === Seat, 'button-seat': Index !== Seat && Taken}" height="100%" block dark @click="ToggleComponent()">
+    <v-btn :class="{'button-seat-in': Index === Seat, 'button-unavailable': Index !== Seat && Taken}"
+           height="100%" block dark @click="ToggleComponent()" :disabled="CheckSeats()">
         <v-icon>{{ Icon }}</v-icon>
     </v-btn>
 </template>
@@ -16,6 +17,7 @@
         @Prop(Number) seat = this.Seat;
         @Prop(String) icon = this.Icon;
         @Prop(Boolean) taken = this.Taken;
+        @Prop(Number) seats = this.Seats;
 
         $axios: any;
 
@@ -30,6 +32,13 @@
                 .catch((error: any) => {
                     console.log("error", error);
                 });
+        }
+
+        CheckSeats() {
+            if (this.Index + 1 < this.Seats) {
+                return false;
+            }
+            return true;
         }
 
         get Index() {
@@ -63,17 +72,13 @@
         set Taken(value: boolean) {
             this.taken = value;
         }
+
+        get Seats() {
+            return this.seats;
+        }
+
+        set Seats(value: number) {
+            this.seats = value;
+        }
     }
 </script>
-
-<style scoped>
-    .button-seat-in {
-        pointer-events: none;
-        background-color: rgb(0 128 0 / 0.53) !important;
-    }
-
-    .button-seat {
-        pointer-events: none;
-        background-color: rgb(128 0 0 / 0.53) !important;
-    }
-</style>

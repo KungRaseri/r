@@ -26,10 +26,10 @@
                         <ToggleButton type="window" :index="0" :seat="Seat" icon="mdi-window-closed" :seats="Seats"/>
                     </v-col>
                     <v-col>
-                        <SeatButton :index="-1" :seat="Seat" :taken="Taken[0]" icon="mdi-seat-passenger mdi-flip-h" />
+                        <SeatButton :index="-1" :seat="Seat" :taken="Taken[0]" icon="mdi-seat-passenger mdi-flip-h" :seats="Seats"/>
                     </v-col>
                     <v-col>
-                        <SeatButton :index="0" :seat="Seat" :taken="Taken[1]" icon="mdi-seat-passenger" />
+                        <SeatButton :index="0" :seat="Seat" :taken="Taken[1]" icon="mdi-seat-passenger" :seats="Seats"/>
                     </v-col>
                     <v-col>
                         <ToggleButton type="window" :index="1" :seat="Seat" icon="mdi-window-closed" :seats="Seats"/>
@@ -46,10 +46,10 @@
                         <ToggleButton type="window" :index="2" :seat="Seat" icon="mdi-window-closed" :seats="Seats"/>
                     </v-col>
                     <v-col>
-                        <SeatButton :index="1" :seat="Seat" :taken="Taken[2]" icon="mdi-seat-passenger mdi-rotate-180" />
+                        <SeatButton :index="1" :seat="Seat" :taken="Taken[2]" icon="mdi-seat-passenger mdi-rotate-180" :seats="Seats"/>
                     </v-col>
                     <v-col>
-                        <SeatButton :index="2" :seat="Seat" :taken="Taken[3]" icon="mdi-seat-passenger mdi-flip-v" />
+                        <SeatButton :index="2" :seat="Seat" :taken="Taken[3]" icon="mdi-seat-passenger mdi-flip-v" :seats="Seats"/>
                     </v-col>
                     <v-col>
                         <ToggleButton type="window" :index="3" :seat="Seat" icon="mdi-window-closed" :seats="Seats"/>
@@ -164,6 +164,16 @@
 <style>
     html {
         --panel-width: 25%;
+    }
+
+    .button-seat-in {
+        pointer-events: none;
+        background-color: rgb(0 128 0 / 0.53) !important;
+    }
+
+    .button-unavailable {
+        pointer-events: none;
+        background-color: rgb(128 0 0 / 0.53) !important;
     }
 </style>
 

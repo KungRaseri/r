@@ -1,5 +1,6 @@
 <template>
-    <v-btn height="100%" block dark :color="GetStatus()" @click="ToggleComponent()" :disabled="CheckSeat()">
+    <v-btn :class="{'button-unavailable': Broken}"
+           height="100%" block dark :color="GetStatus()" @click="ToggleComponent()" :disabled="CheckSeat()">
         <v-icon>{{ Icon }}</v-icon>
     </v-btn>
 </template>
@@ -19,6 +20,7 @@
         @Prop(Number) seats = this.Seats;
 
         status = false;
+        broken = false;
 
         $axios: any;
 
@@ -38,6 +40,9 @@
             if ((this.Type === value.type && this.Index === value.index) || (this.Type === "engine" && value.type === "engine")) {
                 if (this.Status != value.status) {
                     this.Status = value.status;
+                }
+                if (this.Broken != value.broken) {
+                    this.Broken = value.broken;
                 }
             }
         }
@@ -93,6 +98,14 @@
 
         set Status(value: boolean) {
             this.status = value;
+        }
+
+        get Broken() {
+            return this.broken;
+        }
+
+        set Broken(value: boolean) {
+            this.broken = value;
         }
 
         get Type() {

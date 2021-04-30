@@ -11,9 +11,11 @@ namespace OpenRP.Framework.Client.Classes
         bool _status;
         bool _lastStatus;
 
+        bool _broken;
+        bool _lastBroken;
+
         internal VehicleEngineToggle()
         {
-            _status = false;
             Client.Event.RegisterNuiEvent(NuiEvent.TOGGLE_COMPONENT, new Action<dynamic>(ToggleComponent));
             Client.Event.RegisterEvent(ClientEvent.SEND_VEHILCE_STATE, new Action(OnSendVehicleState));
             Client.RegisterTickHandler(ComponentMonitor);
@@ -39,7 +41,7 @@ namespace OpenRP.Framework.Client.Classes
 
         void OnSendVehicleState()
         {
-            SendPanelState("engine", 0, Vehicle.IsEngineRunning);
+            SendPanelState("engine", 0, Vehicle.IsEngineRunning, Vehicle.EngineHealth <= 0);
         }
 
         private async void SeatChange(VehicleSeat seat, bool status)
@@ -63,11 +65,24 @@ namespace OpenRP.Framework.Client.Classes
 
             if (_status != _lastStatus)
             {
-                SendPanelState("engine", 0, _status);
+                SendEngineState();
                 _lastStatus = _status;
             }
 
+            _broken = Vehicle.EngineHealth <= 0;
+
+            if (_broken != _lastBroken)
+            {
+                SendEngineState();
+                _lastBroken = _broken;
+            }
+
             await BaseScript.Delay(50);
+        }
+
+        private void SendEngineState()
+        {
+            SendPanelState("engine", 0, _status, _broken);
         }
     }
 }

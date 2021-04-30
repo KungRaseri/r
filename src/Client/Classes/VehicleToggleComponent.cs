@@ -32,7 +32,7 @@ namespace OpenRP.Framework.Client.Classes
             SendNuiMessage(JsonConvert.SerializeObject(data));
         }
 
-        internal static void SendPanelState(string type, int index, bool status)
+        internal static void SendPanelState(string type, int index, bool status, bool broken)
         {
             string eventName = "VEHICLE_PANEL_STATE";
             var data = new
@@ -40,7 +40,8 @@ namespace OpenRP.Framework.Client.Classes
                 eventName,
                 type,
                 index,
-                status
+                status,
+                broken
             };
             SendNuiMessage(JsonConvert.SerializeObject(data));
         }

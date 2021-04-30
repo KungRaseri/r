@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using OpenRP.Framework.Common.Enumeration;
 using System;
+using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Classes
@@ -8,12 +9,13 @@ namespace OpenRP.Framework.Client.Classes
     public class VehicleToggleWindow : VehicleToggleComponent
     {
         int _index;
+
         bool _status;
+        bool _lastStatus;
 
         internal VehicleToggleWindow(int index)
         {
             _index = index;
-            _status = false;
 
             Client.Event.RegisterNuiEvent(NuiEvent.TOGGLE_COMPONENT, new Action<dynamic>(ToggleComponent));
         }
