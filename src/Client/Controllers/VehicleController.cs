@@ -44,6 +44,7 @@ namespace OpenRP.Framework.Client.Controllers
             Client.RegisterKeyBinding("ToggleLeftSignal", "(Vehicle) Left Signal", "minus", new Action(VehicleTurnSignals.ToggleLeftSignal));
             Client.RegisterKeyBinding("ToggleRightSignal", "(Vehicle) Right Signal", "equals", new Action(VehicleTurnSignals.ToggleRightSignal));
 
+            Client.RegisterTickHandler(PlayerStateMonitor);
             Client.RegisterTickHandler(WheelMonitor);
         }
 
@@ -59,26 +60,46 @@ namespace OpenRP.Framework.Client.Controllers
             }
         }
 
+        private async Task PlayerStateMonitor()
+        {
+            if (Game.PlayerPed.VehicleTryingToEnter != null)
+            {
+                VehicleToggleComponent.Vehicle = Game.PlayerPed.VehicleTryingToEnter;
+                Client.Event.TriggerServerEvent(ServerEvent.RECEIVE_VEHICLE_STATE, VehicleToggleComponent.Vehicle.Handle, VehicleToggleComponent.Vehicle.IsEngineRunning);
+                SetVehicleEngineOn(VehicleToggleComponent.Vehicle.Handle, VehicleToggleComponent.Vehicle.IsEngineRunning, true, true);
+                await SeatTaken();
+                await BaseScript.Delay(3000);
+            }
+
+            if (!Game.PlayerPed.IsInVehicle() && VehicleToggleComponent.Vehicle.Handle != 0)
+                VehicleToggleComponent.Vehicle = new Vehicle(0);
+
+            await BaseScript.Delay(0);
+        }
+
         async Task WheelMonitor()
         {
-            var state = GetVehicleIndicatorLights(VehicleToggleComponent.Vehicle.Handle);
-
-            if (state == 1 || state == 2)
+            if (Game.PlayerPed.IsInVehicle())
             {
-                var angle = VehicleToggleComponent.Vehicle.SteeringAngle;
+                var state = GetVehicleIndicatorLights(VehicleToggleComponent.Vehicle.Handle);
 
-                if ((angle >= _gateAngle || angle <= _gateAngle * -1) && !_gate)
+                if (state == 1 || state == 2)
                 {
-                    await BaseScript.Delay(400);
-                    angle = VehicleToggleComponent.Vehicle.SteeringAngle;
+                    var angle = VehicleToggleComponent.Vehicle.SteeringAngle;
+
                     if ((angle >= _gateAngle || angle <= _gateAngle * -1) && !_gate)
-                        _gate = true;
-                }
+                    {
+                        await BaseScript.Delay(400);
+                        angle = VehicleToggleComponent.Vehicle.SteeringAngle;
+                        if ((angle >= _gateAngle || angle <= _gateAngle * -1) && !_gate)
+                            _gate = true;
+                    }
 
-                if ((angle < _gateAngle && angle > _gateAngle * -1) && _gate)
-                {
-                    VehicleTurnSignals.TurnOffSignals();
-                    _gate = false;
+                    if ((angle < _gateAngle && angle > _gateAngle * -1) && _gate)
+                    {
+                        VehicleTurnSignals.TurnOffSignals();
+                        _gate = false;
+                    }
                 }
             }
 

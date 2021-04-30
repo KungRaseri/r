@@ -44,21 +44,6 @@ namespace OpenRP.Framework.Client.Classes
             SendPanelState("engine", 0, Vehicle.IsEngineRunning, Vehicle.EngineHealth <= 0);
         }
 
-        private async void SeatChange(VehicleSeat seat, bool status)
-        {
-            if (Vehicle.IsSeatFree(seat) && status)
-            {
-                SetPedIntoVehicle(Game.PlayerPed.Handle, Vehicle.Handle, (int)seat);
-
-                Seat = -2;
-                while (Seat < -1)
-                {
-                    Seat = (int)Game.PlayerPed.SeatIndex;
-                    await BaseScript.Delay(50);
-                }
-            }
-        }
-
         async Task ComponentMonitor()
         {
             _status = Vehicle.IsEngineRunning;
