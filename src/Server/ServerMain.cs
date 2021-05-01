@@ -37,6 +37,7 @@ namespace OpenRP.Framework.Server
             Event = new EventController(this);
             Command = new CommandController(this);
             new VoiceController(this);
+            new VehicleController(this);
 
             new Commands(this);
 

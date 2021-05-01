@@ -14,11 +14,6 @@ namespace OpenRP.Framework.Client.Classes
         internal static bool[] Taken { get; set; }
         internal static int Seats { get; set; }
 
-        internal VehicleToggleComponent()
-        {
-            Client.RegisterTickHandler(PlayerStateMonitor);
-        }
-
         internal static void SendPanelData()
         {
             string eventName = "VEHICLE_PANEL_DATA";
@@ -44,20 +39,6 @@ namespace OpenRP.Framework.Client.Classes
                 broken
             };
             SendNuiMessage(JsonConvert.SerializeObject(data));
-        }
-
-        private async Task PlayerStateMonitor()
-        {
-            if (Game.PlayerPed.VehicleTryingToEnter != null)
-            {
-                Vehicle = Game.PlayerPed.VehicleTryingToEnter;
-                Client.Event.TriggerServerEvent(ServerEvent.RECEIVE_VEHICLE_STATE, Vehicle.Handle, Vehicle.IsEngineRunning);
-                SetVehicleEngineOn(Vehicle.Handle, Vehicle.IsEngineRunning, true, true);
-                await SeatTaken();
-                await BaseScript.Delay(3000);
-            }
-
-            await BaseScript.Delay(0);
         }
 
         internal static async Task SeatTaken()

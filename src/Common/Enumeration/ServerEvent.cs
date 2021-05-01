@@ -13,6 +13,6 @@ namespace OpenRP.Framework.Common.Enumeration
         /// </summary>
         COMMAND_VALIDATE,
 
-        RECEIVE_VEHICLE_STATE
+        STORE_ENGINE_STATE
     }
 }

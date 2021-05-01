@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using OpenRP.Framework.Client.Controllers;
 using OpenRP.Framework.Client.InternalPlugins;
 using static CitizenFX.Core.Native.API;

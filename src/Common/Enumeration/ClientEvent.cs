@@ -18,6 +18,8 @@ namespace OpenRP.Framework.Common.Enumeration
         /// </summary>
         COMMAND_TP,
 
-        SEND_VEHILCE_STATE
+        SEND_VEHILCE_STATE,
+
+        STORE_ENGINE_STATE
     }
 }
