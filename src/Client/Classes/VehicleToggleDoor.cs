@@ -64,6 +64,7 @@ namespace OpenRP.Framework.Client.Classes
             {
                 _status = false;
                 SendDoorState();
+                SendPanelState("window", _index, _status, _broken);
             }
 
             await BaseScript.Delay(50);

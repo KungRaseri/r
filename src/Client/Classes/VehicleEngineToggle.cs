@@ -59,10 +59,17 @@ namespace OpenRP.Framework.Client.Classes
             await BaseScript.Delay(0);
         }
 
-        void ToggleComponent(dynamic args)
+        async void ToggleComponent(dynamic args)
         {
             if (args.type == "engine")
             {
+                if (args.status)
+                {
+                    Vehicle.IsEngineStarting = true;
+                    while (Vehicle.IsEngineStarting)
+                        await BaseScript.Delay(50);
+                }
+
                 _status = args.status;
                 Vehicle.IsEngineRunning = _status;
                 Client.Event.TriggerServerEvent(ServerEvent.STORE_ENGINE_STATE, Vehicle.Handle, _status);
