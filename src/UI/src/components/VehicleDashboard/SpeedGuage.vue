@@ -1,8 +1,8 @@
 <template>
-    <v-progress-circular class="fast-transition" :size="CircleSize()" :width="CircleWidth()" color="white" :value="Ratio" rotate="90">
+    <v-progress-circular class="fast-transition" :size="CircleSize()" :width="CircleWidth()" :color="Redline()" :value="Ratio" rotate="90">
         <v-container>
-            <v-row class="speed" justify="center">{{ Math.round(Speed) }}</v-row>
-            <v-row class="speed-label" justify="center">MPH</v-row>
+            <v-row class="guage-label" justify="center">{{ Math.round(Speed) }}</v-row>
+            <v-row class="guage-sub-label" justify="center">MPH</v-row>
         </v-container>
     </v-progress-circular>
 </template>
@@ -14,7 +14,7 @@
         components: {
         },
     })
-    export default class CircleGuage extends Vue {
+    export default class SpeedGuage extends Vue {
         speed = 0;
         ratio = 0;
 
@@ -33,6 +33,14 @@
         DataUpdate(value: any) {
             this.Speed = value.speed;
             this.Ratio = value.ratio;
+        }
+
+        Redline() {
+            if (this.Ratio >= 100) {
+                return "red";
+            }
+
+            return "white";
         }
 
         CircleSize() {
@@ -62,20 +70,3 @@
         }
     }
 </script>
-
-<style>
-    .fast-transition .v-progress-circular__overlay {
-        transition: all 0.1s ease-in-out;
-    }
-</style>
-
-<style scoped>
-    .speed {
-        font-size: calc((1vw + 1vh));
-    }
-
-    .speed-label {
-        font-size: calc((1vw + 1vh) * 0.4);
-        margin-top: calc(1vh * 0.2);
-    }
-</style>

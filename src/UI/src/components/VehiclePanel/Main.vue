@@ -186,6 +186,7 @@
         bottom: 5%;
         margin-left: calc((100% - var(--vehicle-panel-width)) / 2 );
         margin-right: calc((100% - var(--vehicle-panel-width)) / 2);
+        z-index: 100;
     }
 
     .inset {

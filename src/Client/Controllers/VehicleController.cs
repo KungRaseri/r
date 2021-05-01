@@ -97,11 +97,22 @@ namespace OpenRP.Framework.Client.Controllers
                 var speed = TrackedVehicle.Speed * 2.23694;
                 var max = GetVehicleHandlingFloat(TrackedVehicle.Handle, "CHandlingData", "fInitialDriveMaxFlatVel") * 0.82;
                 var ratio = speed / max * 100;
+                var rpm = TrackedVehicle.CurrentRPM * 100;
+                var gearInt = TrackedVehicle.CurrentGear;
+                var gear = "";
+
+                if (gearInt == 0)
+                    gear = "R";
+                else
+                    gear = gearInt.ToString();
+
                 var data = new
                 {
                     eventName,
                     speed,
-                    ratio
+                    ratio,
+                    rpm,
+                    gear
                 };
 
                 SendNuiMessage(JsonConvert.SerializeObject(data));

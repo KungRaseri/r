@@ -47,7 +47,8 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="src\components\VehicleDashboard\Main.vue" />
-    <Content Include="src\components\VehicleDashboard\CircleGuage.vue" />
+    <Content Include="src\components\VehicleDashboard\RpmGuage.vue" />
+    <Content Include="src\components\VehicleDashboard\SpeedGuage.vue" />
     <Content Include="src\components\VehiclePanel\Main.vue" />
     <Content Include="src\components\VehiclePanel\SeatButton.vue" />
     <Content Include="src\components\VehiclePanel\ToggleButton.vue" />
