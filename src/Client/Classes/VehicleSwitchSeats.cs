@@ -21,7 +21,7 @@ namespace OpenRP.Framework.Client.Classes
         {
             if (args.type == "seat")
             {
-                SetPedIntoVehicle(Game.PlayerPed.Handle, Vehicle.Handle, args.index);
+                SetPedIntoVehicle(Game.PlayerPed.Handle, TrackedVehicle.Handle, args.index);
                 await SeatTaken();
             }
         }

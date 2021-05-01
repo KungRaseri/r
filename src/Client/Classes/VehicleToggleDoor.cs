@@ -27,7 +27,7 @@ namespace OpenRP.Framework.Client.Classes
 
         void OnSendVehicleState()
         {
-            SendPanelState("door", _index, GetVehicleDoorAngleRatio(Vehicle.Handle, _index) != 0, IsVehicleDoorDamaged(Vehicle.Handle, _index));
+            SendPanelState("door", _index, GetVehicleDoorAngleRatio(TrackedVehicle.Handle, _index) != 0, IsVehicleDoorDamaged(TrackedVehicle.Handle, _index));
         }
 
         void ToggleComponent(dynamic args)
@@ -36,15 +36,15 @@ namespace OpenRP.Framework.Client.Classes
             {
                 _status = args.status;
                 if (_status)
-                    SetVehicleDoorOpen(Vehicle.Handle, _index, false, false);
+                    SetVehicleDoorOpen(TrackedVehicle.Handle, _index, false, false);
                 else
-                    SetVehicleDoorShut(Vehicle.Handle, _index, false);
+                    SetVehicleDoorShut(TrackedVehicle.Handle, _index, false);
             }
         }
 
         async Task ComponentMonitor()
         {
-            _status = GetVehicleDoorAngleRatio(Vehicle.Handle, _index) != 0;
+            _status = GetVehicleDoorAngleRatio(TrackedVehicle.Handle, _index) != 0;
 
             if (_status != _lastStatus)
             {
@@ -52,7 +52,7 @@ namespace OpenRP.Framework.Client.Classes
                 _lastStatus = _status;
             }
 
-            _broken = IsVehicleDoorDamaged(Vehicle.Handle, _index);
+            _broken = IsVehicleDoorDamaged(TrackedVehicle.Handle, _index);
 
             if (_broken != _lastBroken)
             {

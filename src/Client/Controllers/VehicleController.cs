@@ -35,7 +35,7 @@ namespace OpenRP.Framework.Client.Controllers
 
             new VehicleSwitchSeats();
 
-            VehicleToggleComponent.Vehicle = new Vehicle(0);
+            VehicleToggleComponent.TrackedVehicle = new Vehicle(0);
             Seat = -1;
             Taken = new bool[] { false, false, false, false };
             _gate = false;
@@ -45,13 +45,14 @@ namespace OpenRP.Framework.Client.Controllers
             Client.RegisterKeyBinding("ToggleRightSignal", "(Vehicle) Right Signal", "equals", new Action(VehicleTurnSignals.ToggleRightSignal));
 
             Client.RegisterTickHandler(WheelMonitor);
+            Client.RegisterTickHandler(VehicleMonitor);
         }
 
         private async void ToggleVehiclePanel()
         {
             if (Game.PlayerPed.IsInVehicle())
             {
-                VehicleToggleComponent.Vehicle = Game.PlayerPed.CurrentVehicle;
+                TrackedVehicle = Game.PlayerPed.CurrentVehicle;
                 var eventName = "TOGGLE_VEHICLE_PANEL_MODULE";
                 UIElement.ToggleNuiModule(eventName, true, true);
                 Client.Event.TriggerEvent(ClientEvent.SEND_VEHILCE_STATE);
@@ -63,16 +64,16 @@ namespace OpenRP.Framework.Client.Controllers
         {
             if (Game.PlayerPed.IsInVehicle())
             {
-                var state = GetVehicleIndicatorLights(VehicleToggleComponent.Vehicle.Handle);
+                var state = GetVehicleIndicatorLights(TrackedVehicle.Handle);
 
                 if (state == 1 || state == 2)
                 {
-                    var angle = VehicleToggleComponent.Vehicle.SteeringAngle;
+                    var angle = TrackedVehicle.SteeringAngle;
 
                     if ((angle >= _gateAngle || angle <= _gateAngle * -1) && !_gate)
                     {
                         await BaseScript.Delay(400);
-                        angle = VehicleToggleComponent.Vehicle.SteeringAngle;
+                        angle = TrackedVehicle.SteeringAngle;
                         if ((angle >= _gateAngle || angle <= _gateAngle * -1) && !_gate)
                             _gate = true;
                     }
@@ -86,6 +87,27 @@ namespace OpenRP.Framework.Client.Controllers
             }
 
             await BaseScript.Delay(50);
+        }
+
+        async Task VehicleMonitor()
+        {
+            if (Game.PlayerPed.IsInVehicle())
+            {
+                var eventName = "VEHICLE_SPEED_MONITOR";
+                var speed = TrackedVehicle.Speed * 2.23694;
+                var max = GetVehicleHandlingFloat(TrackedVehicle.Handle, "CHandlingData", "fInitialDriveMaxFlatVel") * 0.82;
+                var ratio = speed / max * 100;
+                var data = new
+                {
+                    eventName,
+                    speed,
+                    ratio
+                };
+
+                SendNuiMessage(JsonConvert.SerializeObject(data));
+            }
+
+            await BaseScript.Delay(0);
         }
     }
 }

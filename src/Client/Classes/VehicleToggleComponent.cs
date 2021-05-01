@@ -9,7 +9,7 @@ namespace OpenRP.Framework.Client.Classes
     public class VehicleToggleComponent
     {
         internal static ClientMain Client { get; set; }
-        internal static Vehicle Vehicle { get; set; }
+        internal static Vehicle TrackedVehicle { get; set; }
         internal static int Seat { get; set; }
         internal static bool[] Taken { get; set; }
         internal static int Seats { get; set; }
@@ -52,7 +52,7 @@ namespace OpenRP.Framework.Client.Classes
             }
 
             Taken = SeatStorage();
-            Seats = GetVehicleModelNumberOfSeats((uint)Vehicle.Model.Hash);
+            Seats = GetVehicleModelNumberOfSeats((uint)TrackedVehicle.Model.Hash);
             SendPanelData();
         }
 
@@ -61,7 +61,7 @@ namespace OpenRP.Framework.Client.Classes
             var temp = new bool[4];
 
             for (var i = -1; i < 3; i++)
-                temp[i + 1] = !IsVehicleSeatFree(Vehicle.Handle, i);
+                temp[i + 1] = !IsVehicleSeatFree(TrackedVehicle.Handle, i);
 
             return temp;
         }

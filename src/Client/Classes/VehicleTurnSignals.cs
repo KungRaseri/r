@@ -30,20 +30,20 @@ namespace OpenRP.Framework.Client.Classes
         {
             if (Game.PlayerPed.IsInVehicle())
             {
-                var state = GetVehicleIndicatorLights(Vehicle.Handle);
+                var state = GetVehicleIndicatorLights(TrackedVehicle.Handle);
                 TurnOffSignals();
 
                 if (signals[index] != state)
-                    SetVehicleIndicatorLights(Vehicle.Handle, index, true);
+                    SetVehicleIndicatorLights(TrackedVehicle.Handle, index, true);
                 else
-                    SetVehicleIndicatorLights(Vehicle.Handle, index, false);
+                    SetVehicleIndicatorLights(TrackedVehicle.Handle, index, false);
             }
         }
 
         public static void TurnOffSignals()
         {
             foreach (var signal in signals)
-                SetVehicleIndicatorLights(Vehicle.Handle, signal.Key, false);
+                SetVehicleIndicatorLights(TrackedVehicle.Handle, signal.Key, false);
         }
     }
 }
