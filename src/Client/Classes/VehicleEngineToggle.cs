@@ -66,6 +66,7 @@ namespace OpenRP.Framework.Client.Classes
                 if (args.status)
                 {
                     Vehicle.IsEngineStarting = true;
+                    Vehicle.AreLightsOn = false;
                     while (Vehicle.IsEngineStarting)
                         await BaseScript.Delay(50);
                 }

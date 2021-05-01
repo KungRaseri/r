@@ -51,11 +51,19 @@ namespace OpenRP.Framework.Client.Classes
                 await BaseScript.Delay(50);
             }
 
-            for (var i = -1; i < 3; i++)
-                Taken[i + 1] = !IsVehicleSeatFree(Vehicle.Handle, i);
-
+            Taken = SeatStorage();
             Seats = GetVehicleModelNumberOfSeats((uint)Vehicle.Model.Hash);
             SendPanelData();
+        }
+
+        internal static bool[] SeatStorage()
+        {
+            var temp = new bool[4];
+
+            for (var i = -1; i < 3; i++)
+                temp[i + 1] = !IsVehicleSeatFree(Vehicle.Handle, i);
+
+            return temp;
         }
     }
 }
