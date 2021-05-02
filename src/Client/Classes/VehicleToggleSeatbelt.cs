@@ -31,6 +31,15 @@ namespace OpenRP.Framework.Client.Classes
         {
             if (args.type == "belt")
                 _status = args.status;
+
+            var eventName = "SEATBELT_MONITOR";
+            var data = new
+            {
+                eventName,
+                _status
+            };
+
+            SendNuiMessage(JsonConvert.SerializeObject(data));
         }
 
         async Task PlayerMonitor()
