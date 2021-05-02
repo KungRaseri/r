@@ -6,6 +6,9 @@ using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Classes
 {
+    /// <summary>
+    /// Parent class of the vehicle component objects.
+    /// </summary>
     public class VehicleToggleComponent
     {
         internal static ClientMain Client { get; set; }

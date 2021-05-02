@@ -6,6 +6,9 @@ using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Classes
 {
+    /// <summary>
+    /// Handles changing and monitoring of seats in vehicles.
+    /// </summary>
     public class VehicleSwitchSeats : VehicleToggleComponent
     {
         int _total;
@@ -13,7 +16,7 @@ namespace OpenRP.Framework.Client.Classes
 
         internal VehicleSwitchSeats()
         {
-            Client.Event.RegisterNuiEvent(NuiEvent.TOGGLE_COMPONENT, new Action<dynamic>(ToggleComponent));
+            Client.Event.RegisterNuiEvent(NuiEvent.TOGGLE_VEHICLE_COMPONENT, new Action<dynamic>(ToggleComponent));
             Client.RegisterTickHandler(ComponentMonitor);
         }
 

@@ -8,6 +8,9 @@ using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Classes
 {
+    /// <summary>
+    /// Handles toggling on/off and monitoring of vehicle engines.
+    /// </summary>
     public class VehicleToggleEngine : VehicleToggleComponent
     {
         bool _status;
@@ -22,7 +25,7 @@ namespace OpenRP.Framework.Client.Classes
         {
             _vehStates = new Dictionary<int, bool>();
 
-            Client.Event.RegisterNuiEvent(NuiEvent.TOGGLE_COMPONENT, new Action<dynamic>(ToggleComponent));
+            Client.Event.RegisterNuiEvent(NuiEvent.TOGGLE_VEHICLE_COMPONENT, new Action<dynamic>(ToggleComponent));
             Client.Event.RegisterEvent(ClientEvent.SEND_VEHILCE_STATE, new Action(OnSendVehicleState));
             Client.Event.RegisterEvent(ClientEvent.STORE_ENGINE_STATE, new Action<dynamic>(OnStoreVehicleState));
             Client.RegisterTickHandler(ComponentMonitor);

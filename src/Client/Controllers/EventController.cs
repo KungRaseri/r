@@ -5,6 +5,9 @@ using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Controllers
 {
+    /// <summary>
+    /// Handles cliend-side events.
+    /// </summary>
     public class EventController : ClientAccessor
     {
         internal EventController(ClientMain client) : base(client)

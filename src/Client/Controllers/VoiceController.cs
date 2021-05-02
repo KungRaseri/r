@@ -9,6 +9,9 @@ using System;
 
 namespace OpenRP.Framework.Client.Controllers
 {
+    /// <summary>
+    /// Handles VOIP.
+    /// </summary>
     public class VoiceController : ClientAccessor
     {
         int _grid;

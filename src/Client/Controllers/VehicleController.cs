@@ -10,6 +10,9 @@ using static OpenRP.Framework.Client.Classes.VehicleToggleComponent;
 
 namespace OpenRP.Framework.Client.Controllers
 {
+    /// <summary>
+    /// Handles player-controlled vehicles.
+    /// </summary>
     public class VehicleController : ClientAccessor
     {
         bool _dashboard;

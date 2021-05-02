@@ -9,7 +9,7 @@ using OpenRP.Framework.Common.Classes;
 namespace OpenRP.Framework.Server.Controllers
 {
     /// <summary>
-    /// Controller object that handles server commands.
+    /// Handles server-side commands.
     /// </summary>
     public sealed class CommandController : ServerAccessor
     {

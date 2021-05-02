@@ -18,8 +18,9 @@ namespace OpenRP.Framework.Common.Enumeration
         /// </summary>
         RESET_FOCUS,
 
-        TOGGLE_COMPONENT,
-
-        SPEED_MONITOR
+        /// <summary>
+        /// Handles toggling of various vehicle components.
+        /// </summary>
+        TOGGLE_VEHICLE_COMPONENT
     }
 }

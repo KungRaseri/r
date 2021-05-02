@@ -22,7 +22,7 @@ namespace OpenRP.Framework.Client.Classes
             _speed = new float[]{ 0, 0 };
             _velocity = new Vector3[] { Vector3.Zero, Vector3.Zero };
 
-            Client.Event.RegisterNuiEvent(NuiEvent.TOGGLE_COMPONENT, new Action<dynamic>(ToggleComponent));
+            Client.Event.RegisterNuiEvent(NuiEvent.TOGGLE_VEHICLE_COMPONENT, new Action<dynamic>(ToggleComponent));
             Client.RegisterTickHandler(PlayerMonitor);
             Client.RegisterTickHandler(VehicleMonitor);
         }

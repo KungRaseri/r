@@ -6,6 +6,9 @@ using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Classes
 {
+    /// <summary>
+    /// Handles opening/closing and mointoring of doors in vehicles.
+    /// </summary>
     public class VehicleToggleDoor : VehicleToggleComponent
     {
         int _index;
@@ -20,7 +23,7 @@ namespace OpenRP.Framework.Client.Classes
         {
             _index = index;
 
-            Client.Event.RegisterNuiEvent(NuiEvent.TOGGLE_COMPONENT, new Action<dynamic>(ToggleComponent));
+            Client.Event.RegisterNuiEvent(NuiEvent.TOGGLE_VEHICLE_COMPONENT, new Action<dynamic>(ToggleComponent));
             Client.Event.RegisterEvent(ClientEvent.SEND_VEHILCE_STATE, new Action(OnSendVehicleState));
             Client.RegisterTickHandler(ComponentMonitor);
         }

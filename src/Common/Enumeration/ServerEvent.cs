@@ -13,6 +13,9 @@ namespace OpenRP.Framework.Common.Enumeration
         /// </summary>
         COMMAND_VALIDATE,
 
+        /// <summary>
+        /// Passes the vehicle engine state to the server.
+        /// </summary>
         STORE_ENGINE_STATE
     }
 }

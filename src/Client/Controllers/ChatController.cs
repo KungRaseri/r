@@ -7,6 +7,9 @@ using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Controllers
 {
+    /// <summary>
+    /// Handles the message box.
+    /// </summary>
     public class ChatController : ClientAccessor
     {
         const int Alpha = (int)(255 * 0.8);

@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 
 namespace OpenRP.Framework.Server.Controllers
 {
+    /// <summary>
+    /// Handles game client vehicle data that must be synced with the server.
+    /// </summary>
     public class VehicleController : ServerAccessor
     {
         ConcurrentDictionary<int, bool> vehState;
