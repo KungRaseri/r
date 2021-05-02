@@ -6,6 +6,9 @@ using OpenRP.Framework.Common.Classes;
 
 namespace OpenRP.Framework.Server.Controllers
 {
+    /// <summary>
+    /// Handles server-side events.
+    /// </summary>
     public class EventController : ServerAccessor
     {
         internal EventController(ServerMain server) : base(server)

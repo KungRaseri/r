@@ -18,8 +18,14 @@ namespace OpenRP.Framework.Common.Enumeration
         /// </summary>
         COMMAND_TP,
 
+        /// <summary>
+        /// Sends vehicle component states to the NUI panel.
+        /// </summary>
         SEND_VEHILCE_STATE,
 
+        /// <summary>
+        /// Passes the vehicle engine state to the client.
+        /// </summary>
         STORE_ENGINE_STATE
     }
 }

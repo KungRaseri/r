@@ -1,11 +1,15 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
+using OpenRP.Framework.Client.Controllers;
 using OpenRP.Framework.Common.Enumeration;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Classes
 {
+    /// <summary>
+    /// Parent class of the vehicle component objects.
+    /// </summary>
     public class VehicleToggleComponent
     {
         internal static ClientMain Client { get; set; }
@@ -17,12 +21,14 @@ namespace OpenRP.Framework.Client.Classes
         internal static void SendPanelData()
         {
             string eventName = "VEHICLE_PANEL_DATA";
+            var isCar = VehicleController.IsCar(TrackedVehicle);
             var data = new
             {
                 eventName,
                 Seat,
                 Taken,
-                Seats
+                Seats,
+                isCar
             };
             SendNuiMessage(JsonConvert.SerializeObject(data));
         }

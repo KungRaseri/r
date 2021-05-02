@@ -4,6 +4,9 @@ using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Controllers
 {
+    /// <summary>
+    /// Handles local peds and traffic.
+    /// </summary>
     public class PedTrafficController : ClientAccessor
     {
         internal PedTrafficController (ClientMain client) : base (client)

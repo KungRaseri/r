@@ -10,6 +10,9 @@ using static OpenRP.Framework.Client.Classes.VehicleToggleComponent;
 
 namespace OpenRP.Framework.Client.Controllers
 {
+    /// <summary>
+    /// Handles player-controlled vehicles.
+    /// </summary>
     public class VehicleController : ClientAccessor
     {
         bool _dashboard;
@@ -171,6 +174,19 @@ namespace OpenRP.Framework.Client.Controllers
             }
 
             await BaseScript.Delay(50);
+        }
+
+        /// <summary>
+        /// Checks if the provided vehicle is a car.
+        /// </summary>
+        /// <param name="vehicle">The vehicle to check.</param>
+        /// <returns></returns>
+        public static bool IsCar(Vehicle vehicle)
+        {
+            if (vehicle.ClassType != VehicleClass.Motorcycles && vehicle.ClassType != VehicleClass.Cycles && vehicle.ClassType != VehicleClass.Trains)
+                return true;
+
+            return false;
         }
     }
 }

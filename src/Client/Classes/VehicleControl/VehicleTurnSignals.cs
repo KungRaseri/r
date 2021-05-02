@@ -9,6 +9,9 @@ using Newtonsoft.Json;
 
 namespace OpenRP.Framework.Client.Classes
 {
+    /// <summary>
+    /// Handles changing and monitoring of turn signals in vehicles.
+    /// </summary>
     public class VehicleTurnSignals : VehicleToggleComponent
     {
         static int _state = 0;
@@ -19,11 +22,17 @@ namespace OpenRP.Framework.Client.Classes
             {0, 2}
         };
 
+        /// <summary>
+        /// Activates the left turn signal.
+        /// </summary>
         public static void ToggleLeftSignal()
         {
             ToggleSignal(1);
         }
 
+        /// <summary>
+        /// Activates the right turn signal.
+        /// </summary>
         public static void ToggleRightSignal()
         {
             ToggleSignal(0);
@@ -46,12 +55,19 @@ namespace OpenRP.Framework.Client.Classes
             }
         }
 
+        /// <summary>
+        /// Deactivates both turn signals.
+        /// </summary>
         public static void TurnOffSignals()
         {
             foreach (var signal in signals)
                 SetVehicleIndicatorLights(TrackedVehicle.Handle, signal.Key, false);
         }
 
+        /// <summary>
+        /// Sends the current state of the turn signals to the NUI element.
+        /// </summary>
+        /// <param name="reset">If the turn signal state will be reset before sending the data.</param>
         public static void SendState(bool reset)
         {
             if (reset)

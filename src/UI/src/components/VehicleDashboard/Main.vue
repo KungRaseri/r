@@ -9,8 +9,8 @@
                         <TurnSignal :id="2" icon="mdi-menu-right" />
                     </v-row>
                     <v-row justify="center">
-                        <v-icon class="mr-1" :color="LightStatus()" size="35">mdi-car-light-high</v-icon>
-                        <v-icon class="ml-1" :color="BeltStatus()" size="35">mdi-seatbelt</v-icon>
+                        <v-icon class="mr-1" :color="LightStatus()" :size="IconSize()">mdi-car-light-high</v-icon>
+                        <v-icon class="ml-1" :color="BeltStatus()" :size="IconSize()">mdi-seatbelt</v-icon>
                     </v-row>
                 </v-container>
             <RpmGuage class="ml-1 mt-2 mb-2" />
@@ -82,6 +82,11 @@
             }
 
             return "black";
+        }
+
+        IconSize() {
+            let size = window.innerWidth + window.innerHeight;
+            return size * 0.012;
         }
 
         get IsDashboardPanelActive() {

@@ -5,6 +5,9 @@ using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Controllers
 {
+    /// <summary>
+    /// Handles the player character.
+    /// </summary>
     public class PlayerController : ClientAccessor
     {
         bool _paused;

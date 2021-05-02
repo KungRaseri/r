@@ -1,7 +1,7 @@
 <template>
     <v-btn :class="{'button-seat-in': Index === Seat, 'button-unavailable': Index !== Seat && Taken}"
            height="100%" block dark @click="ToggleComponent()" :disabled="CheckSeats()">
-        <v-icon>{{ Icon }}</v-icon>
+        <v-icon :size="IconSize()">{{ Icon }}</v-icon>
     </v-btn>
 </template>
 
@@ -32,6 +32,11 @@
                 .catch((error: any) => {
                     console.log("error", error);
                 });
+        }
+
+        IconSize() {
+            let size = window.innerWidth + window.innerHeight;
+            return size * 0.01;
         }
 
         CheckSeats() {

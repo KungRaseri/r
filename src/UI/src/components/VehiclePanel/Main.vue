@@ -13,7 +13,7 @@
                         <ToggleButton type="door" :index="5" :seat="Seat" icon="mdi-car-back" />
                     </v-col>
                     <v-col cols="4">
-                        <ToggleButton type="belt" icon="mdi-seatbelt" />
+                        <ToggleButton type="belt" icon="mdi-seatbelt" :isCar="IsCar" />
                     </v-col>
                 </v-row>
                 <v-row class="outer-row" dense>
@@ -77,6 +77,7 @@
         seat = -1;
         taken = [true, false, false, false];
         seats = 1;
+        isCar = false;
         $axios: any;
 
         mounted() {
@@ -116,6 +117,7 @@
             this.Seat = value.Seat;
             this.Taken = value.Taken;
             this.Seats = value.Seats;
+            this.IsCar = value.isCar
         }
 
         GetStatus(value: any) {
@@ -155,6 +157,14 @@
 
         set Seats(value: number) {
             this.seats = value;
+        }
+
+        get IsCar() {
+            return this.isCar;
+        }
+
+        set IsCar(value: boolean) {
+            this.isCar = value;
         }
     }
 </script>
