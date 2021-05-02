@@ -81,6 +81,7 @@ namespace OpenRP.Framework.Client.Controllers
                     if ((angle < _gateAngle && angle > _gateAngle * -1) && _gate)
                     {
                         VehicleTurnSignals.TurnOffSignals();
+                        VehicleTurnSignals.SendState(true);
                         _gate = false;
                     }
                 }

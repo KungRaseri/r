@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace OpenRP.Framework.Client.Classes
 {
     public class VehicleTurnSignals : VehicleToggleComponent
     {
+        static int _state = 0;
+
         static readonly Dictionary<int, int> signals = new Dictionary<int, int>()
         {
             {1, 1},
@@ -37,6 +40,9 @@ namespace OpenRP.Framework.Client.Classes
                     SetVehicleIndicatorLights(TrackedVehicle.Handle, index, true);
                 else
                     SetVehicleIndicatorLights(TrackedVehicle.Handle, index, false);
+
+                _state = GetVehicleIndicatorLights(TrackedVehicle.Handle);
+                SendState(false);
             }
         }
 
@@ -44,6 +50,21 @@ namespace OpenRP.Framework.Client.Classes
         {
             foreach (var signal in signals)
                 SetVehicleIndicatorLights(TrackedVehicle.Handle, signal.Key, false);
+        }
+
+        public static void SendState(bool reset)
+        {
+            if (reset)
+                _state = 0;
+
+            var eventName = "TURN_SIGNAL_STATE";
+            var data = new
+            {
+                eventName,
+                _state
+            };
+
+            SendNuiMessage(JsonConvert.SerializeObject(data));
         }
     }
 }

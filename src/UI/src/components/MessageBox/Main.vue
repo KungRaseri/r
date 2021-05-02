@@ -135,7 +135,7 @@
             this.GetMessageBoxActive = value;
         }
 
-        private delay(ms: number) {
+        delay(ms: number) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
