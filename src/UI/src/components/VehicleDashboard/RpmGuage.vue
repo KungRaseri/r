@@ -1,7 +1,7 @@
 <template>
-    <v-progress-circular class="fast-transition" :size="CircleSize()" :width="CircleWidth()" color="white" :value="Rpm" rotate="90">
+    <v-progress-circular class="fast-transition" :size="CircleSize()" :width="CircleWidth()" :color="Reverse()" :value="Rpm" rotate="90">
         <v-container>
-            <v-row class="guage-label" justify="center">{{ Gear }}</v-row>
+            <v-row class="guage-label" justify="center" :color="Reverse()">{{ Gear }}</v-row>
         </v-container>
     </v-progress-circular>
 </template>
@@ -15,7 +15,7 @@
     })
     export default class RpmGuage extends Vue {
         rpm = 0;
-        gear = 0;
+        gear = "";
 
         mounted() {
             window.addEventListener("message", (e) => {
@@ -27,6 +27,14 @@
                         break;
                 }
             });
+        }
+
+        Reverse() {
+            if (this.Gear === "R") {
+                return "red";
+            }
+
+            return "white";
         }
 
         DataUpdate(value: any) {
@@ -56,7 +64,7 @@
             return this.gear;
         }
 
-        set Gear(value: number) {
+        set Gear(value: string) {
             this.gear = value;
         }
     }
