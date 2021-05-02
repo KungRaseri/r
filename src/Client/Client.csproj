@@ -51,13 +51,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\VehicleToggleEngine.cs" />
-    <Compile Include="Classes\VehicleToggleSeatbelt.cs" />
-    <Compile Include="Classes\VehicleSwitchSeats.cs" />
-    <Compile Include="Classes\VehicleToggleComponent.cs" />
-    <Compile Include="Classes\VehicleToggleWindow.cs" />
-    <Compile Include="Classes\VehicleToggleDoor.cs" />
-    <Compile Include="Classes\VehicleTurnSignals.cs" />
+    <Compile Include="Classes\VehicleControl\VehicleToggleEngine.cs" />
+    <Compile Include="Classes\VehicleControl\VehicleToggleSeatbelt.cs" />
+    <Compile Include="Classes\VehicleControl\VehicleSwitchSeats.cs" />
+    <Compile Include="Classes\VehicleControl\VehicleToggleComponent.cs" />
+    <Compile Include="Classes\VehicleControl\VehicleToggleWindow.cs" />
+    <Compile Include="Classes\VehicleControl\VehicleToggleDoor.cs" />
+    <Compile Include="Classes\VehicleControl\VehicleTurnSignals.cs" />
     <Compile Include="ClientAccessor.cs" />
     <Compile Include="ClientMain.cs" />
     <Compile Include="Classes\GridCoord.cs" />

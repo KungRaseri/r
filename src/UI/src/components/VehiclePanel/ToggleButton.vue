@@ -1,6 +1,6 @@
 <template>
     <v-btn :class="{'button-unavailable': Broken}"
-           height="100%" block dark :color="GetStatus()" @click="ToggleComponent()" :disabled="CheckSeat()">
+           height="100%" block dark :color="GetStatus()" @click="ToggleComponent()" :disabled="CheckDisable()">
         <v-icon :size="IconSize()">{{ Icon }}</v-icon>
     </v-btn>
 </template>
@@ -18,6 +18,7 @@
         @Prop(Number) seat = this.Seat;
         @Prop(String) icon = this.Icon;
         @Prop(Number) seats = this.Seats;
+        @Prop(Boolean) isCar = this.IsCar;
 
         status = false;
         broken = false;
@@ -74,7 +75,7 @@
                 });
         }
 
-        CheckSeat() {
+        CheckDisable() {
             if (this.Type === "engine") {
                 if (this.Seat === -1) {
                     return false;
@@ -91,7 +92,7 @@
                         return false;
                     }
                 }
-            } else if (this.Type === "belt") {
+            } else if (this.Type === "belt" && this.IsCar) {
                 return false;
             }
 
@@ -152,6 +153,14 @@
 
         set Seats(value: number) {
             this.seats = value;
+        }
+
+        get IsCar() {
+            return this.isCar;
+        }
+
+        set IsCar(value: boolean) {
+            this.isCar = value;
         }
     }
 </script>
