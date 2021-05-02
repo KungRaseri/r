@@ -1,7 +1,7 @@
 <template>
     <v-btn :class="{'button-unavailable': Broken}"
            height="100%" block dark :color="GetStatus()" @click="ToggleComponent()" :disabled="CheckSeat()">
-        <v-icon>{{ Icon }}</v-icon>
+        <v-icon :size="IconSize()">{{ Icon }}</v-icon>
     </v-btn>
 </template>
 
@@ -45,6 +45,11 @@
                     this.Broken = value.broken;
                 }
             }
+        }
+
+        IconSize() {
+            let size = window.innerWidth + window.innerHeight;
+            return size * 0.01;
         }
 
         GetStatus() {

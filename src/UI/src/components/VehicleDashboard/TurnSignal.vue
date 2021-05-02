@@ -1,5 +1,5 @@
 <template>
-    <v-icon :color="Color" size="50">{{ Icon }}</v-icon>
+    <v-icon :color="Color" :size="IconSize()">{{ Icon }}</v-icon>
 </template>
 
 <script lang="ts">
@@ -47,6 +47,11 @@
 
         delay(ms: number) {
             return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        IconSize() {
+            let size = window.innerWidth + window.innerHeight;
+            return size * 0.017;
         }
 
         get Id() {
