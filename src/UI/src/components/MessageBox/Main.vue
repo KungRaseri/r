@@ -11,8 +11,8 @@
         </div>         
         <v-textarea ref="inputBox"
                     v-show="GetTextFieldActive"
-                    autofocus=true
-                    outlined=true
+                    :autofocus="true"
+                    :outlined="true"
                     dark
                     dense
                     auto-grow

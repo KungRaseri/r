@@ -1,5 +1,5 @@
 <template>
-    <v-layout>
+    <v-layout v-show="Visible">
         <ChatModule />
         <VehiclePanel />
         <DashboardPanel />
@@ -25,5 +25,27 @@
             DashboardPanel
         },
     })
-    export default class Home extends Vue { }
+    export default class Home extends Vue {
+        visible = true;
+
+        mounted() {
+            window.addEventListener("message", (e) => {
+                switch (e.data.eventName) {
+                    case "GET_PAUSED_STATUS":
+                        this.Visible = e.data.visible;
+                        break;
+                    default:
+                        break;
+                }
+            });
+        }
+
+        get Visible() {
+            return this.visible;
+        }
+
+        set Visible(value: boolean) {
+            this.visible = value;
+        }
+    }
 </script>

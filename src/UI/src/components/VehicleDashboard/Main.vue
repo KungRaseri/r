@@ -1,15 +1,18 @@
 <template>
-    <v-card class="panel" color="rgba(0, 0, 0, 0.5)">
+    <v-card v-show="IsDashboardPanelActive" class="panel" color="rgba(0, 0, 0, 0.5)" rounded="pill">
         <v-container>
             <v-row justify="center">
-                <SpeedGuage class="mr-1" />
+                <SpeedGuage class="mr-1 mt-2 mb-2" />
                 <v-container class="turn-signal">
                     <v-row justify="center">
                         <TurnSignal :id="1" icon="mdi-menu-left"/>
                         <TurnSignal :id="2" icon="mdi-menu-right" />
                     </v-row>
+                    <v-row justify="center">
+                        <v-icon :color="LightStatus()" size="35">mdi-car-light-high</v-icon>
+                    </v-row>
                 </v-container>
-            <RpmGuage class="ml-1" />
+            <RpmGuage class="ml-1 mt-2 mb-2" />
         </v-row>
     </v-container>
 </v-card>
@@ -29,12 +32,74 @@
         },
     })
     export default class DashboardPanel extends Vue {
+        isDashboardPanelActive = false;
+        lights = false;
+        highbeams = false;
+
+        mounted() {
+            window.addEventListener("message", (e) => {
+                switch (e.data.eventName) {
+                    case "TOGGLE_DASHBOARD_PANEL_MODULE":
+                        this.IsDashboardPanelActive = e.data.visible;
+                        break;
+                    case "VEHICLE_LIGHTS_MONITOR":
+                        this.PanelStatus(e.data);
+                        break;
+                    default:
+                        break;
+                }
+            });
+        }
+
+        PanelStatus(value: any) {
+            if (this.Lights != value._lights) {
+                this.Lights = value._lights;
+            }
+
+            if (this.Highbeams != value._highbeams) {
+                this.Highbeams = value._highbeams;
+            }
+        }
+
+        LightStatus() {
+            if (this.Highbeams) {
+                return "light-blue lighten-2";
+            } else if (this.Lights) {
+                return "white";
+            }
+
+            return "black";
+        }
+
+        get IsDashboardPanelActive() {
+            return this.isDashboardPanelActive
+        }
+
+        set IsDashboardPanelActive(value: boolean) {
+            this.isDashboardPanelActive = value;
+        }
+
+        get Lights() {
+            return this.lights;
+        }
+
+        set Lights(value: boolean) {
+            this.lights = value;
+        }
+
+        get Highbeams() {
+            return this.highbeams;
+        }
+
+        set Highbeams(value: boolean) {
+            this.highbeams = value;
+        }
     }
 </script>
 
 <style>
     html {
-        --dashboard-panel-width: 25%;
+        --dashboard-panel-width: 16%;
     }
 
     .fast-transition .v-progress-circular__overlay {

@@ -1,6 +1,6 @@
 <template>
     <v-slide-y-reverse-transition>
-        <v-card v-show="IsVehiclePanelActive" class="panel" color="rgba(0, 0, 0, 0.5)" rounded="lg">
+        <v-card v-show="IsVehiclePanelActive" class="panel" color="rgba(0, 0, 0, 0.9)" rounded="lg">
             <v-container class="inset">
                 <v-row class="outer-row" dense>
                     <v-col cols="4">

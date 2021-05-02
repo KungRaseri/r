@@ -14,7 +14,7 @@
         @Prop(String) icon = this.Icon;
 
         signals = 0;
-        color = "white";
+        color = "black";
         flashing = false;
 
         mounted() {
@@ -38,8 +38,8 @@
                 await this.delay(500);
             }
 
-            if (this.Color != "white") {
-                this.Color = "white"
+            if (this.Color != "black") {
+                this.Color = "black"
             }
 
             this.Flashing = false;

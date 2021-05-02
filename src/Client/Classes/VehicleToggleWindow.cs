@@ -10,7 +10,6 @@ namespace OpenRP.Framework.Client.Classes
         int _index;
 
         bool _status;
-        bool _lastStatus;
 
         internal VehicleToggleWindow(int index)
         {

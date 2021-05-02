@@ -12,7 +12,10 @@ namespace OpenRP.Framework.Client.Controllers
 {
     public class VehicleController : ClientAccessor
     {
+        bool _dashboard;
         bool _gate;
+        bool _lights;
+        bool _highbeams;
         const float _gateAngle = 25;
 
         internal VehicleController (ClientMain client) : base (client)
@@ -38,7 +41,10 @@ namespace OpenRP.Framework.Client.Controllers
             VehicleToggleComponent.TrackedVehicle = new Vehicle(0);
             Seat = -1;
             Taken = new bool[] { false, false, false, false };
+            _dashboard = false;
             _gate = false;
+            _lights = false;
+            _highbeams = false;
 
             Client.RegisterKeyBinding("ToggleVehiclePanel", "(HUD) Vehicle Panel", "grave", new Action(ToggleVehiclePanel));
             Client.RegisterKeyBinding("ToggleLeftSignal", "(Vehicle) Left Signal", "minus", new Action(VehicleTurnSignals.ToggleLeftSignal));
@@ -46,6 +52,7 @@ namespace OpenRP.Framework.Client.Controllers
 
             Client.RegisterTickHandler(WheelMonitor);
             Client.RegisterTickHandler(VehicleMonitor);
+            Client.RegisterTickHandler(HeadlightsMonitor);
         }
 
         private async void ToggleVehiclePanel()
@@ -54,7 +61,7 @@ namespace OpenRP.Framework.Client.Controllers
             {
                 TrackedVehicle = Game.PlayerPed.CurrentVehicle;
                 var eventName = "TOGGLE_VEHICLE_PANEL_MODULE";
-                UIElement.ToggleNuiModule(eventName, true, true);
+                UIElement.ToggleNuiModule(eventName, true, true, true);
                 Client.Event.TriggerEvent(ClientEvent.SEND_VEHILCE_STATE);
                 await SeatTaken();
             }
@@ -94,13 +101,20 @@ namespace OpenRP.Framework.Client.Controllers
         {
             if (Game.PlayerPed.IsInVehicle())
             {
+                if (!_dashboard)
+                {
+                    UIElement.ToggleNuiModule("TOGGLE_DASHBOARD_PANEL_MODULE", true, false, false);
+                    _dashboard = true;
+                }
+                
                 var eventName = "VEHICLE_SPEED_MONITOR";
                 var speed = TrackedVehicle.Speed * 2.23694;
                 var max = GetVehicleHandlingFloat(TrackedVehicle.Handle, "CHandlingData", "fInitialDriveMaxFlatVel") * 0.82;
                 var ratio = speed / max * 100;
                 var rpm = TrackedVehicle.CurrentRPM * 100;
                 var gearInt = TrackedVehicle.CurrentGear;
-                var gear = "";
+
+                string gear;
 
                 if (gearInt == 0)
                     gear = "R";
@@ -118,8 +132,41 @@ namespace OpenRP.Framework.Client.Controllers
 
                 SendNuiMessage(JsonConvert.SerializeObject(data));
             }
+            else
+            {
+                if (_dashboard)
+                {
+                    UIElement.ToggleNuiModule("TOGGLE_DASHBOARD_PANEL_MODULE", false, false, false);
+                    _dashboard = false;
+                }
+            }
 
             await BaseScript.Delay(0);
+        }
+
+        async Task HeadlightsMonitor()
+        {
+            var lights = false;
+            var highbeams = false;
+
+            GetVehicleLightsState(TrackedVehicle.Handle, ref lights, ref highbeams);
+
+            if (_lights != lights || _highbeams != highbeams)
+            {
+                _lights = lights;
+                _highbeams = highbeams;
+
+                var eventName = "VEHICLE_LIGHTS_MONITOR";
+
+                var data = new
+                {
+                    eventName,
+                    _lights,
+                    _highbeams
+                };
+
+                SendNuiMessage(JsonConvert.SerializeObject(data));
+            }
         }
     }
 }
