@@ -47,6 +47,7 @@ namespace OpenRP.Framework.Client.Classes
             {
                 TrackedVehicle = Game.PlayerPed.VehicleTryingToEnter;
 
+                TrackedVehicle.NeedsToBeHotwired = false;
                 if (!_vehStates.ContainsKey(TrackedVehicle.Handle))
                     Client.Event.TriggerServerEvent(ServerEvent.STORE_ENGINE_STATE, TrackedVehicle.Handle, TrackedVehicle.IsEngineRunning);
                 await SeatTaken();
