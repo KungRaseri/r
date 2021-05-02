@@ -9,7 +9,8 @@
                         <TurnSignal :id="2" icon="mdi-menu-right" />
                     </v-row>
                     <v-row justify="center">
-                        <v-icon :color="LightStatus()" size="35">mdi-car-light-high</v-icon>
+                        <v-icon class="mr-1" :color="LightStatus()" size="35">mdi-car-light-high</v-icon>
+                        <v-icon class="ml-1" :color="BeltStatus()" size="35">mdi-seatbelt</v-icon>
                     </v-row>
                 </v-container>
             <RpmGuage class="ml-1 mt-2 mb-2" />
@@ -35,6 +36,7 @@
         isDashboardPanelActive = false;
         lights = false;
         highbeams = false;
+        seatbelt = false;
 
         mounted() {
             window.addEventListener("message", (e) => {
@@ -44,6 +46,9 @@
                         break;
                     case "VEHICLE_LIGHTS_MONITOR":
                         this.PanelStatus(e.data);
+                        break;
+                    case "SEATBELT_MONITOR":
+                        this.Seatbelt = e.data._status;
                         break;
                     default:
                         break;
@@ -71,6 +76,14 @@
             return "black";
         }
 
+        BeltStatus() {
+            if (this.Seatbelt) {
+                return "light-blue lighten-2";
+            }
+
+            return "black";
+        }
+
         get IsDashboardPanelActive() {
             return this.isDashboardPanelActive
         }
@@ -93,6 +106,14 @@
 
         set Highbeams(value: boolean) {
             this.highbeams = value;
+        }
+
+        get Seatbelt() {
+            return this.seatbelt;
+        }
+
+        set Seatbelt(value: boolean) {
+            this.seatbelt = value;
         }
     }
 </script>

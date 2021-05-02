@@ -8,7 +8,7 @@ using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Classes
 {
-    public class VehicleEngineToggle : VehicleToggleComponent
+    public class VehicleToggleEngine : VehicleToggleComponent
     {
         bool _status;
         bool _lastStatus;
@@ -18,7 +18,7 @@ namespace OpenRP.Framework.Client.Classes
 
         Dictionary<int, bool> _vehStates;
 
-        internal VehicleEngineToggle()
+        internal VehicleToggleEngine()
         {
             _vehStates = new Dictionary<int, bool>();
 
@@ -47,6 +47,7 @@ namespace OpenRP.Framework.Client.Classes
             {
                 TrackedVehicle = Game.PlayerPed.VehicleTryingToEnter;
 
+                TrackedVehicle.NeedsToBeHotwired = false;
                 if (!_vehStates.ContainsKey(TrackedVehicle.Handle))
                     Client.Event.TriggerServerEvent(ServerEvent.STORE_ENGINE_STATE, TrackedVehicle.Handle, TrackedVehicle.IsEngineRunning);
                 await SeatTaken();
