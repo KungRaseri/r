@@ -86,6 +86,8 @@
                         return false;
                     }
                 }
+            } else if (this.Type === "belt") {
+                return false;
             }
 
             return true;

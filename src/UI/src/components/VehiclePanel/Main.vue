@@ -13,9 +13,7 @@
                         <ToggleButton type="door" :index="5" :seat="Seat" icon="mdi-car-back" />
                     </v-col>
                     <v-col cols="4">
-                        <v-btn height="100%" block>
-                            Belt
-                        </v-btn>
+                        <ToggleButton type="belt" icon="mdi-seatbelt" />
                     </v-col>
                 </v-row>
                 <v-row class="outer-row" dense>

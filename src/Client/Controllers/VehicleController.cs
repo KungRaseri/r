@@ -16,13 +16,14 @@ namespace OpenRP.Framework.Client.Controllers
         bool _gate;
         bool _lights;
         bool _highbeams;
+
         const float _gateAngle = 25;
 
         internal VehicleController (ClientMain client) : base (client)
         {
             VehicleToggleComponent.Client = client;
 
-            new VehicleEngineToggle();
+            new VehicleToggleEngine();
 
             new VehicleToggleDoor(0);
             new VehicleToggleDoor(1);
@@ -37,8 +38,9 @@ namespace OpenRP.Framework.Client.Controllers
             new VehicleToggleWindow(3);
 
             new VehicleSwitchSeats();
+            new VehicleToggleSeatbelt();
 
-            VehicleToggleComponent.TrackedVehicle = new Vehicle(0);
+            TrackedVehicle = new Vehicle(0);
             Seat = -1;
             Taken = new bool[] { false, false, false, false };
             _dashboard = false;
@@ -167,6 +169,8 @@ namespace OpenRP.Framework.Client.Controllers
 
                 SendNuiMessage(JsonConvert.SerializeObject(data));
             }
+
+            await BaseScript.Delay(50);
         }
     }
 }

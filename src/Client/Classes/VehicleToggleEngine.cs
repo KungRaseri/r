@@ -8,7 +8,7 @@ using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Client.Classes
 {
-    public class VehicleEngineToggle : VehicleToggleComponent
+    public class VehicleToggleEngine : VehicleToggleComponent
     {
         bool _status;
         bool _lastStatus;
@@ -18,7 +18,7 @@ namespace OpenRP.Framework.Client.Classes
 
         Dictionary<int, bool> _vehStates;
 
-        internal VehicleEngineToggle()
+        internal VehicleToggleEngine()
         {
             _vehStates = new Dictionary<int, bool>();
 
