@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace OpenRP.Framework.Client.Classes
 {
     public class VehicleTurnSignals : VehicleToggleComponent
     {
+        static int _state = 0;
+
         static readonly Dictionary<int, int> signals = new Dictionary<int, int>()
         {
             {1, 1},
@@ -30,20 +33,38 @@ namespace OpenRP.Framework.Client.Classes
         {
             if (Game.PlayerPed.IsInVehicle())
             {
-                var state = GetVehicleIndicatorLights(Vehicle.Handle);
+                var state = GetVehicleIndicatorLights(TrackedVehicle.Handle);
                 TurnOffSignals();
 
                 if (signals[index] != state)
-                    SetVehicleIndicatorLights(Vehicle.Handle, index, true);
+                    SetVehicleIndicatorLights(TrackedVehicle.Handle, index, true);
                 else
-                    SetVehicleIndicatorLights(Vehicle.Handle, index, false);
+                    SetVehicleIndicatorLights(TrackedVehicle.Handle, index, false);
+
+                _state = GetVehicleIndicatorLights(TrackedVehicle.Handle);
+                SendState(false);
             }
         }
 
         public static void TurnOffSignals()
         {
             foreach (var signal in signals)
-                SetVehicleIndicatorLights(Vehicle.Handle, signal.Key, false);
+                SetVehicleIndicatorLights(TrackedVehicle.Handle, signal.Key, false);
+        }
+
+        public static void SendState(bool reset)
+        {
+            if (reset)
+                _state = 0;
+
+            var eventName = "TURN_SIGNAL_STATE";
+            var data = new
+            {
+                eventName,
+                _state
+            };
+
+            SendNuiMessage(JsonConvert.SerializeObject(data));
         }
     }
 }

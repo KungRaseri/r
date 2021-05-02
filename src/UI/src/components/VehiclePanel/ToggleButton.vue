@@ -59,7 +59,6 @@
             let type = this.Type;
             let index = this.Index;
             let status = this.Status;
-            console.log(type);
             this.$axios
                 .post(
                     "http://framework/TOGGLE_COMPONENT",

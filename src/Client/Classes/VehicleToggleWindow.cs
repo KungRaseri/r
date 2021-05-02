@@ -10,7 +10,6 @@ namespace OpenRP.Framework.Client.Classes
         int _index;
 
         bool _status;
-        bool _lastStatus;
 
         internal VehicleToggleWindow(int index)
         {
@@ -25,9 +24,9 @@ namespace OpenRP.Framework.Client.Classes
             {
                 _status = args.status;
                 if (_status)
-                    RollDownWindow(Vehicle.Handle, _index);
+                    RollDownWindow(TrackedVehicle.Handle, _index);
                 else
-                    RollUpWindow(Vehicle.Handle, _index);
+                    RollUpWindow(TrackedVehicle.Handle, _index);
             }
         }
     }

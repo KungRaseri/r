@@ -46,6 +46,10 @@
     <Content Include="src\components\MessageBox\MessageBox.vue">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\components\VehicleDashboard\Main.vue" />
+    <Content Include="src\components\VehicleDashboard\RpmGuage.vue" />
+    <Content Include="src\components\VehicleDashboard\SpeedGuage.vue" />
+    <Content Include="src\components\VehicleDashboard\TurnSignal.vue" />
     <Content Include="src\components\VehiclePanel\Main.vue" />
     <Content Include="src\components\VehiclePanel\SeatButton.vue" />
     <Content Include="src\components\VehiclePanel\ToggleButton.vue" />
@@ -71,6 +75,7 @@
     <Folder Include="src\assets\" />
     <Folder Include="src\components\" />
     <Folder Include="src\components\MessageBox\" />
+    <Folder Include="src\components\VehicleDashboard\" />
     <Folder Include="src\components\VehiclePanel\" />
     <Folder Include="src\plugins\" />
     <Folder Include="src\router\" />

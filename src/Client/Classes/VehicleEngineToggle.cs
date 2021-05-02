@@ -32,10 +32,10 @@ namespace OpenRP.Framework.Client.Classes
 
         private async Task VehicleStateMonitor()
         {
-            if (_vehStates.ContainsKey(Vehicle.Handle))
+            if (_vehStates.ContainsKey(TrackedVehicle.Handle))
             {
-                if (Vehicle.IsEngineRunning != _status)
-                    SetVehicleEngineOn(Vehicle.Handle, _status, true, true);
+                if (TrackedVehicle.IsEngineRunning != _status)
+                    SetVehicleEngineOn(TrackedVehicle.Handle, _status, true, true);
             }
 
             await BaseScript.Delay(0);
@@ -45,33 +45,41 @@ namespace OpenRP.Framework.Client.Classes
         {
             if (Game.PlayerPed.VehicleTryingToEnter != null)
             {
-                Vehicle = Game.PlayerPed.VehicleTryingToEnter;
+                TrackedVehicle = Game.PlayerPed.VehicleTryingToEnter;
 
-                if (!_vehStates.ContainsKey(Vehicle.Handle))
-                    Client.Event.TriggerServerEvent(ServerEvent.STORE_ENGINE_STATE, Vehicle.Handle, Vehicle.IsEngineRunning);
+                if (!_vehStates.ContainsKey(TrackedVehicle.Handle))
+                    Client.Event.TriggerServerEvent(ServerEvent.STORE_ENGINE_STATE, TrackedVehicle.Handle, TrackedVehicle.IsEngineRunning);
                 await SeatTaken();
                 await BaseScript.Delay(3000);
             }
 
-            if (!Game.PlayerPed.IsInVehicle() && Vehicle.Handle != 0)
-                Vehicle = new Vehicle(0);
+            if (!Game.PlayerPed.IsInVehicle() && TrackedVehicle.Handle != 0)
+                TrackedVehicle = new Vehicle(0);
 
             await BaseScript.Delay(0);
         }
 
-        void ToggleComponent(dynamic args)
+        async void ToggleComponent(dynamic args)
         {
             if (args.type == "engine")
             {
+                if (args.status)
+                {
+                    TrackedVehicle.IsEngineStarting = true;
+                    TrackedVehicle.AreLightsOn = false;
+                    while (TrackedVehicle.IsEngineStarting)
+                        await BaseScript.Delay(50);
+                }
+
                 _status = args.status;
-                Vehicle.IsEngineRunning = _status;
-                Client.Event.TriggerServerEvent(ServerEvent.STORE_ENGINE_STATE, Vehicle.Handle, _status);
+                TrackedVehicle.IsEngineRunning = _status;
+                Client.Event.TriggerServerEvent(ServerEvent.STORE_ENGINE_STATE, TrackedVehicle.Handle, _status);
             }
         }
 
         void OnSendVehicleState()
         {
-            SendPanelState("engine", 0, Vehicle.IsEngineRunning, Vehicle.EngineHealth <= 0);
+            SendPanelState("engine", 0, TrackedVehicle.IsEngineRunning, TrackedVehicle.EngineHealth <= 0);
         }
 
         void OnStoreVehicleState(dynamic state)
@@ -84,9 +92,9 @@ namespace OpenRP.Framework.Client.Classes
         {
             if (Game.PlayerPed.IsInVehicle())
             {
-                if (_vehStates.ContainsKey(Vehicle.Handle))
+                if (_vehStates.ContainsKey(TrackedVehicle.Handle))
                 {
-                    _status = _vehStates[Vehicle.Handle];
+                    _status = _vehStates[TrackedVehicle.Handle];
 
                     if (_status != _lastStatus)
                     {
@@ -95,7 +103,7 @@ namespace OpenRP.Framework.Client.Classes
                     }
                 }
 
-                _broken = Vehicle.EngineHealth <= 0;
+                _broken = TrackedVehicle.EngineHealth <= 0;
 
                 if (_broken != _lastBroken)
                 {

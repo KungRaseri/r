@@ -18,6 +18,8 @@ namespace OpenRP.Framework.Common.Enumeration
         /// </summary>
         RESET_FOCUS,
 
-        TOGGLE_COMPONENT
+        TOGGLE_COMPONENT,
+
+        SPEED_MONITOR
     }
 }

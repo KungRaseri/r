@@ -11,8 +11,8 @@
         </div>         
         <v-textarea ref="inputBox"
                     v-show="GetTextFieldActive"
-                    autofocus=true
-                    outlined=true
+                    :autofocus="true"
+                    :outlined="true"
                     dark
                     dense
                     auto-grow
@@ -135,7 +135,7 @@
             this.GetMessageBoxActive = value;
         }
 
-        private delay(ms: number) {
+        delay(ms: number) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 

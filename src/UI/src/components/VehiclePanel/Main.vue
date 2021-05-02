@@ -1,6 +1,6 @@
 <template>
     <v-slide-y-reverse-transition>
-        <v-card v-show="IsVehiclePanelActive" class="panel" color="rgba(0, 0, 0, 0.5)" rounded="lg">
+        <v-card v-show="IsVehiclePanelActive" class="panel" color="rgba(0, 0, 0, 0.9)" rounded="lg">
             <v-container class="inset">
                 <v-row class="outer-row" dense>
                     <v-col cols="4">
@@ -163,7 +163,7 @@
 
 <style>
     html {
-        --panel-width: 25%;
+        --vehicle-panel-width: 25%;
     }
 
     .button-seat-in {
@@ -182,10 +182,11 @@
     .panel {
         position: fixed;
         height: auto;
-        width: var(--panel-width);
+        width: var(--vehicle-panel-width);
         bottom: 5%;
-        margin-left: calc((100% - var(--panel-width)) / 2 );
-        margin-right: calc((100% - var(--panel-width)) / 2);
+        margin-left: calc((100% - var(--vehicle-panel-width)) / 2 );
+        margin-right: calc((100% - var(--vehicle-panel-width)) / 2);
+        z-index: 100;
     }
 
     .inset {

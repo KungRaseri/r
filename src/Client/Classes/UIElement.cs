@@ -6,11 +6,11 @@ namespace OpenRP.Framework.Client.Classes
 {
     public static class UIElement
     {
-        public static void ToggleNuiModule(string eventName, bool visible, bool cursor)
+        public static void ToggleNuiModule(string eventName, bool visible, bool focus, bool cursor)
         {
             SendNuiMessage(JsonConvert.SerializeObject(new { eventName, visible }));
 
-            if (visible)
+            if (focus)
                 SetNuiFocus(true, cursor);
         }
 
