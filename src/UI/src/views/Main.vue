@@ -1,14 +1,24 @@
 <template>
-    <v-layout v-show="Visible">
+    <v-container class="main" v-show="Visible">
         <ChatModule />
         <VehiclePanel />
         <DashboardPanel />
-    </v-layout>
+        <CharacterSelect />
+    </v-container>
 </template>
 
 <style scoped>
     .home {
         background: none;
+    }
+
+    .main {
+        position: fixed;
+        width: 100%;
+        max-width: 10000px;
+        height: 100%;
+        margin: 0;
+        padding: 0;
     }
 </style>
 
@@ -17,12 +27,14 @@
     import ChatModule from '../components/MessageBox/Main.vue';
     import VehiclePanel from '../components/VehiclePanel/Main.vue';
     import DashboardPanel from '../components/VehicleDashboard/Main.vue';
+    import CharacterSelect from '../components/CharacterSelect/Main.vue';
 
     @Component({
         components: {
             ChatModule,
             VehiclePanel,
-            DashboardPanel
+            DashboardPanel,
+            CharacterSelect
         },
     })
     export default class Home extends Vue {

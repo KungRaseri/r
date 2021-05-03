@@ -1,22 +1,24 @@
 <template>
-    <v-card v-show="IsDashboardPanelActive" class="panel" color="rgba(0, 0, 0, 0.5)" rounded="pill">
-        <v-container>
-            <v-row justify="center">
-                <SpeedGuage class="mr-1 mt-2 mb-2" />
-                <v-container class="turn-signal">
-                    <v-row justify="center">
-                        <TurnSignal :id="1" icon="mdi-menu-left"/>
-                        <TurnSignal :id="2" icon="mdi-menu-right" />
-                    </v-row>
-                    <v-row justify="center">
-                        <v-icon class="mr-1" :color="LightStatus()" :size="IconSize()">mdi-car-light-high</v-icon>
-                        <v-icon class="ml-1" :color="BeltStatus()" :size="IconSize()">mdi-seatbelt</v-icon>
-                    </v-row>
-                </v-container>
-            <RpmGuage class="ml-1 mt-2 mb-2" />
-        </v-row>
+    <v-container class="main">
+        <v-container class="panel">
+            <v-card v-show="IsDashboardPanelActive" class="card" color="rgba(0, 0, 0, 0.5)" rounded="pill">
+                <v-row justify="center">
+                    <SpeedGuage class="mr-1 mt-2 mb-2" />
+                    <v-container class="turn-signal">
+                        <v-row justify="center">
+                            <TurnSignal :id="1" icon="mdi-menu-left" />
+                            <TurnSignal :id="2" icon="mdi-menu-right" />
+                        </v-row>
+                        <v-row justify="center">
+                            <v-icon class="mr-1" :color="LightStatus()" :size="IconSize()">mdi-car-light-high</v-icon>
+                            <v-icon class="ml-1" :color="BeltStatus()" :size="IconSize()">mdi-seatbelt</v-icon>
+                        </v-row>
+                    </v-container>
+                    <RpmGuage class="ml-1 mt-2 mb-2" />
+                </v-row>
+            </v-card>
+        </v-container>
     </v-container>
-</v-card>
 </template>
 
 <script lang="ts">
@@ -124,10 +126,6 @@
 </script>
 
 <style>
-    html {
-        --dashboard-panel-width: 16%;
-    }
-
     .fast-transition .v-progress-circular__overlay {
         transition: all 0.1s ease-in-out;
     }
@@ -149,14 +147,21 @@
 
 <style scoped>
     .panel {
-        position: fixed;
-        width: var(--dashboard-panel-width);
-        height: auto;
-        bottom: 1%;
-        margin-left: calc((100% - var(--dashboard-panel-width)) / 2 );
-        margin-right: calc((100% - var(--dashboard-panel-width)) / 2);
+        width: 16%;
+        height: 100%;
+        padding: 0;
+        margin-left: auto;
+        margin-right: auto;
         font-weight: bold;
         color: white;
         z-index: 50;
+    }
+
+    .card {
+        position: absolute;
+        width: 16%;
+        height: auto;
+        padding: 10px;
+        bottom: 5%;
     }
 </style>

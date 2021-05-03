@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Position.cs" />
     <Compile Include="Classes\VehicleControl\VehicleToggleEngine.cs" />
     <Compile Include="Classes\VehicleControl\VehicleToggleSeatbelt.cs" />
     <Compile Include="Classes\VehicleControl\VehicleSwitchSeats.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="ClientAccessor.cs" />
     <Compile Include="ClientMain.cs" />
     <Compile Include="Classes\GridCoord.cs" />
+    <Compile Include="Controllers\CharacterController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\DiscordController.cs" />
     <Compile Include="Controllers\EventController.cs" />

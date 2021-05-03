@@ -1,27 +1,29 @@
 <template>
-    <div class="chatbox">
-        <div class="message">
-            <v-slide-y-transition>
-                <MessageBox ref="messageBox"
-                            v-show="GetMessageBoxActive"
-                            @showmessages="Timeout"
-                            @timeout="Timeout"
-                            :is-text-field-active="GetTextFieldActive" />
-            </v-slide-y-transition>
-        </div>         
-        <v-textarea ref="inputBox"
-                    v-show="GetTextFieldActive"
-                    :autofocus="true"
-                    :outlined="true"
-                    dark
-                    dense
-                    auto-grow
-                    rows="1"
-                    background-color="rgba(0, 0, 0, 0.5)"
-                    @keydown="SendMessage($event)"
-                    @blur="Refocus($event)"
-                    v-model="GetInput" />
-    </div>
+    <v-container class="main">
+        <div class="chatbox">
+            <div class="message">
+                <v-slide-y-transition>
+                    <MessageBox ref="messageBox"
+                                v-show="GetMessageBoxActive"
+                                @showmessages="Timeout"
+                                @timeout="Timeout"
+                                :is-text-field-active="GetTextFieldActive" />
+                </v-slide-y-transition>
+            </div>
+            <v-textarea ref="inputBox"
+                        v-show="GetTextFieldActive"
+                        :autofocus="true"
+                        :outlined="true"
+                        dark
+                        dense
+                        auto-grow
+                        rows="1"
+                        background-color="rgba(0, 0, 0, 0.5)"
+                        @keydown="SendMessage($event)"
+                        @blur="Refocus($event)"
+                        v-model="GetInput" />
+        </div>
+    </v-container>
 </template>
 
 <script lang="ts">
@@ -205,5 +207,6 @@
 <style scoped>
     .chatbox {
         margin-left: 3vw;
+        width: 25vw;
     }
 </style>

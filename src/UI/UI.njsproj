@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="src\assets\logo.svg" />
+    <Content Include="src\components\CharacterSelect\Main.vue" />
     <Content Include="src\components\MessageBox\Bubble.vue">
       <SubType>Code</SubType>
     </Content>
@@ -75,6 +76,7 @@
     <Folder Include="src\assets\" />
     <Folder Include="src\components\" />
     <Folder Include="src\components\MessageBox\" />
+    <Folder Include="src\components\CharacterSelect\" />
     <Folder Include="src\components\VehicleDashboard\" />
     <Folder Include="src\components\VehiclePanel\" />
     <Folder Include="src\plugins\" />

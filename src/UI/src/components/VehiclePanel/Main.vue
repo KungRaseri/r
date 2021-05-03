@@ -1,64 +1,68 @@
 <template>
-    <v-slide-y-reverse-transition>
-        <v-card v-show="IsVehiclePanelActive" class="panel" color="rgba(0, 0, 0, 0.9)" rounded="lg">
-            <v-container class="inset">
-                <v-row class="outer-row" dense>
-                    <v-col cols="4">
-                        <ToggleButton type="engine" :seat="Seat" icon="mdi-power"/>
-                    </v-col>
-                    <v-col cols="2">
-                        <ToggleButton type="door" :index="4" :seat="Seat" icon="mdi-car" />
-                    </v-col>
-                    <v-col cols="2">
-                        <ToggleButton type="door" :index="5" :seat="Seat" icon="mdi-car-back" />
-                    </v-col>
-                    <v-col cols="4">
-                        <ToggleButton type="belt" icon="mdi-seatbelt" :isCar="IsCar" />
-                    </v-col>
-                </v-row>
-                <v-row class="outer-row" dense>
-                    <v-col>
-                        <ToggleButton type="door" :index="0" :seat="Seat" icon="mdi-car-door" />
-                    </v-col>
-                    <v-col>
-                        <ToggleButton type="window" :index="0" :seat="Seat" icon="mdi-window-closed" :seats="Seats"/>
-                    </v-col>
-                    <v-col>
-                        <SeatButton :index="-1" :seat="Seat" :taken="Taken[0]" icon="mdi-seat-passenger mdi-flip-h" :seats="Seats"/>
-                    </v-col>
-                    <v-col>
-                        <SeatButton :index="0" :seat="Seat" :taken="Taken[1]" icon="mdi-seat-passenger" :seats="Seats"/>
-                    </v-col>
-                    <v-col>
-                        <ToggleButton type="window" :index="1" :seat="Seat" icon="mdi-window-closed" :seats="Seats"/>
-                    </v-col>
-                    <v-col>
-                        <ToggleButton type="door" :index="1" :seat="Seat" icon="mdi-car-door mdi-flip-h" />
-                    </v-col>
-                </v-row>
-                <v-row class="outer-row" dense>
-                    <v-col>
-                        <ToggleButton type="door" :index="2" :seat="Seat" icon="mdi-car-door mdi-flip-v" />
-                    </v-col>
-                    <v-col>
-                        <ToggleButton type="window" :index="2" :seat="Seat" icon="mdi-window-closed" :seats="Seats"/>
-                    </v-col>
-                    <v-col>
-                        <SeatButton :index="1" :seat="Seat" :taken="Taken[2]" icon="mdi-seat-passenger mdi-rotate-180" :seats="Seats"/>
-                    </v-col>
-                    <v-col>
-                        <SeatButton :index="2" :seat="Seat" :taken="Taken[3]" icon="mdi-seat-passenger mdi-flip-v" :seats="Seats"/>
-                    </v-col>
-                    <v-col>
-                        <ToggleButton type="window" :index="3" :seat="Seat" icon="mdi-window-closed" :seats="Seats"/>
-                    </v-col>
-                    <v-col>
-                        <ToggleButton type="door" :index="3" :seat="Seat" icon="mdi-car-door mdi-rotate-180" />
-                    </v-col>
-                </v-row>
+    <v-container class="main">
+        <v-slide-y-reverse-transition>
+            <v-container class="panel">
+                <v-card v-show="IsVehiclePanelActive" class="card" color="rgba(0, 0, 0, 0.9)" rounded="lg">
+                    <v-container class="inset">
+                        <v-row class="outer-row" dense>
+                            <v-col cols="4">
+                                <ToggleButton type="engine" :seat="Seat" icon="mdi-power" />
+                            </v-col>
+                            <v-col cols="2">
+                                <ToggleButton type="door" :index="4" :seat="Seat" icon="mdi-car" />
+                            </v-col>
+                            <v-col cols="2">
+                                <ToggleButton type="door" :index="5" :seat="Seat" icon="mdi-car-back" />
+                            </v-col>
+                            <v-col cols="4">
+                                <ToggleButton type="belt" icon="mdi-seatbelt" :isCar="IsCar" />
+                            </v-col>
+                        </v-row>
+                        <v-row class="outer-row" dense>
+                            <v-col>
+                                <ToggleButton type="door" :index="0" :seat="Seat" icon="mdi-car-door" />
+                            </v-col>
+                            <v-col>
+                                <ToggleButton type="window" :index="0" :seat="Seat" icon="mdi-window-closed" :seats="Seats" />
+                            </v-col>
+                            <v-col>
+                                <SeatButton :index="-1" :seat="Seat" :taken="Taken[0]" icon="mdi-seat-passenger mdi-flip-h" :seats="Seats" />
+                            </v-col>
+                            <v-col>
+                                <SeatButton :index="0" :seat="Seat" :taken="Taken[1]" icon="mdi-seat-passenger" :seats="Seats" />
+                            </v-col>
+                            <v-col>
+                                <ToggleButton type="window" :index="1" :seat="Seat" icon="mdi-window-closed" :seats="Seats" />
+                            </v-col>
+                            <v-col>
+                                <ToggleButton type="door" :index="1" :seat="Seat" icon="mdi-car-door mdi-flip-h" />
+                            </v-col>
+                        </v-row>
+                        <v-row class="outer-row" dense>
+                            <v-col>
+                                <ToggleButton type="door" :index="2" :seat="Seat" icon="mdi-car-door mdi-flip-v" />
+                            </v-col>
+                            <v-col>
+                                <ToggleButton type="window" :index="2" :seat="Seat" icon="mdi-window-closed" :seats="Seats" />
+                            </v-col>
+                            <v-col>
+                                <SeatButton :index="1" :seat="Seat" :taken="Taken[2]" icon="mdi-seat-passenger mdi-rotate-180" :seats="Seats" />
+                            </v-col>
+                            <v-col>
+                                <SeatButton :index="2" :seat="Seat" :taken="Taken[3]" icon="mdi-seat-passenger mdi-flip-v" :seats="Seats" />
+                            </v-col>
+                            <v-col>
+                                <ToggleButton type="window" :index="3" :seat="Seat" icon="mdi-window-closed" :seats="Seats" />
+                            </v-col>
+                            <v-col>
+                                <ToggleButton type="door" :index="3" :seat="Seat" icon="mdi-car-door mdi-rotate-180" />
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-card>
             </v-container>
-        </v-card>
-    </v-slide-y-reverse-transition>
+        </v-slide-y-reverse-transition>
+    </v-container>
 </template>
 
 <script lang="ts">
@@ -170,10 +174,6 @@
 </script>
 
 <style>
-    html {
-        --vehicle-panel-width: 25%;
-    }
-
     .button-seat-in {
         pointer-events: none;
         background-color: rgb(0 128 0 / 0.53) !important;
@@ -186,15 +186,19 @@
 </style>
 
 <style scoped>
-
     .panel {
-        position: fixed;
-        height: auto;
-        width: var(--vehicle-panel-width);
-        bottom: 5%;
-        margin-left: calc((100% - var(--vehicle-panel-width)) / 2 );
-        margin-right: calc((100% - var(--vehicle-panel-width)) / 2);
+        height: 100%;
+        width: 25%;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0;
         z-index: 100;
+    }
+
+    .card {
+        position: absolute;
+        width: 25%;
+        bottom: 5%;
     }
 
     .inset {
@@ -210,10 +214,6 @@
     .outer-row {
         height: 5vh;
         flex-wrap: nowrap;
-    }
-
-    .inner-spacing {
-        height: var(--spacer-height);
     }
 
     .v-btn {
