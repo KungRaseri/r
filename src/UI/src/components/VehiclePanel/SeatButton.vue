@@ -26,7 +26,7 @@
             let type = "seat";
             this.$axios
                 .post(
-                    "http://framework/TOGGLE_COMPONENT",
+                    "http://framework/TOGGLE_VEHICLE_COMPONENT",
                     { type, index }
                 )
                 .catch((error: any) => {
