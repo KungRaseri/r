@@ -35,7 +35,7 @@ namespace OpenRP.Framework.Client.Classes
 
         private async Task VehicleStateMonitor()
         {
-            if (_vehStates.ContainsKey(TrackedVehicle.Handle))
+            if (_vehStates.ContainsKey(TrackedVehicle.NetworkId))
             {
                 if (TrackedVehicle.IsEngineRunning != _status)
                     SetVehicleEngineOn(TrackedVehicle.Handle, _status, true, true);
@@ -51,8 +51,8 @@ namespace OpenRP.Framework.Client.Classes
                 TrackedVehicle = Game.PlayerPed.VehicleTryingToEnter;
 
                 TrackedVehicle.NeedsToBeHotwired = false;
-                if (!_vehStates.ContainsKey(TrackedVehicle.Handle))
-                    Client.Event.TriggerServerEvent(ServerEvent.STORE_ENGINE_STATE, TrackedVehicle.Handle, TrackedVehicle.IsEngineRunning);
+                if (!_vehStates.ContainsKey(TrackedVehicle.NetworkId))
+                    Client.Event.TriggerServerEvent(ServerEvent.STORE_ENGINE_STATE, TrackedVehicle.NetworkId, TrackedVehicle.IsEngineRunning);
                 await SeatTaken();
                 await BaseScript.Delay(3000);
             }
@@ -77,7 +77,7 @@ namespace OpenRP.Framework.Client.Classes
 
                 _status = args.status;
                 TrackedVehicle.IsEngineRunning = _status;
-                Client.Event.TriggerServerEvent(ServerEvent.STORE_ENGINE_STATE, TrackedVehicle.Handle, _status);
+                Client.Event.TriggerServerEvent(ServerEvent.STORE_ENGINE_STATE, TrackedVehicle.NetworkId, _status);
             }
         }
 
@@ -96,9 +96,9 @@ namespace OpenRP.Framework.Client.Classes
         {
             if (Game.PlayerPed.IsInVehicle())
             {
-                if (_vehStates.ContainsKey(TrackedVehicle.Handle))
+                if (_vehStates.ContainsKey(TrackedVehicle.NetworkId))
                 {
-                    _status = _vehStates[TrackedVehicle.Handle];
+                    _status = _vehStates[TrackedVehicle.NetworkId];
 
                     if (_status != _lastStatus)
                     {
