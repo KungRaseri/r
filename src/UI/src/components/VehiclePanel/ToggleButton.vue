@@ -67,7 +67,7 @@
             let status = this.Status;
             this.$axios
                 .post(
-                    "http://framework/TOGGLE_COMPONENT",
+                    "http://framework/TOGGLE_VEHICLE_COMPONENT",
                     { type, index, status }
                 )
                 .catch((error: any) => {
