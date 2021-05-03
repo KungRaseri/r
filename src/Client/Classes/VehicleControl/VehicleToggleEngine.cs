@@ -25,31 +25,12 @@ namespace OpenRP.Framework.Client.Classes
             Client.Event.RegisterEvent(ClientEvent.SEND_VEHILCE_STATE, new Action(OnSendVehicleState));
             Client.RegisterTickHandler(ComponentMonitor);
             Client.RegisterTickHandler(VehicleStateMonitor);
-            Client.RegisterTickHandler(PlayerStateMonitor);
         }
 
         private async Task VehicleStateMonitor()
         {
             if (TrackedVehicle.IsEngineRunning != _status)
                 SetVehicleEngineOn(TrackedVehicle.Handle, _status, true, true);
-
-            await BaseScript.Delay(0);
-        }
-
-        private async Task PlayerStateMonitor()
-        {
-            if (Game.PlayerPed.VehicleTryingToEnter != null)
-            {
-                TrackedVehicle = Game.PlayerPed.VehicleTryingToEnter;
-
-                TrackedVehicle.NeedsToBeHotwired = false;
-                TrackedVehicle.State.Set("engine", TrackedVehicle.IsEngineRunning, false);
-                await SeatTaken();
-                await BaseScript.Delay(3000);
-            }
-
-            if (!Game.PlayerPed.IsInVehicle() && TrackedVehicle.Handle != 0)
-                TrackedVehicle = new Vehicle(0);
 
             await BaseScript.Delay(0);
         }
