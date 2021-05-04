@@ -1,5 +1,5 @@
 <template>
-    <v-container class="main">
+    <v-container class="outter">
         <v-container class="panel">
             <v-card v-show="IsDashboardPanelActive" class="card" color="rgba(0, 0, 0, 0.5)" rounded="pill">
                 <v-row justify="center">

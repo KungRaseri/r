@@ -4,6 +4,7 @@
         <VehiclePanel />
         <DashboardPanel />
         <CharacterSelect />
+        <CharacterCustomizer />
     </v-container>
 </template>
 
@@ -20,6 +21,10 @@
         margin: 0;
         padding: 0;
     }
+
+    .outter {
+        max-width: 10000px;
+    }
 </style>
 
 <script lang="ts">
@@ -28,13 +33,15 @@
     import VehiclePanel from '../components/VehiclePanel/Main.vue';
     import DashboardPanel from '../components/VehicleDashboard/Main.vue';
     import CharacterSelect from '../components/CharacterSelect/Main.vue';
+    import CharacterCustomizer from '../components/CharacterCustomizer/Main.vue';
 
     @Component({
         components: {
             ChatModule,
             VehiclePanel,
             DashboardPanel,
-            CharacterSelect
+            CharacterSelect,
+            CharacterCustomizer
         },
     })
     export default class Home extends Vue {

@@ -24,12 +24,10 @@ namespace OpenRP.Framework.Client.Controllers
             FirstSpawn();
         }
 
-        private async void OnSaveNewCharacter(dynamic args)
+        private void OnSaveNewCharacter(dynamic args)
         {
             Client.Event.TriggerServerEvent(ServerEvent.SAVE_NEW_CHARACTER, args);
-
             Client.GetExport("spawnmanager").spawnPlayer(SpawnPosition());
-            await WorldHelper.FadeOut(2000);
         }
 
         private async void FirstSpawn()
@@ -46,31 +44,25 @@ namespace OpenRP.Framework.Client.Controllers
 
             _cam.IsActive = true;
             RenderScriptCams(true, false, 0, true, true);
-            await BaseScript.Delay(2000);
+            await BaseScript.Delay(1000);
             UIElement.ToggleNuiModule("TOGGLE_CHARACTER_SELECT", true, true, true);
         }
 
         private async void OnPlayerSpawned()
         {
+            await WorldHelper.FadeOut(1000);
             Client.Event.TriggerServerEvent(ServerEvent.SET_PLAYER_ROUTING_BUCKET);
-            var pos = new Vector3(686.258f, 577.830f, 130.461f);
+            NetworkOverrideClockTime(12, 0, 0);
+            PauseClock(true);
+            var pos = new Vector3(683.852f, 570.629f, 130.461f);
             var heading = 160f;
             await Position.Teleport(pos, true);
             Game.PlayerPed.Heading = heading;
             _cam.Position = WorldHelper.PosOffset(pos, heading, 2);
             _cam.PointAt(Game.PlayerPed);
             SetTimecycleModifier("default");
-            SetWeatherTypeNowPersist("EXTRASUNNY");
             SetOverrideWeather("EXTRASUNNY");
-            Client.RegisterTickHandler(ForceTime);
-            await WorldHelper.FadeIn(2000);
-            
-        }
-
-        private async Task ForceTime()
-        {
-            NetworkOverrideClockTime(12, 0, 0);
-            await BaseScript.Delay(60000);
+            await WorldHelper.FadeIn(1000);
         }
 
         private dynamic SpawnPosition()

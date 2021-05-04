@@ -37,6 +37,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="src\assets\logo.svg" />
+    <Content Include="src\components\CharacterCustomizer\Main.vue" />
+    <Content Include="src\components\CharacterCustomizer\PedSelect.vue" />
     <Content Include="src\components\CharacterSelect\Main.vue" />
     <Content Include="src\components\CharacterSelect\NewOrExisting.vue" />
     <Content Include="src\components\CharacterSelect\NewCharacter.vue" />
@@ -79,6 +81,7 @@
     <Folder Include="src\components\" />
     <Folder Include="src\components\MessageBox\" />
     <Folder Include="src\components\CharacterSelect\" />
+    <Folder Include="src\components\CharacterCustomizer\" />
     <Folder Include="src\components\VehicleDashboard\" />
     <Folder Include="src\components\VehiclePanel\" />
     <Folder Include="src\plugins\" />

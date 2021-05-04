@@ -22,7 +22,7 @@
         @Prop(Boolean) show = this.Show;
 
         @Emit()
-        nextmenu(value: string) {
+        nextmenu(value: string): string {
             return value;
         }
 

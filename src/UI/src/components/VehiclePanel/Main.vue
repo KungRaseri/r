@@ -1,5 +1,5 @@
 <template>
-    <v-container class="main">
+    <v-container class="outter">
         <v-slide-y-reverse-transition>
             <v-container class="panel">
                 <v-card v-show="IsVehiclePanelActive" class="card" color="rgba(0, 0, 0, 0.9)" rounded="lg">

@@ -1,5 +1,5 @@
 <template>
-    <v-container class="main">
+    <v-container class="outter">
         <NewOrExisting @nextmenu="NextMenu" :show="ShowNewOrExisting"/>
         <v-container v-show="ShowSubmenu()">
             <NewCharacter @goback="GoBack" @saveform="SaveForm" :show="ShowMenu()"/>
@@ -41,12 +41,12 @@
             this.showNewOrExisting = false;
         }
 
-        GoBack(value: string) {
+        GoBack() {
             this.showNewOrExisting = true;
             this.Menu = "";
         }
 
-        SaveForm(value: string) {
+        SaveForm() {
             this.Menu = "";
         }
 

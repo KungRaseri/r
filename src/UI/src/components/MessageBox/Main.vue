@@ -1,5 +1,5 @@
 <template>
-    <v-container class="main">
+    <v-container class="outter">
         <div class="chatbox">
             <div class="message">
                 <v-slide-y-transition>
@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Prop, Ref, VModel } from 'vue-property-decorator';
+    import { Component, Vue, Ref } from 'vue-property-decorator';
     import MessageBox from './MessageBox.vue';
 
     @Component({
