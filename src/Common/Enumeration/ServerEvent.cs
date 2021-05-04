@@ -16,6 +16,8 @@ namespace OpenRP.Framework.Common.Enumeration
         /// <summary>
         /// Passes the vehicle engine state to the server.
         /// </summary>
-        STORE_ENGINE_STATE
+        STORE_ENGINE_STATE,
+
+        SAVE_NEW_CHARACTER
     }
 }

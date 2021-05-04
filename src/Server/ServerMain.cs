@@ -36,6 +36,7 @@ namespace OpenRP.Framework.Server
             Database = new DataHandler(this);
             Event = new EventController(this);
             Command = new CommandController(this);
+            new CharacterController(this);
             new VoiceController(this);
             new VehicleController(this);
 

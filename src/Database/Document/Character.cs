@@ -3,13 +3,14 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace OpenRP.Framework.Database.Document
 {
-    class Character : IDocument
+    public class Character : IDocument
     {
         [BsonId]
         public ObjectId Id { get; set; }
-        public string Identifier { get; set; }
-        public string Name { get; set; }
+        public ObjectId AccountId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Gender { get; set; }
-        public BsonDateTime Dob { get; set; }
+        public string Dob { get; set; }
     }
 }

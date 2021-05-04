@@ -1,30 +1,29 @@
 <template>
-    <v-scale-transition origin="center">
-        <v-container v-if="Show" class="main">
-            <v-container class="panel">
-                <v-card class="card" dark>
-                    <h1>Character Select</h1>
-                    <v-divider class="my-4" />
-                    <v-btn block @click="NewCharacter()">New Character</v-btn>
-                    <v-btn block>Select Character</v-btn>
-                </v-card>
-            </v-container>
+    <v-fade-transition>
+        <v-container v-show="Show" class="panel">
+            <v-card class="card" dark>
+                <h1>Character Select</h1>
+                <v-divider class="my-4" />
+                <v-btn block @click="nextmenu('new')">New Character</v-btn>
+                <v-btn block @click="nextmenu('exist')">Select Character</v-btn>
+            </v-card>
         </v-container>
-    </v-scale-transition>
+    </v-fade-transition>
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator';
+    import { Component, Vue, Prop, Emit } from 'vue-property-decorator';
 
     @Component({
         components: {
         },
     })
     export default class NewOrExisting extends Vue {
-        show = true;
+        @Prop(Boolean) show = true;
 
-        NewCharacter() {
-            this.Show = false;
+        @Emit()
+        nextmenu(value: string) {
+            return value;
         }
 
         get Show() {
@@ -38,9 +37,18 @@
 </script>
 
 <style scoped>
+    .outter {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        max-width: 10000px;
+    }
+
     .panel {
         width: 25%;
+        height: 100%;
         margin: auto;
+        padding: 0;
     }
 
     .card {

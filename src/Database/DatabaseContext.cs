@@ -9,6 +9,7 @@ namespace OpenRP.Framework.Database
         private IMongoDatabase _db;
 
         public DocumentRepository<Account> Accounts;
+        public DocumentRepository<Character> Characters;
 
         public DatabaseContext(string connString, string database)
         {
@@ -21,6 +22,7 @@ namespace OpenRP.Framework.Database
         private void InitializeRepositories()
         {
             Accounts = new DocumentRepository<Account>(_db);
+            Characters = new DocumentRepository<Character>(_db);
         }
     }
 }
