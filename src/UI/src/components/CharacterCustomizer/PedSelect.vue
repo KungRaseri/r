@@ -2,6 +2,9 @@
     <v-card v-show="Show" class="panel" dark>
         <v-container>
             <v-row dense>
+                <v-text-field v-model="Search" :outlined="true" :rounded="true" prepend-inner-icon="mdi-magnify" dense/>
+            </v-row>
+            <v-row dense>
                 <v-col>
                     <v-btn color="red" :rounded="true" block>Back</v-btn>
                 </v-col>
@@ -11,7 +14,7 @@
             </v-row>
             <v-divider class="my-4" />
             <v-row class="mt-1">
-                <v-btn v-for="ped in Peds" :key="ped" block @click="sendped(ped)">
+                <v-btn v-show="Match(ped)" v-for="ped in Peds" :key="ped" block @click="sendped(ped)">
                     {{ ped }}
                 </v-btn>
             </v-row>
@@ -30,6 +33,7 @@
         @Prop(Boolean) show = this.Show;
 
         peds: string[];
+        search = "";
 
         filler: string[] = [
             "Test1",
@@ -40,6 +44,21 @@
         constructor() {
             super();
             this.peds = this.filler;
+        }
+
+        Match(value: string) {
+            let search = this.Search.toUpperCase();
+            let ped = value.toUpperCase();
+
+            if (search !== "") {
+                if (ped.includes(search)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         @Emit()
@@ -62,13 +81,23 @@
         set Peds(value: string[]) {
             this.peds = value;
         }
+
+        get Search() {
+            return this.search;
+        }
+
+        set Search(value: string) {
+            this.search = value;
+        }
     }
 </script>
 
 <style scoped>
     .panel {
+        position: fixed;
+        top: 0;
+        right: 0;
         width: 20%;
         height: 100%;
-        float: right;
     }
 </style>

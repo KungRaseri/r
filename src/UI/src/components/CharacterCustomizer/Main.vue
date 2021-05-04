@@ -1,6 +1,6 @@
 <template>
-    <v-container class="outter" :show="ShowPedSelect" @sendped="SetPed">
-        <PedSelect />
+    <v-container class="outter">
+        <PedSelect :show="ShowPedSelect" @sendped="SetPed"/>
     </v-container>
 </template>
 
