@@ -19,7 +19,7 @@
         },
     })
     export default class NewOrExisting extends Vue {
-        @Prop(Boolean) show = true;
+        @Prop(Boolean) show = this.Show;
 
         @Emit()
         nextmenu(value: string) {

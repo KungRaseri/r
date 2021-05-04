@@ -2,7 +2,7 @@
     <v-container class="main">
         <NewOrExisting @nextmenu="NextMenu" :show="ShowNewOrExisting"/>
         <v-container v-show="ShowSubmenu()">
-            <NewCharacter @goback="GoBack" :show="ShowMenu()"/>
+            <NewCharacter @goback="GoBack" @saveform="SaveForm" :show="ShowMenu()"/>
             <span class="test" v-show="!ShowMenu()">Exist</span>
         </v-container>
     </v-container>
@@ -24,6 +24,7 @@
         showNewOrExisting = false;
 
         mounted() {
+            this.ShowNewOrExisting = true;
             window.addEventListener("message", (e) => {
                 switch (e.data.eventName) {
                     case "TOGGLE_CHARACTER_SELECT":
@@ -42,6 +43,10 @@
 
         GoBack(value: string) {
             this.showNewOrExisting = true;
+            this.Menu = "";
+        }
+
+        SaveForm(value: string) {
             this.Menu = "";
         }
 

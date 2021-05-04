@@ -10,17 +10,31 @@ namespace OpenRP.Framework.Client.Classes
 {
     public static class Position
     {
-        public static async Task Teleport(Vector3 pos)
+        public static async Task Teleport(Vector3 pos, bool direct)
         {
-            var ground = 950f;
+            float distance;
+            float interval;
 
-            for (var zz = 950f; zz >= 0f; zz -= 25f)
+            if (!direct)
+            {
+                distance = 950f;
+                interval = 25f;
+            }
+            else
+            {
+                distance = 0.25f + pos.Z;
+                interval = 0.05f;
+            }
+
+            var ground = distance;
+
+            for (var zz = distance; zz >= 0f; zz -= interval)
             {
                 var z = zz;
 
-                if (zz % 2 != 0)
+                if (zz % 2 != 0 && !direct)
                 {
-                    z = 950f - zz;
+                    z = distance - zz;
                 }
 
                 RequestCollisionAtCoord(pos.X, pos.Y, z);

@@ -59,6 +59,7 @@
     <Compile Include="Classes\VehicleControl\VehicleToggleWindow.cs" />
     <Compile Include="Classes\VehicleControl\VehicleToggleDoor.cs" />
     <Compile Include="Classes\VehicleControl\VehicleTurnSignals.cs" />
+    <Compile Include="Classes\WorldHelper.cs" />
     <Compile Include="ClientAccessor.cs" />
     <Compile Include="ClientMain.cs" />
     <Compile Include="Classes\GridCoord.cs" />

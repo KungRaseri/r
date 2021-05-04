@@ -18,6 +18,8 @@ namespace OpenRP.Framework.Common.Enumeration
         /// </summary>
         STORE_ENGINE_STATE,
 
-        SAVE_NEW_CHARACTER
+        SAVE_NEW_CHARACTER,
+
+        SET_PLAYER_ROUTING_BUCKET
     }
 }

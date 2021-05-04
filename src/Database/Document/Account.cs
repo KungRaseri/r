@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace OpenRP.Framework.Database.Document
 {
@@ -10,8 +11,9 @@ namespace OpenRP.Framework.Database.Document
     {
         [BsonId]
         public ObjectId Id { get; set; }
-
         public string[] Identifiers { get; set; }
         public string[] Roles { get; set; }
+        [BsonIgnore]
+        public List<Character> Characters { get; set; }
     }
 }

@@ -111,11 +111,18 @@
                 .catch((error: any) => {
                     console.log("error", error);
                 });
+
+            this.saveform();
         }
 
         @Emit()
         goback() {
             return false;
+        }
+
+        @Emit()
+        saveform() {
+            return true;
         }
 
         get Show() {

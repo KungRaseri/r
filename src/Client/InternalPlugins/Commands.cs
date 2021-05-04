@@ -46,7 +46,7 @@ namespace OpenRP.Framework.Client.InternalPlugins
                 {
                     var gps = GetFirstBlipInfoId(8);
                     var pos = GetBlipCoords(gps);
-                    await Position.Teleport(pos);
+                    await Position.Teleport(pos, false);
                 }
             }
             else if (length == 1)
@@ -58,7 +58,7 @@ namespace OpenRP.Framework.Client.InternalPlugins
                 {
                     var ped = GetPlayerPed(found);
                     var pos = GetEntityCoords(ped, true);
-                    await Position.Teleport(pos);
+                    await Position.Teleport(pos, false);
                 }
             }
             else if (length == 2)
@@ -66,7 +66,7 @@ namespace OpenRP.Framework.Client.InternalPlugins
                 var pos = Vector3.Zero;
                 pos.X = float.Parse(list[0]);
                 pos.Y = float.Parse(list[1]);
-                await Position.Teleport(pos);
+                await Position.Teleport(pos, false);
             }
             else
                 ChatController.AddMessage(255, 0, 0, "Invalid number of arguments.");
