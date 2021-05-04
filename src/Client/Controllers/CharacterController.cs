@@ -14,14 +14,50 @@ namespace OpenRP.Framework.Client.Controllers
 {
     public class CharacterController : ClientAccessor
     {
+        private const float _heading = 160f;
         Camera _cam;
+        List<string> _peds;
 
         internal CharacterController(ClientMain client) : base(client)
         {
+            _peds = new List<string>();
+            PedListBuilder();
+
             Client.Events["playerSpawned"] += new Action(OnPlayerSpawned);
             Client.Event.RegisterNuiEvent(NuiEvent.SAVE_NEW_CHARACTER, new Action<dynamic>(OnSaveNewCharacter));
+            Client.Event.RegisterNuiEvent(NuiEvent.SET_CHARACTER_MODEL, new Action<dynamic>(OnSetCharacterModel));
 
             FirstSpawn();
+        }
+
+        private void PedListBuilder()
+        {
+            foreach (var value in Enum.GetValues(typeof(PedHash)))
+            {
+                _peds.Add(value.ToString());
+            }
+
+            _peds.Sort();
+        }
+
+        private async void OnSetCharacterModel(dynamic args)
+        {
+            PedHash ped;
+            string stringPed = args.ped;
+            await SetModel(stringPed);
+        }
+
+        private static async Task SetModel(string stringPed)
+        {
+            PedHash ped;
+            Enum.TryParse(stringPed, out ped);
+            var model = new Model(ped);
+            await Game.Player.ChangeModel(model);
+            Game.PlayerPed.Style.SetDefaultClothes();
+            Game.PlayerPed.Heading = _heading;
+
+            if (stringPed == PedHash.FreemodeFemale01.ToString() || stringPed == PedHash.FreemodeMale01.ToString())
+                SetPedHeadBlendData(Game.PlayerPed.Handle, 0, 0, 0, 0, 0, 0, 0.5f, 0.5f, 0f, false);
         }
 
         private void OnSaveNewCharacter(dynamic args)
@@ -55,13 +91,14 @@ namespace OpenRP.Framework.Client.Controllers
             NetworkOverrideClockTime(12, 0, 0);
             PauseClock(true);
             var pos = new Vector3(683.852f, 570.629f, 130.461f);
-            var heading = 160f;
             await Position.Teleport(pos, true);
-            Game.PlayerPed.Heading = heading;
-            _cam.Position = WorldHelper.PosOffset(pos, heading, 2);
+            Game.PlayerPed.Heading = _heading;
+            _cam.Position = WorldHelper.PosOffset(pos, _heading, 2);
             _cam.PointAt(Game.PlayerPed);
             SetTimecycleModifier("default");
             SetOverrideWeather("EXTRASUNNY");
+            SendNuiMessage(JsonConvert.SerializeObject(new { eventName = "LIST_OF_PEDS", _peds }));
+            UIElement.ToggleNuiModule("TOGGLE_PED_SELECT", true, true, true);
             await WorldHelper.FadeIn(1000);
         }
 

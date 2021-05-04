@@ -14,8 +14,20 @@
         },
     })
     export default class CharacterCustomizer extends Vue {
-        showPedSelect = true;
+        showPedSelect = false;
         ped = "";
+
+        mounted() {
+            window.addEventListener("message", (e) => {
+                switch (e.data.eventName) {
+                    case "TOGGLE_PED_SELECT":
+                        this.ShowPedSelect = e.data.visible;
+                        break;
+                    default:
+                        break;
+                }
+            });
+        }
 
         SetPed(value: string) {
             this.Ped = value;

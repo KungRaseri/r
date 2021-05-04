@@ -23,6 +23,8 @@ namespace OpenRP.Framework.Common.Enumeration
         /// </summary>
         TOGGLE_VEHICLE_COMPONENT,
 
-        SAVE_NEW_CHARACTER
+        SAVE_NEW_CHARACTER,
+
+        SET_CHARACTER_MODEL
     }
 }
