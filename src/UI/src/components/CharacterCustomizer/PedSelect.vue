@@ -148,7 +148,8 @@
     }
 
     .scroll {
-        overflow: scroll;
+        overflow-x: hidden;
+        overflow-y: auto;
         height: 87%;
     }
 </style>

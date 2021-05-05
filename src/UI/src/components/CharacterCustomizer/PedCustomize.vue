@@ -12,9 +12,17 @@
             <v-divider class="my-4" />
             <v-container class="scroll">
                 <v-expansion-panels>
-                    <StyleComponent v-if="IsFreemode()" name="FaceBlend" />
-                    <StyleComponent v-if="IsFreemode()" name="SkinBlend" />
-                    <StyleComponent v-for="item in Components" :key="item" :name="item" />
+                    <v-container class="no-filler" v-if="IsFreemode()">
+                        <v-subheader>Blends</v-subheader>
+                        <StyleComponent name="FaceBlend" />
+                        <StyleComponent name="SkinBlend" />
+                    </v-container>
+                    <v-container class="no-filler" v-if="IsFreemode()">
+                        <v-subheader>Barber</v-subheader>
+                        <StyleComponent name="Hair" :ped="Ped" :render="true" />
+                    </v-container>
+                    <v-subheader>Components</v-subheader>
+                    <StyleComponent v-for="item in Components" :key="item" :ped="Ped" :name="item" :render="false" />
                 </v-expansion-panels>
             </v-container>
         </v-container>
@@ -102,7 +110,16 @@
     }
 
     .scroll {
-        overflow: scroll;
+        overflow-x: hidden;
+        overflow-y: auto;
         height: 87%;
+    }
+
+    .no-filler {
+        padding: 0;
+    }
+
+    .v-subheader {
+        justify-content: center;
     }
 </style>

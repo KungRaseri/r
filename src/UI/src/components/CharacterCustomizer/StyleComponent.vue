@@ -1,5 +1,5 @@
 <template>
-    <v-expansion-panel v-if="Show">
+    <v-expansion-panel v-if="ShowElement()">
         <v-expansion-panel-header>
             {{ Name }}
         </v-expansion-panel-header>
@@ -50,6 +50,9 @@
     })
     export default class StyleComponent extends Vue {
         @Prop(String) name = this.Name;
+        @Prop(String) ped = this.Ped;
+        @Prop(Boolean) render = this.Render;
+
         slider = false;
         sliderValue = 0;
         itemMax = 0;
@@ -73,6 +76,18 @@
                 this.TextureMax = 45;
                 this.SliderValue = 0.5;
             }
+        }
+
+        ShowElement() {
+            if (!this.Show) {
+                return false
+            } else if (this.IsFreemode() && this.Name === "Hair" && this.Render) {
+                return true;
+            } else if (this.IsFreemode() && this.Name === "Hair" && !this.Render) {
+                return false;
+            }
+
+            return true;
         }
 
         mounted() {
@@ -119,12 +134,36 @@
             return false;
         }
 
+        IsFreemode() {
+            if (this.Ped === "FreemodeFemale01" || this.Ped === "FreemodeMale01") {
+                return true;
+            }
+
+            return false;
+        }
+
         get Name() {
             return this.name;
         }
 
         set Name(value: string) {
             this.name = value;
+        }
+
+        get Ped() {
+            return this.ped;
+        }
+
+        set Ped(value: string) {
+            this.ped = value;
+        }
+
+        get Render() {
+            return this.render;
+        }
+
+        set Render(value: boolean) {
+            this.render = value;
         }
 
         get Slider() {
