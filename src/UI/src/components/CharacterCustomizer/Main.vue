@@ -1,20 +1,24 @@
 <template>
     <v-container class="outter">
         <PedSelect :show="ShowPedSelect" @sendped="SetPed"/>
+        <PedCustomize :show="ShowPedCustomize" />
     </v-container>
 </template>
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
     import PedSelect from './PedSelect.vue';
+    import PedCustomize from './PedCustomize.vue';
 
     @Component({
         components: {
-            PedSelect
+            PedSelect,
+            PedCustomize
         },
     })
     export default class CharacterCustomizer extends Vue {
         showPedSelect = false;
+        showPedCustomize = false;
         ped = "";
 
         mounted() {
@@ -31,6 +35,8 @@
 
         SetPed(value: string) {
             this.Ped = value;
+            this.ShowPedSelect = false;
+            this.ShowPedCustomize = true;
         }
 
         get ShowPedSelect() {
@@ -39,6 +45,14 @@
 
         set ShowPedSelect(value: boolean) {
             this.showPedSelect = value;
+        }
+
+        get ShowPedCustomize() {
+            return this.showPedCustomize;
+        }
+
+        set ShowPedCustomize(value: boolean) {
+            this.showPedCustomize = value;
         }
 
         get Ped() {

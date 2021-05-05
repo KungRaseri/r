@@ -26,23 +26,47 @@ namespace OpenRP.Framework.Client.Controllers
             Client.Events["playerSpawned"] += new Action(OnPlayerSpawned);
             Client.Event.RegisterNuiEvent(NuiEvent.SAVE_NEW_CHARACTER, new Action<dynamic>(OnSaveNewCharacter));
             Client.Event.RegisterNuiEvent(NuiEvent.SET_CHARACTER_MODEL, new Action<dynamic>(OnSetCharacterModel));
+            Client.Event.RegisterNuiEvent(NuiEvent.AGGREGATE_DATA, new Action<dynamic>(OnAggregateData));
 
             FirstSpawn();
+        }
+
+        private void OnAggregateData(dynamic args)
+        {
+            var components = Game.PlayerPed.Style.GetAllComponents();
+            var props = Game.PlayerPed.Style.GetAllProps();
+            var variations = Game.PlayerPed.Style.GetAllVariations();
+
+            Aggregate();
+            SendComponentData(components);
+        }
+
+        private static void Aggregate()
+        {
+            var comps = new List<string>();
+            foreach (var value in Enum.GetValues(typeof(PedComponents)))
+            {
+                comps.Add(value.ToString());
+                Debug.WriteLine(value.ToString());
+            }
+            var data = new
+            {
+                eventName = "AGGREGATE_COMPONENTS",
+                comps = comps.ToArray()
+            };
+            SendNuiMessage(JsonConvert.SerializeObject(data));
         }
 
         private void PedListBuilder()
         {
             foreach (var value in Enum.GetValues(typeof(PedHash)))
-            {
                 _peds.Add(value.ToString());
-            }
 
             _peds.Sort();
         }
 
         private async void OnSetCharacterModel(dynamic args)
         {
-            PedHash ped;
             string stringPed = args.ped;
             await SetModel(stringPed);
         }
@@ -58,6 +82,39 @@ namespace OpenRP.Framework.Client.Controllers
 
             if (stringPed == PedHash.FreemodeFemale01.ToString() || stringPed == PedHash.FreemodeMale01.ToString())
                 SetPedHeadBlendData(Game.PlayerPed.Handle, 0, 0, 0, 0, 0, 0, 0.5f, 0.5f, 0f, false);
+        }
+
+        private static void SendComponentData(PedComponent[] components)
+        {
+            var eventName = "PED_COMPONENT_DATA";
+            foreach (var item in Enum.GetValues(typeof(PedComponents)))
+            {
+                try
+                {
+                    PedComponents value;
+                    Enum.TryParse(item.ToString(), out value);
+                    var comp = components[(int)value];
+
+                    var pedComp = new
+                    {
+                        item = item.ToString(),
+                        value,
+                        comp
+                    };
+
+                    var data = new
+                    {
+                        eventName,
+                        pedComp
+                    };
+
+                    SendNuiMessage(JsonConvert.SerializeObject(data));
+                }
+                catch
+                {
+                    continue;
+                }
+            }
         }
 
         private void OnSaveNewCharacter(dynamic args)

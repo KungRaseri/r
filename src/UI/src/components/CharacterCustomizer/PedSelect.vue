@@ -87,6 +87,16 @@
 
         @Emit()
         sendped(value: string) {
+            this.$axios
+                .post(
+                    "http://framework/AGGREGATE_DATA",
+                    {
+                    }
+                )
+                .catch((error: any) => {
+                    console.log("error", error);
+                });
+
             return value;
         }
 

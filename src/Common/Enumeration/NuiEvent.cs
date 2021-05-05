@@ -25,6 +25,8 @@ namespace OpenRP.Framework.Common.Enumeration
 
         SAVE_NEW_CHARACTER,
 
-        SET_CHARACTER_MODEL
+        SET_CHARACTER_MODEL,
+
+        AGGREGATE_DATA
     }
 }
