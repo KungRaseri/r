@@ -1,7 +1,7 @@
 <template>
     <v-container class="outter">
         <PedSelect :show="ShowPedSelect" @sendped="SetPed"/>
-        <PedCustomize :show="ShowPedCustomize" />
+        <PedCustomize :show="ShowPedCustomize" @goback="GoBack" />
     </v-container>
 </template>
 
@@ -37,6 +37,11 @@
             this.Ped = value;
             this.ShowPedSelect = false;
             this.ShowPedCustomize = true;
+        }
+
+        GoBack(value: boolean) {
+            this.ShowPedCustomize = false;
+            this.ShowPedSelect = true;
         }
 
         get ShowPedSelect() {

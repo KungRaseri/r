@@ -1,12 +1,12 @@
 <template>
-    <v-card v-show="Show" class="panel" dark>
+    <v-card v-if="Show" class="panel" dark>
         <v-container class="fill">
             <v-row dense>
                 <v-col>
-                    <v-btn color="red" :rounded="true" block>Back</v-btn>
+                    <v-btn color="red" :rounded="true" block @click="goback()">Back</v-btn>
                 </v-col>
                 <v-col>
-                    <v-btn color="green" :rounded="true" block @click="sendped(Ped)">Continue</v-btn>
+                    <v-btn color="green" :rounded="true" block>Continue</v-btn>
                 </v-col>
             </v-row>
             <v-divider class="my-4" />
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Prop } from 'vue-property-decorator';
+    import { Component, Vue, Prop, Emit } from 'vue-property-decorator';
     import StyleComponent from './StyleComponent.vue';
 
     @Component({
@@ -44,6 +44,11 @@
                         break;
                 }
             });
+        }
+
+        @Emit()
+        goback() {
+            return true;
         }
 
         get Show() {

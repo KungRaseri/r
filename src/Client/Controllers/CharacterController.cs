@@ -15,6 +15,7 @@ namespace OpenRP.Framework.Client.Controllers
     public class CharacterController : ClientAccessor
     {
         private const float _heading = 160f;
+        private Vector3 _pos = new Vector3(683.852f, 570.629f, 130.461f);
         Camera _cam;
         List<string> _peds;
 
@@ -27,8 +28,16 @@ namespace OpenRP.Framework.Client.Controllers
             Client.Event.RegisterNuiEvent(NuiEvent.SAVE_NEW_CHARACTER, new Action<dynamic>(OnSaveNewCharacter));
             Client.Event.RegisterNuiEvent(NuiEvent.SET_CHARACTER_MODEL, new Action<dynamic>(OnSetCharacterModel));
             Client.Event.RegisterNuiEvent(NuiEvent.AGGREGATE_DATA, new Action<dynamic>(OnAggregateData));
+            Client.Event.RegisterNuiEvent(NuiEvent.SET_PED_COMPONENT, new Action<dynamic>(OnSetPedComponent));
 
             FirstSpawn();
+        }
+
+        private void OnSetPedComponent(dynamic args)
+        {
+            Enum.TryParse(args.name, out PedComponents comp);
+            Game.PlayerPed.Style[comp].SetVariation(int.Parse(args.itemIndex), int.Parse(args.textureIndex));
+            SendComponentData(Game.PlayerPed.Style.GetAllComponents());
         }
 
         private void OnAggregateData(dynamic args)
@@ -71,13 +80,13 @@ namespace OpenRP.Framework.Client.Controllers
             await SetModel(stringPed);
         }
 
-        private static async Task SetModel(string stringPed)
+        private async Task SetModel(string stringPed)
         {
-            PedHash ped;
-            Enum.TryParse(stringPed, out ped);
+            Enum.TryParse(stringPed, out PedHash ped);
             var model = new Model(ped);
             await Game.Player.ChangeModel(model);
             Game.PlayerPed.Style.SetDefaultClothes();
+            await Position.Teleport(_pos, false);
             Game.PlayerPed.Heading = _heading;
 
             if (stringPed == PedHash.FreemodeFemale01.ToString() || stringPed == PedHash.FreemodeMale01.ToString())
@@ -147,10 +156,9 @@ namespace OpenRP.Framework.Client.Controllers
             Client.Event.TriggerServerEvent(ServerEvent.SET_PLAYER_ROUTING_BUCKET);
             NetworkOverrideClockTime(12, 0, 0);
             PauseClock(true);
-            var pos = new Vector3(683.852f, 570.629f, 130.461f);
-            await Position.Teleport(pos, true);
+            await Position.Teleport(_pos, true);
             Game.PlayerPed.Heading = _heading;
-            _cam.Position = WorldHelper.PosOffset(pos, _heading, 2);
+            _cam.Position = WorldHelper.PosOffset(_pos, _heading, 2);
             _cam.PointAt(Game.PlayerPed);
             SetTimecycleModifier("default");
             SetOverrideWeather("EXTRASUNNY");
