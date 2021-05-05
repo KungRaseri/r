@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Classes\Position.cs" />
     <Compile Include="Classes\StyleComponents\PedOverlay.cs" />
+    <Compile Include="Classes\StyleComponents\PedStyle.cs" />
     <Compile Include="Classes\VehicleControl\VehicleToggleEngine.cs" />
     <Compile Include="Classes\VehicleControl\VehicleToggleSeatbelt.cs" />
     <Compile Include="Classes\VehicleControl\VehicleSwitchSeats.cs" />
