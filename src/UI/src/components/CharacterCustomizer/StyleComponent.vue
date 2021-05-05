@@ -34,7 +34,7 @@
                     </v-col>
                 </v-row>
                 <v-row v-if="Slider" class="mt-6" dense>
-                    <v-slider/>
+                    <v-slider v-model="SliderValue" :min="Min" :max="1" :step="0.01" :thumb-label="true" thumb-color="red"/>
                 </v-row>
             </v-container>
         </v-expansion-panel-content>
@@ -51,13 +51,29 @@
     export default class StyleComponent extends Vue {
         @Prop(String) name = this.Name;
         slider = false;
+        sliderValue = 0;
         itemMax = 0;
         textureMax = 0;
         show = false;
         itemIndex = "0";
         textureIndex = "0";
+        suppress = false;
+        min = 0;
 
         $axios: any;
+
+        constructor() {
+            super();
+
+            if (this.Name === "FaceBlend" || this.Name === "SkinBlend") {
+                this.Suppress = true;
+                this.Slider = true;
+                this.Show = true;
+                this.ItemMax = 45;
+                this.TextureMax = 45;
+                this.SliderValue = 0.5;
+            }
+        }
 
         mounted() {
             window.addEventListener("message", (e) => {
@@ -157,7 +173,10 @@
                 this.itemIndex = value;
             }
 
-            this.TextureIndex = "0";
+            if (!this.Suppress) {
+                this.TextureIndex = "0";
+            }
+
             this.SendComponentData();
         }
 
@@ -178,10 +197,36 @@
             this.SendComponentData();
         }
 
+        get Suppress() {
+            return this.suppress;
+        }
+
+        set Suppress(value: boolean) {
+            this.suppress = value;
+        }
+
+        get Min() {
+            return this.min;
+        }
+
+        set Min(value: number) {
+            this.min = value;
+        }
+
+        get SliderValue() {
+            return this.sliderValue;
+        }
+
+        set SliderValue(value: number) {
+            this.sliderValue = value;
+            this.SendComponentData();
+        }
+
         SendComponentData() {
-            let name = this.Name;
-            let itemIndex = this.ItemIndex;
-            let textureIndex = this.TextureIndex;
+            let name = this.Name || "";
+            let itemIndex = this.ItemIndex || "0";
+            let textureIndex = this.TextureIndex || "0";
+            let sliderValue = this.SliderValue || 0;
 
             this.$axios
                 .post(
@@ -189,7 +234,8 @@
                     {
                         name,
                         itemIndex,
-                        textureIndex
+                        textureIndex,
+                        sliderValue
                     }
                 )
                 .catch((error: any) => {

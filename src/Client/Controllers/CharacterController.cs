@@ -14,6 +14,13 @@ namespace OpenRP.Framework.Client.Controllers
 {
     public class CharacterController : ClientAccessor
     {
+        int _face1;
+        int _face2;
+        int _skin1;
+        int _skin2;
+        float _faceBlend;
+        float _skinBlend;
+
         private const float _heading = 160f;
         private Vector3 _pos = new Vector3(683.852f, 570.629f, 130.461f);
         Camera _cam;
@@ -35,17 +42,39 @@ namespace OpenRP.Framework.Client.Controllers
 
         private void OnSetPedComponent(dynamic args)
         {
-            Enum.TryParse(args.name, out PedComponents comp);
-            Game.PlayerPed.Style[comp].SetVariation(int.Parse(args.itemIndex), int.Parse(args.textureIndex));
-            SendComponentData();
+            var item = int.Parse(args.itemIndex);
+            var texture = int.Parse(args.textureIndex);
+
+            if (args.name == "FaceBlend" || args.name == "SkinBlend")
+            {
+                var slider = (float)args.sliderValue;
+
+                if (args.name == "FaceBlend")
+                {
+                    _face1 = item;
+                    _face2 = texture;
+                    _faceBlend = slider;
+                }
+                else
+                {
+                    _skin1 = item;
+                    _skin2 = texture;
+                    _skinBlend = slider;
+                }
+
+                Debug.WriteLine(slider.ToString());
+                SetPedHeadBlendData(Game.PlayerPed.Handle, _face1, _face2, 0, _skin1, _skin2, 0, _faceBlend, _skinBlend, 0, false);
+            }
+            else
+            {
+                Enum.TryParse(args.name, out PedComponents comp);
+                Game.PlayerPed.Style[comp].SetVariation(item, texture);
+                SendComponentData();
+            }
         }
 
         private void OnAggregateData(dynamic args)
         {
-            var components = Game.PlayerPed.Style.GetAllComponents();
-            var props = Game.PlayerPed.Style.GetAllProps();
-            var variations = Game.PlayerPed.Style.GetAllVariations();
-
             Aggregate();
             SendComponentData();
         }
@@ -53,7 +82,7 @@ namespace OpenRP.Framework.Client.Controllers
         private static void Aggregate()
         {
             var comps = new List<string>();
-            foreach (var value in Enum.GetValues(typeof(PedComponents)))
+            foreach (PedComponents value in Enum.GetValues(typeof(PedComponents)))
             {
                 comps.Add(value.ToString());
             }
@@ -67,10 +96,17 @@ namespace OpenRP.Framework.Client.Controllers
 
         private void PedListBuilder()
         {
-            foreach (var value in Enum.GetValues(typeof(PedHash)))
-                _peds.Add(value.ToString());
+            foreach (PedHash value in Enum.GetValues(typeof(PedHash)))
+            {
+                var ped = value.ToString();
+                if (ped != "FreemodeFemale01" && ped != "FreemodeMale01")
+                    _peds.Add(ped);
+            }
 
             _peds.Sort();
+
+            _peds.Insert(0, "FreemodeFemale01");
+            _peds.Insert(1, "FreemodeMale01");
         }
 
         private async void OnSetCharacterModel(dynamic args)
@@ -90,33 +126,44 @@ namespace OpenRP.Framework.Client.Controllers
             Game.PlayerPed.Position = new Vector3(_pos.X, _pos.Y, ground);
             Game.PlayerPed.Heading = _heading;
 
-            if (stringPed == PedHash.FreemodeFemale01.ToString() || stringPed == PedHash.FreemodeMale01.ToString())
+            if (IsFreemode(ped))
                 SetPedHeadBlendData(Game.PlayerPed.Handle, 0, 0, 0, 0, 0, 0, 0.5f, 0.5f, 0f, false);
+        }
+
+        private static bool IsFreemode(PedHash ped)
+        {
+            if (ped == PedHash.FreemodeFemale01 || ped == PedHash.FreemodeMale01)
+                return true;
+
+            return false;
         }
 
         private static void SendComponentData()
         {
             Dictionary<string, PedComponent> components = new Dictionary<string, PedComponent>();
-            PedComponents comp;
 
             foreach (var item in Enum.GetNames(typeof(PedComponents)))
             {
-                Enum.TryParse(item, out comp);
+                Enum.TryParse(item, out PedComponents comp);
                 components.Add(item, Game.PlayerPed.Style[comp]);
             }
 
             var eventName = "PED_COMPONENT_DATA";
-
+            var hash = (PedHash)Game.PlayerPed.Model.Hash;
             foreach (var item in components)
             {
-                var data = new
+                Enum.TryParse(item.Key, out PedComponents comp);
+                if (!IsFreemode(hash) || (IsFreemode(hash) && comp != PedComponents.Face))
                 {
-                    eventName,
-                    name = item.Key,
-                    comp = item.Value
-                };
+                    var data = new
+                    {
+                        eventName,
+                        name = item.Key,
+                        comp = item.Value
+                    };
 
-                SendNuiMessage(JsonConvert.SerializeObject(data));
+                    SendNuiMessage(JsonConvert.SerializeObject(data));
+                }
             }
         }
 

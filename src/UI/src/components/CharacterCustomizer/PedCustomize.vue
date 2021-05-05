@@ -12,6 +12,8 @@
             <v-divider class="my-4" />
             <v-container class="scroll">
                 <v-expansion-panels>
+                    <StyleComponent v-if="IsFreemode()" name="FaceBlend" />
+                    <StyleComponent v-if="IsFreemode()" name="SkinBlend" />
                     <StyleComponent v-for="item in Components" :key="item" :name="item" />
                 </v-expansion-panels>
             </v-container>
@@ -30,6 +32,7 @@
     })
     export default class PedCustomize extends Vue {
         @Prop(Boolean) show = this.Show;
+        @Prop(String) ped = this.Ped;
 
         components = [""];
         $axios: any;
@@ -51,6 +54,14 @@
             return true;
         }
 
+        IsFreemode() {
+            if (this.Ped === "FreemodeFemale01" || this.Ped === "FreemodeMale01") {
+                return true;
+            }
+
+            return false;
+        }
+
         get Show() {
             return this.show;
         }
@@ -65,6 +76,14 @@
 
         set Components(value: string[]) {
             this.components = value;
+        }
+
+        get Ped() {
+            return this.ped;
+        }
+
+        set Ped(value: string) {
+            this.ped = value;
         }
     }
 </script>

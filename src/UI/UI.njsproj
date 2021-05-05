@@ -38,8 +38,9 @@
   <ItemGroup>
     <Content Include="src\assets\logo.svg" />
     <Content Include="src\components\CharacterCustomizer\Main.vue" />
+    <Content Include="src\components\CharacterCustomizer\PedCustomize.vue" />
     <Content Include="src\components\CharacterCustomizer\PedSelect.vue" />
-    <Content Include="src\components\CharacterCustomizer\Template.vue" />
+    <Content Include="src\components\CharacterCustomizer\StyleComponent.vue" />
     <Content Include="src\components\CharacterSelect\Main.vue" />
     <Content Include="src\components\CharacterSelect\NewOrExisting.vue" />
     <Content Include="src\components\CharacterSelect\NewCharacter.vue" />
