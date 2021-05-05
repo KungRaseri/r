@@ -19,10 +19,12 @@
                     </v-container>
                     <v-container class="no-filler" v-if="IsFreemode()">
                         <v-subheader>Barber</v-subheader>
-                        <StyleComponent name="Hair" :ped="Ped" :render="true" />
+                        <StyleComponent name="Hair" :ped="Ped" :render="true" typeof="comps" />
                     </v-container>
                     <v-subheader>Components</v-subheader>
-                    <StyleComponent v-for="item in Components" :key="item" :ped="Ped" :name="item" :render="false" />
+                    <StyleComponent v-for="item in Components" :key="'comps:' + item" :ped="Ped" :name="item" :render="false" type="comps" />
+                    <v-subheader>Props</v-subheader>
+                    <StyleComponent v-for="item in Props" :key="'props:' + item" :ped="Ped" :name="item" :render="false" type="props" />
                 </v-expansion-panels>
             </v-container>
         </v-container>
@@ -43,13 +45,18 @@
         @Prop(String) ped = this.Ped;
 
         components = [""];
+        props = [""];
         $axios: any;
 
         mounted() {
             window.addEventListener("message", (e) => {
                 switch (e.data.eventName) {
                     case "AGGREGATE_COMPONENTS":
-                        this.Components = e.data.comps;
+                        if (e.data.type === "comps") {
+                            this.Components = e.data.comps;
+                        } else if (e.data.type === "props") {
+                            this.Props = e.data.comps;
+                        }
                         break;
                     default:
                         break;
@@ -84,6 +91,14 @@
 
         set Components(value: string[]) {
             this.components = value;
+        }
+
+        get Props() {
+            return this.props;
+        }
+
+        set Props(value: string[]) {
+            this.props = value;
         }
 
         get Ped() {

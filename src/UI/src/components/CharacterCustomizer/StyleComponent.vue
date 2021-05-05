@@ -52,6 +52,7 @@
         @Prop(String) name = this.Name;
         @Prop(String) ped = this.Ped;
         @Prop(Boolean) render = this.Render;
+        @Prop(String) type = this.Type;
 
         slider = false;
         sliderValue = 0;
@@ -95,8 +96,13 @@
                 switch (e.data.eventName) {
                     case "PED_COMPONENT_DATA":
                         if (this.Name === e.data.name) {
-                            this.ItemMax = e.data.comp.Count - 1;
-                            this.TextureMax = e.data.comp.TextureCount - 1;
+                            if (e.data.type === "props" && e.data.comp.Index === 0) {
+                                this.ItemMax = e.data.comp.Count;
+                                this.TextureMax = e.data.comp.TextureCount;
+                            } else {
+                                this.ItemMax = e.data.comp.Count - 1;
+                                this.TextureMax = e.data.comp.TextureCount - 1;
+                            }
                             this.Show = e.data.comp.HasAnyVariations;
                         }
                         break;
@@ -164,6 +170,14 @@
 
         set Render(value: boolean) {
             this.render = value;
+        }
+
+        get Type() {
+            return this.type;
+        }
+
+        set Type(value: string) {
+            this.type = value;
         }
 
         get Slider() {
@@ -262,24 +276,29 @@
         }
 
         SendComponentData() {
-            let name = this.Name || "";
-            let itemIndex = this.ItemIndex || "0";
-            let textureIndex = this.TextureIndex || "0";
-            let sliderValue = this.SliderValue || 0;
+            console.log(this.Type);
+            if (this.Type !== undefined) {
+                let name = this.Name || "";
+                let itemIndex = this.ItemIndex || "0";
+                let textureIndex = this.TextureIndex || "0";
+                let sliderValue = this.SliderValue || 0;
+                let type = this.Type;
 
-            this.$axios
-                .post(
-                    "http://framework/SET_PED_COMPONENT",
-                    {
-                        name,
-                        itemIndex,
-                        textureIndex,
-                        sliderValue
-                    }
-                )
-                .catch((error: any) => {
-                    console.log("error", error);
-                });
+                this.$axios
+                    .post(
+                        "http://framework/SET_PED_COMPONENT",
+                        {
+                            name,
+                            itemIndex,
+                            textureIndex,
+                            sliderValue,
+                            type
+                        }
+                    )
+                    .catch((error: any) => {
+                        console.log("error", error);
+                    });
+            }
         }
     }
 </script>

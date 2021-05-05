@@ -20,6 +20,8 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
         internal static void OnSetPedComponent(dynamic args)
         {
+            Debug.WriteLine(JsonConvert.SerializeObject(args));
+
             var item = int.Parse(args.itemIndex);
             var texture = int.Parse(args.textureIndex);
 
@@ -42,33 +44,49 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
                 SetPedHeadBlendData(Game.PlayerPed.Handle, _face1, _face2, 0, _skin1, _skin2, 0, _faceBlend, _skinBlend, 0, false);
             }
-            else
+            else if (args.type == "comps")
             {
                 Enum.TryParse(args.name, out PedComponents comp);
                 Game.PlayerPed.Style[comp].SetVariation(item, texture);
-                SendComponentData();
+                SendComponentData<PedComponents, PedComponent>();
+            }
+            else if (args.type == "props")
+            {
+                Enum.TryParse(args.name, out PedProps comp);
+                Game.PlayerPed.Style[comp].SetVariation(item, texture);
+                SendComponentData<PedProps, PedProp>();
             }
         }
 
         internal static void OnAggregateData(dynamic args)
         {
-            Aggregate();
-            SendComponentData();
+            Aggregate<PedComponents, PedComponent>();
+            Aggregate<PedProps, PedProp>();
         }
 
-        private static void Aggregate()
+        private static void Aggregate<PedEnum, PedVariation>()
         {
             var comps = new List<string>();
-            foreach (PedComponents value in Enum.GetValues(typeof(PedComponents)))
+            var type = "";
+
+            if (typeof(PedEnum) == typeof(PedComponents))
+                type = "comps";
+            else if (typeof(PedEnum) == typeof(PedProps))
+                type = "props";
+
+            foreach (PedEnum value in Enum.GetValues(typeof(PedEnum)))
             {
                 comps.Add(value.ToString());
             }
             var data = new
             {
                 eventName = "AGGREGATE_COMPONENTS",
-                comps = comps.ToArray()
+                comps = comps.ToArray(),
+                type
             };
             SendNuiMessage(JsonConvert.SerializeObject(data));
+
+            SendComponentData<PedEnum, PedVariation>();
         }
 
         internal static async void OnSetCharacterModel(dynamic args)
@@ -102,29 +120,55 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
             return false;
         }
 
-        private static void SendComponentData()
+        private static void SendComponentData<PedEnum, PedVariation>()
         {
-            Dictionary<string, PedComponent> components = new Dictionary<string, PedComponent>();
+            Dictionary<string, IPedVariation> components = new Dictionary<string, IPedVariation>();
 
-            foreach (var item in Enum.GetNames(typeof(PedComponents)))
+            foreach (var item in Enum.GetNames(typeof(PedEnum)))
             {
-                Enum.TryParse(item, out PedComponents comp);
-                components.Add(item, Game.PlayerPed.Style[comp]);
+                if (typeof(PedVariation) == typeof(PedComponent))
+                {
+                    Enum.TryParse(item, out PedComponents comp);
+                    components.Add(item, Game.PlayerPed.Style[comp]);
+                }
+                else if (typeof(PedVariation) == typeof(PedProp))
+                {
+                    Enum.TryParse(item, out PedProps comp);
+                    components.Add(item, Game.PlayerPed.Style[comp]);
+                }
             }
 
             var eventName = "PED_COMPONENT_DATA";
             var hash = (PedHash)Game.PlayerPed.Model.Hash;
             foreach (var item in components)
             {
-                Enum.TryParse(item.Key, out PedComponents comp);
-                if (!IsFreemode(hash) || (IsFreemode(hash) && comp != PedComponents.Face))
+                if (typeof(PedVariation) == typeof(PedComponent))
+                {
+                    Enum.TryParse(item.Key, out PedComponents comp);
+
+                    if (!IsFreemode(hash) || (IsFreemode(hash) && comp != PedComponents.Face))
+                    {
+                        var data = new
+                        {
+                            eventName,
+                            name = item.Key,
+                            comp = item.Value,
+                            type = "comps"
+                        };
+
+                        SendNuiMessage(JsonConvert.SerializeObject(data));
+                    }
+                }
+                else if (typeof(PedVariation) == typeof(PedProp))
                 {
                     var data = new
                     {
                         eventName,
                         name = item.Key,
-                        comp = item.Value
+                        comp = item.Value,
+                        type = "props"
                     };
+                    Debug.WriteLine(JsonConvert.SerializeObject(data));
 
                     SendNuiMessage(JsonConvert.SerializeObject(data));
                 }
