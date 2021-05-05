@@ -37,7 +37,7 @@ namespace OpenRP.Framework.Client.Controllers
         {
             Enum.TryParse(args.name, out PedComponents comp);
             Game.PlayerPed.Style[comp].SetVariation(int.Parse(args.itemIndex), int.Parse(args.textureIndex));
-            SendComponentData(Game.PlayerPed.Style.GetAllComponents());
+            SendComponentData();
         }
 
         private void OnAggregateData(dynamic args)
@@ -47,7 +47,7 @@ namespace OpenRP.Framework.Client.Controllers
             var variations = Game.PlayerPed.Style.GetAllVariations();
 
             Aggregate();
-            SendComponentData(components);
+            SendComponentData();
         }
 
         private static void Aggregate()
@@ -56,7 +56,6 @@ namespace OpenRP.Framework.Client.Controllers
             foreach (var value in Enum.GetValues(typeof(PedComponents)))
             {
                 comps.Add(value.ToString());
-                Debug.WriteLine(value.ToString());
             }
             var data = new
             {
@@ -86,43 +85,38 @@ namespace OpenRP.Framework.Client.Controllers
             var model = new Model(ped);
             await Game.Player.ChangeModel(model);
             Game.PlayerPed.Style.SetDefaultClothes();
-            await Position.Teleport(_pos, false);
+            float ground = 0f;
+            GetGroundZFor_3dCoord(_pos.X, _pos.Y, _pos.Z, ref ground, false);
+            Game.PlayerPed.Position = new Vector3(_pos.X, _pos.Y, ground);
             Game.PlayerPed.Heading = _heading;
 
             if (stringPed == PedHash.FreemodeFemale01.ToString() || stringPed == PedHash.FreemodeMale01.ToString())
                 SetPedHeadBlendData(Game.PlayerPed.Handle, 0, 0, 0, 0, 0, 0, 0.5f, 0.5f, 0f, false);
         }
 
-        private static void SendComponentData(PedComponent[] components)
+        private static void SendComponentData()
         {
-            var eventName = "PED_COMPONENT_DATA";
-            foreach (var item in Enum.GetValues(typeof(PedComponents)))
+            Dictionary<string, PedComponent> components = new Dictionary<string, PedComponent>();
+            PedComponents comp;
+
+            foreach (var item in Enum.GetNames(typeof(PedComponents)))
             {
-                try
+                Enum.TryParse(item, out comp);
+                components.Add(item, Game.PlayerPed.Style[comp]);
+            }
+
+            var eventName = "PED_COMPONENT_DATA";
+
+            foreach (var item in components)
+            {
+                var data = new
                 {
-                    PedComponents value;
-                    Enum.TryParse(item.ToString(), out value);
-                    var comp = components[(int)value];
+                    eventName,
+                    name = item.Key,
+                    comp = item.Value
+                };
 
-                    var pedComp = new
-                    {
-                        item = item.ToString(),
-                        value,
-                        comp
-                    };
-
-                    var data = new
-                    {
-                        eventName,
-                        pedComp
-                    };
-
-                    SendNuiMessage(JsonConvert.SerializeObject(data));
-                }
-                catch
-                {
-                    continue;
-                }
+                SendNuiMessage(JsonConvert.SerializeObject(data));
             }
         }
 

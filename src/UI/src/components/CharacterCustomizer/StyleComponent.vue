@@ -7,28 +7,28 @@
             <v-container class="panel">
                 <v-row dense>
                     <v-col>
-                        <v-btn height="100%" block @click="ChangeItemIndex(-1)" :disabled="ItemDisable()">
+                        <v-btn height="100%" block @click="ChangeItemIndex(-1)" :disabled="ItemDisable('left')">
                             <v-icon>mdi-arrow-left-thick</v-icon>
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-text-field class="centered-input" v-model="ItemIndex" :disabled="ItemDisable()"/>
+                        <v-text-field class="centered-input" v-model="ItemIndex" :disabled="ItemDisable('input')"/>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block @click="ChangeItemIndex(1)" :disabled="ItemDisable()">
+                        <v-btn height="100%" block @click="ChangeItemIndex(1)" :disabled="ItemDisable('right')">
                             <v-icon>mdi-arrow-right-thick</v-icon>
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block @click="ChangeTextureIndex(-1)" :disabled="TextureDisable()">
+                        <v-btn height="100%" block @click="ChangeTextureIndex(-1)" :disabled="TextureDisable('left')">
                             <v-icon>mdi-arrow-left-thick</v-icon>
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-text-field class="centered-input" v-model="TextureIndex" :disabled="TextureDisable()"/>
+                        <v-text-field class="centered-input" v-model="TextureIndex" :disabled="TextureDisable('input')"/>
                     </v-col>
                     <v-col>
-                        <v-btn height="100%" block @click="ChangeTextureIndex(1)" :disabled="TextureDisable()">
+                        <v-btn height="100%" block @click="ChangeTextureIndex(1)" :disabled="TextureDisable('right')">
                             <v-icon>mdi-arrow-right-thick</v-icon>
                         </v-btn>
                     </v-col>
@@ -63,12 +63,10 @@
             window.addEventListener("message", (e) => {
                 switch (e.data.eventName) {
                     case "PED_COMPONENT_DATA":
-                        if (this.Name === e.data.pedComp.item) {
-                            if (e.data.pedComp.comp !== null) {
-                                this.ItemMax = e.data.pedComp.comp.Count - 1;
-                                this.TextureMax = e.data.pedComp.comp.TextureCount - 1;
-                                this.Show = e.data.pedComp.comp.HasAnyVariations;
-                            }
+                        if (this.Name === e.data.name) {
+                            this.ItemMax = e.data.comp.Count - 1;
+                            this.TextureMax = e.data.comp.TextureCount - 1;
+                            this.Show = e.data.comp.HasAnyVariations;
                         }
                         break;
                     default:
@@ -89,20 +87,20 @@
             this.TextureIndex = v.toString();
         }
 
-        ItemDisable() {
-            if (this.ItemMax > 0) {
-                return false;
+        ItemDisable(value: string) {
+            if ((value === "right" && parseInt(this.ItemIndex) === this.ItemMax) || (value === "left" && parseInt(this.ItemIndex) === 0) || (value === "input" && this.ItemMax === 0)) {
+                return true;
             }
 
-            return true;
+            return false;
         }
 
-        TextureDisable() {
-            if (this.TextureMax > 0) {
-                return false;
+        TextureDisable(value: string) {
+            if ((value === "right" && parseInt(this.TextureIndex) === this.TextureMax) || (value === "left" && parseInt(this.TextureIndex) === 0) || (value === "input" && this.TextureMax === 0)) {
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         get Name() {
