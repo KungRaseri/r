@@ -3,8 +3,6 @@ using Newtonsoft.Json;
 using OpenRP.Framework.Common.Enumeration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
@@ -98,6 +96,8 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
                 Game.PlayerPed.State.Set(args.name, overlay, false);
             }
+            else if (args.type == "eyes")
+                SetPedEyeColor(Game.PlayerPed.Handle, args.index);
         }
 
         private static void Aggregate<PedEnum, PedVariation>()

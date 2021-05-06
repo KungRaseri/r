@@ -36,12 +36,46 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="src\assets\eyes\0.png" />
+    <Content Include="src\assets\eyes\1.png" />
+    <Content Include="src\assets\eyes\10.png" />
+    <Content Include="src\assets\eyes\11.png" />
+    <Content Include="src\assets\eyes\12.png" />
+    <Content Include="src\assets\eyes\13.png" />
+    <Content Include="src\assets\eyes\14.png" />
+    <Content Include="src\assets\eyes\15.png" />
+    <Content Include="src\assets\eyes\16.png" />
+    <Content Include="src\assets\eyes\17.png" />
+    <Content Include="src\assets\eyes\18.png" />
+    <Content Include="src\assets\eyes\19.png" />
+    <Content Include="src\assets\eyes\2.png" />
+    <Content Include="src\assets\eyes\20.png" />
+    <Content Include="src\assets\eyes\21.png" />
+    <Content Include="src\assets\eyes\22.png" />
+    <Content Include="src\assets\eyes\23.png" />
+    <Content Include="src\assets\eyes\24.png" />
+    <Content Include="src\assets\eyes\25.png" />
+    <Content Include="src\assets\eyes\26.png" />
+    <Content Include="src\assets\eyes\27.png" />
+    <Content Include="src\assets\eyes\28.png" />
+    <Content Include="src\assets\eyes\29.png" />
+    <Content Include="src\assets\eyes\3.png" />
+    <Content Include="src\assets\eyes\30.png" />
+    <Content Include="src\assets\eyes\31.png" />
+    <Content Include="src\assets\eyes\4.png" />
+    <Content Include="src\assets\eyes\5.png" />
+    <Content Include="src\assets\eyes\6.png" />
+    <Content Include="src\assets\eyes\7.png" />
+    <Content Include="src\assets\eyes\8.png" />
+    <Content Include="src\assets\eyes\9.png" />
     <Content Include="src\assets\logo.svg" />
     <Content Include="src\components\CharacterCustomizer\Main.vue" />
     <Content Include="src\components\CharacterCustomizer\PedCustomize.vue" />
     <Content Include="src\components\CharacterCustomizer\PedSelect.vue" />
     <Content Include="src\components\CharacterCustomizer\StyleComponent.vue" />
+    <Content Include="src\components\CharacterCustomizer\ColorGroup.vue" />
     <Content Include="src\components\CharacterCustomizer\ColorSwatch.vue" />
+    <Content Include="src\components\CharacterCustomizer\EyeSwatch.vue" />
     <Content Include="src\components\CharacterSelect\Main.vue" />
     <Content Include="src\components\CharacterSelect\NewOrExisting.vue" />
     <Content Include="src\components\CharacterSelect\NewCharacter.vue" />
@@ -81,6 +115,7 @@
     <Folder Include="public\" />
     <Folder Include="src\" />
     <Folder Include="src\assets\" />
+    <Folder Include="src\assets\eyes\" />
     <Folder Include="src\components\" />
     <Folder Include="src\components\MessageBox\" />
     <Folder Include="src\components\CharacterSelect\" />

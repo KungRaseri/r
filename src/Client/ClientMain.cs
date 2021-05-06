@@ -26,6 +26,8 @@ namespace OpenRP.Framework.Client
         /// </summary>
         public readonly ChatController Chat;
 
+        public readonly CharacterController Character;
+
         public readonly DiscordController Discord;
 
         internal EventHandlerDictionary Events => EventHandlers;
@@ -37,8 +39,8 @@ namespace OpenRP.Framework.Client
             Discord = new DiscordController(this);
             Event = new EventController(this);
             Chat = new ChatController(this);
+            Character = new CharacterController(this);
 
-            new CharacterController(this);
             new VoiceController(this);
             new PlayerController(this);
             new PedTrafficController(this);

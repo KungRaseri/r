@@ -19,6 +19,7 @@
                     </v-container>
                     <v-container class="no-filler" v-if="IsFreemode()">
                         <v-subheader>Barber</v-subheader>
+                        <EyeSwatch />
                         <StyleComponent name="Hair" :ped="Ped" :render="true" type="comps" />
                         <v-subheader>Overlays</v-subheader>
                         <StyleComponent v-for="item in Overlays" :key="'overlays:' + item" :ped="Ped" :name="item" :render="false" type="overlays" />
@@ -36,10 +37,12 @@
 <script lang="ts">
     import { Component, Vue, Prop, Emit } from 'vue-property-decorator';
     import StyleComponent from './StyleComponent.vue';
+    import EyeSwatch from './EyeSwatch.vue';
 
     @Component({
         components: {
-            StyleComponent
+            StyleComponent,
+            EyeSwatch
         },
     })
     export default class PedCustomize extends Vue {

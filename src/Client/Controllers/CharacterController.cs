@@ -6,9 +6,6 @@ using OpenRP.Framework.Common.Enumeration;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using static OpenRP.Framework.Client.Classes.StyleComponents.PedStyle;
 
@@ -90,6 +87,7 @@ namespace OpenRP.Framework.Client.Controllers
         {
             await WorldHelper.FadeOut(1000);
             Client.Event.TriggerServerEvent(ServerEvent.SET_PLAYER_ROUTING_BUCKET);
+            await BaseScript.Delay(50);
             NetworkOverrideClockTime(12, 0, 0);
             PauseClock(true);
             await Position.Teleport(_pos, true);
