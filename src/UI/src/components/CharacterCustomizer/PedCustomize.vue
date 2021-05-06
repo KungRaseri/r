@@ -14,8 +14,8 @@
                 <v-expansion-panels>
                     <v-container class="no-filler" v-if="IsFreemode()">
                         <v-subheader>Blends</v-subheader>
-                        <StyleComponent name="FaceBlend" />
-                        <StyleComponent name="SkinBlend" />
+                        <StyleComponent name="FaceBlend" type="blends"/>
+                        <StyleComponent name="SkinBlend" type="blends"/>
                     </v-container>
                     <v-container class="no-filler" v-if="IsFreemode()">
                         <v-subheader>Barber</v-subheader>

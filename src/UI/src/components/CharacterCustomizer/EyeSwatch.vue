@@ -4,7 +4,7 @@
         <v-expansion-panel-content>
             <v-row v-for="i in 8" :key="'rc' + i" no-gutters>
                 <v-col v-for="j in 4" :key="'cc' + j + ':' + i">
-                    <v-card class="eye-container mb-3" color="white" height="60" width="60" @click="ChangeColor(((i - 1) * 4 + j) - 1)">
+                    <v-card class="eye-container mb-3" height="60" width="60" @click="ChangeColor(((i - 1) * 4 + j) - 1)">
                         <v-img class="eyes" :src="GetImage(((i - 1) * 4 + j) - 1)" />
                     </v-card>
                 </v-col>

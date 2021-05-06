@@ -1,5 +1,5 @@
 <template>
-    <v-expansion-panel v-if="ShowElement()">
+    <v-expansion-panel v-show="ShowElement()">
         <v-expansion-panel-header>
             {{ Name }}
         </v-expansion-panel-header>
@@ -36,10 +36,10 @@
                 <v-row v-show="Slider" class="mt-6" dense>
                     <v-slider v-model="SliderValue" :min="Min" :max="1" :step="0.01" :thumb-label="true" thumb-color="red" />
                 </v-row>
-                <v-row v-show="ShowColors()">
+                <v-row v-show="IsFreemode() && ShowColors()">
                     <v-expansion-panels>
                         <ColorGroup title="Primary Color" :name="Name" :type="Type" target="primary"/>
-                        <ColorGroup v-show="ShowSecondary()" title="Secondary Color" :name="Name" :type="Type" target="secondard"/>
+                        <ColorGroup v-show="ShowSecondary()" title="Secondary Color" :name="Name" :type="Type" target="secondard" />
                     </v-expansion-panels>
                 </v-row>
             </v-container>
@@ -77,16 +77,14 @@
         constructor() {
             super();
 
-            if (this.Name === "FaceBlend" || this.Name === "SkinBlend") {
+            if (this.Type === "blends") {
                 this.Suppress = true;
                 this.Slider = true;
                 this.Show = true;
                 this.ItemMax = 45;
                 this.TextureMax = 45;
                 this.SliderValue = 0.5;
-            }
-
-            if (this.Type === "overlays") {
+            } else if (this.Type === "overlays") {
                 this.Slider = true;
             }
         }
@@ -97,6 +95,8 @@
             } else if (this.IsFreemode() && this.Name === "Hair" && this.Render) {
                 return true;
             } else if (this.IsFreemode() && this.Name === "Hair" && !this.Render) {
+                return false;
+            } else if (this.IsFreemode() && this.Name === "Face") {
                 return false;
             }
 
@@ -123,6 +123,15 @@
                             this.Show = e.data.comp.HasAnyVariations;
                         }
                         break;
+                    case "PED_COMPONENT_UPDATE":
+                        if (this.Name === e.data.name) {
+                            if (e.data.type === "props" && e.data.comp.Index === 0) {
+                                this.TextureMax = e.data.comp.TextureCount;
+                            } else {
+                                this.TextureMax = e.data.comp.TextureCount - 1;
+                            }
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -130,7 +139,7 @@
         }
 
         ShowColors() {
-            if (this.IsFreemode && this.Name === "Hair") {
+            if (this.Name === "Hair") {
                 return true;
             } else if (this.Type === "overlays" && (this.Name === "FacialHair" || this.Name === "Eyebrows" || this.Name === "Makeup" || this.Name === "Blush" || this.Name === "Lipstick" || this.Name === "ChestHair")) {
                 return true;
@@ -319,7 +328,6 @@
         }
 
         SendComponentData() {
-            console.log(this.Type);
             if (this.Type !== undefined) {
                 let name = this.Name || "";
                 let itemIndex = this.ItemIndex || "0";

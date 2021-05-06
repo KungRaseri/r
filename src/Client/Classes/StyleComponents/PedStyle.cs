@@ -25,7 +25,7 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
             int texture = int.Parse(args.textureIndex);
             var slider = (float)args.sliderValue;
 
-            if (args.name == "FaceBlend" || args.name == "SkinBlend")
+            if (args.type == "blends")
             {
 
                 if (args.name == "FaceBlend")
@@ -47,11 +47,13 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
             {
                 Enum.TryParse(args.name, out PedComponents comp);
                 Game.PlayerPed.Style[comp].SetVariation(item, texture);
+                SendComponentData<PedComponents, PedComponent>(false);
             }
             else if (args.type == "props")
             {
                 Enum.TryParse(args.name, out PedProps comp);
                 Game.PlayerPed.Style[comp].SetVariation(item, texture);
+                SendComponentData<PedProps, PedProp>(false);
             }
             else if (args.type == "overlays")
             {
@@ -59,12 +61,13 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
                 overlay.Opacity = slider;
                 overlay.SetVariation(item);
                 Game.PlayerPed.State.Set(args.name, overlay, false);
+                SendComponentData<PedOverlays, PedOverlay>(false);
             }
         }
 
-        internal static void OnAggregateData(dynamic args)
+        internal async static void OnAggregateData(dynamic args)
         {
-            SetModel(args.ped);
+            await SetModel(args.ped);
             Aggregate<PedComponents, PedComponent>();
             Aggregate<PedProps, PedProp>();
             Aggregate<PedOverlays, PedOverlay>();
@@ -123,9 +126,8 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
                 type
             };
 
-            Debug.WriteLine(JsonConvert.SerializeObject(comps));
             SendNuiMessage(JsonConvert.SerializeObject(data));
-            SendComponentData<PedEnum, PedVariation>();
+            SendComponentData<PedEnum, PedVariation>(true);
         }
 
         internal static async void OnSetCharacterModel(dynamic args)
@@ -159,7 +161,7 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
             return false;
         }
 
-        private static void SendComponentData<PedEnum, PedVariation>()
+        private static void SendComponentData<PedEnum, PedVariation>(bool send)
         {
             Dictionary<string, IPedVariation> components = new Dictionary<string, IPedVariation>();
 
@@ -182,27 +184,33 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
                 }
             }
 
-            var eventName = "PED_COMPONENT_DATA";
+            Debug.WriteLine(JsonConvert.SerializeObject(components));
+
+            string eventName;
+
+            if (send)
+                eventName = "PED_COMPONENT_DATA";
+            else
+                eventName = "PED_COMPONENT_UPDATE";
+
             var hash = (PedHash)Game.PlayerPed.Model.Hash;
             foreach (var item in components)
             {
+                string type = "";
+
                 if (typeof(PedVariation) == typeof(PedComponent))
                 {
                     Enum.TryParse(item.Key, out PedComponents comp);
 
                     if (!IsFreemode(hash) || (IsFreemode(hash) && comp != PedComponents.Face))
-                    {
-                        SendComponent(eventName, item, "comps");
-                    }
+                        type = "comps";
                 }
                 else if (typeof(PedVariation) == typeof(PedProp))
-                {
-                    SendComponent(eventName, item, "props");
-                }
+                    type = "props";
                 else if (typeof(PedVariation) == typeof(PedOverlay))
-                {
-                    SendComponent(eventName, item, "overlays");
-                }
+                    type = "overlays";
+
+                SendComponent(eventName, item, type);
             }
         }
 
