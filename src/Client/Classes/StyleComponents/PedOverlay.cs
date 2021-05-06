@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Newtonsoft.Json;
 using OpenRP.Framework.Common.Enumeration;
 using System;
 using System.Collections.Generic;
@@ -11,30 +12,47 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 {
     public class PedOverlay : IPedVariation
     {
-        PedOverlays _component;
+        string _name;
 
-        public int Count => throw new NotImplementedException();
+        [JsonConstructor]
+        internal PedOverlay(string name)
+        {
+            _name = name;
+        }
 
-        public bool HasAnyVariations => throw new NotImplementedException();
+        public string Name => _name;
 
-        public bool HasTextureVariations => throw new NotImplementedException();
+        public int Count => GetCount();
 
-        public bool HasVariations => throw new NotImplementedException();
+        private int GetCount()
+        {
+            Enum.TryParse(_name, out PedOverlays temp);
+            return GetNumHeadOverlayValues((int)temp);
+        }
 
-        public int Index { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool HasAnyVariations => true;
 
-        public int TextureCount => throw new NotImplementedException();
+        public bool HasTextureVariations => false;
 
-        public int TextureIndex { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool HasVariations => true;
+
+        public int Index { get; set; }
+
+        public int TextureCount => 1;
+
+        public int TextureIndex { get; set; }
 
         public bool IsVariationValid(int index, int textureIndex = 0)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public bool SetVariation(int index, int textureIndex = 0)
         {
-            throw new NotImplementedException();
+            Debug.WriteLine(Name);
+            Enum.TryParse(_name, out PedOverlays temp);
+            SetPedHeadOverlay(Game.PlayerPed.Handle, (int)temp, index, 1f);
+            return true;
         }
     }
 }

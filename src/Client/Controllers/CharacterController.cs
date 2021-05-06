@@ -48,6 +48,9 @@ namespace OpenRP.Framework.Client.Controllers
 
             _peds.Insert(0, "FreemodeFemale01");
             _peds.Insert(1, "FreemodeMale01");
+
+            foreach (PedOverlays value in Enum.GetValues(typeof(PedOverlays)))
+                Game.PlayerPed.State.Set(value.ToString(), new PedOverlay(value.ToString()), false);
         }
 
         private void OnSaveNewCharacter(dynamic args)

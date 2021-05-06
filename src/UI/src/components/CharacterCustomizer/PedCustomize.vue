@@ -19,7 +19,9 @@
                     </v-container>
                     <v-container class="no-filler" v-if="IsFreemode()">
                         <v-subheader>Barber</v-subheader>
-                        <StyleComponent name="Hair" :ped="Ped" :render="true" typeof="comps" />
+                        <StyleComponent name="Hair" :ped="Ped" :render="true" type="comps" />
+                        <v-subheader>Overlays</v-subheader>
+                        <StyleComponent v-for="item in Overlays" :key="'overlays:' + item" :ped="Ped" :name="item" :render="false" type="overlays" />
                     </v-container>
                     <v-subheader>Components</v-subheader>
                     <StyleComponent v-for="item in Components" :key="'comps:' + item" :ped="Ped" :name="item" :render="false" type="comps" />
@@ -46,6 +48,7 @@
 
         components = [""];
         props = [""];
+        overlays = [""];
         $axios: any;
 
         mounted() {
@@ -56,6 +59,8 @@
                             this.Components = e.data.comps;
                         } else if (e.data.type === "props") {
                             this.Props = e.data.comps;
+                        } else if (e.data.type === "overlays") {
+                            this.Overlays = e.data.comps;
                         }
                         break;
                     default:
@@ -99,6 +104,14 @@
 
         set Props(value: string[]) {
             this.props = value;
+        }
+
+        get Overlays() {
+            return this.overlays;
+        }
+
+        set Overlays(value: string[]) {
+            this.overlays = value;
         }
 
         get Ped() {

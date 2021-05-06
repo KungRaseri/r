@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
+using OpenRP.Framework.Common.Enumeration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,8 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
         internal static void OnSetPedComponent(dynamic args)
         {
-            Debug.WriteLine(JsonConvert.SerializeObject(args));
-
-            var item = int.Parse(args.itemIndex);
-            var texture = int.Parse(args.textureIndex);
+            int item = int.Parse(args.itemIndex);
+            int texture = int.Parse(args.textureIndex);
 
             if (args.name == "FaceBlend" || args.name == "SkinBlend")
             {
@@ -56,12 +55,19 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
                 Game.PlayerPed.Style[comp].SetVariation(item, texture);
                 SendComponentData<PedProps, PedProp>();
             }
+            else if (args.type == "overlays")
+            {
+                PedOverlay overlay = JsonConvert.DeserializeObject<PedOverlay>(JsonConvert.SerializeObject(Game.PlayerPed.State.Get(args.name)));
+                overlay.SetVariation(item);
+                SendComponentData<PedOverlays, PedOverlay>();
+            }
         }
 
         internal static void OnAggregateData(dynamic args)
         {
             Aggregate<PedComponents, PedComponent>();
             Aggregate<PedProps, PedProp>();
+            Aggregate<PedOverlays, PedOverlay>();
         }
 
         private static void Aggregate<PedEnum, PedVariation>()
@@ -73,6 +79,8 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
                 type = "comps";
             else if (typeof(PedEnum) == typeof(PedProps))
                 type = "props";
+            else if (typeof(PedEnum) == typeof(PedOverlays))
+                type = "overlays";
 
             foreach (PedEnum value in Enum.GetValues(typeof(PedEnum)))
             {
@@ -84,8 +92,9 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
                 comps = comps.ToArray(),
                 type
             };
-            SendNuiMessage(JsonConvert.SerializeObject(data));
 
+            Debug.WriteLine(JsonConvert.SerializeObject(comps));
+            SendNuiMessage(JsonConvert.SerializeObject(data));
             SendComponentData<PedEnum, PedVariation>();
         }
 
@@ -136,6 +145,11 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
                     Enum.TryParse(item, out PedProps comp);
                     components.Add(item, Game.PlayerPed.Style[comp]);
                 }
+                else if (typeof(PedVariation) == typeof(PedOverlay))
+                {
+                    PedOverlay comp = JsonConvert.DeserializeObject<PedOverlay>(JsonConvert.SerializeObject(Game.PlayerPed.State.Get(item)));
+                    components.Add(item, comp);
+                }
             }
 
             var eventName = "PED_COMPONENT_DATA";
@@ -148,31 +162,31 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
                     if (!IsFreemode(hash) || (IsFreemode(hash) && comp != PedComponents.Face))
                     {
-                        var data = new
-                        {
-                            eventName,
-                            name = item.Key,
-                            comp = item.Value,
-                            type = "comps"
-                        };
-
-                        SendNuiMessage(JsonConvert.SerializeObject(data));
+                        SendComponent(eventName, item, "comps");
                     }
                 }
                 else if (typeof(PedVariation) == typeof(PedProp))
                 {
-                    var data = new
-                    {
-                        eventName,
-                        name = item.Key,
-                        comp = item.Value,
-                        type = "props"
-                    };
-                    Debug.WriteLine(JsonConvert.SerializeObject(data));
-
-                    SendNuiMessage(JsonConvert.SerializeObject(data));
+                    SendComponent(eventName, item, "props");
+                }
+                else if (typeof(PedVariation) == typeof(PedOverlay))
+                {
+                    SendComponent(eventName, item, "overlays");
                 }
             }
+        }
+
+        private static void SendComponent(string eventName, KeyValuePair<string, IPedVariation> item, string type)
+        {
+            var data = new
+            {
+                eventName,
+                name = item.Key,
+                comp = item.Value,
+                type
+            };
+
+            SendNuiMessage(JsonConvert.SerializeObject(data));
         }
     }
 }

@@ -226,7 +226,7 @@
                 this.itemIndex = value;
             }
 
-            if (!this.Suppress) {
+            if (!this.Suppress && this.TextureIndex !== "0") {
                 this.TextureIndex = "0";
             }
 
