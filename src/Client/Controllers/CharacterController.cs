@@ -31,6 +31,7 @@ namespace OpenRP.Framework.Client.Controllers
             Client.Event.RegisterNuiEvent(NuiEvent.SET_CHARACTER_MODEL, new Action<dynamic>(OnSetCharacterModel));
             Client.Event.RegisterNuiEvent(NuiEvent.AGGREGATE_DATA, new Action<dynamic>(OnAggregateData));
             Client.Event.RegisterNuiEvent(NuiEvent.SET_PED_COMPONENT, new Action<dynamic>(OnSetPedComponent));
+            Client.Event.RegisterNuiEvent(NuiEvent.SET_COMPONENT_COLOR, new Action<dynamic>(OnSetPedComponentColor));
 
             FirstSpawn();
         }
@@ -50,7 +51,15 @@ namespace OpenRP.Framework.Client.Controllers
             _peds.Insert(1, "FreemodeMale01");
 
             foreach (PedOverlays value in Enum.GetValues(typeof(PedOverlays)))
-                Game.PlayerPed.State.Set(value.ToString(), new PedOverlay(value.ToString()), false);
+            {
+                var name = value.ToString();
+                var temp = new PedOverlay(name);
+
+                if (name == "Eyebrows")
+                    temp.Opacity = 1;
+
+                Game.PlayerPed.State.Set(name, temp, false);
+            }
         }
 
         private void OnSaveNewCharacter(dynamic args)

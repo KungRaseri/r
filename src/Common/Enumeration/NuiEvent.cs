@@ -29,6 +29,8 @@ namespace OpenRP.Framework.Common.Enumeration
 
         AGGREGATE_DATA,
 
-        SET_PED_COMPONENT
+        SET_PED_COMPONENT,
+
+        SET_COMPONENT_COLOR
     }
 }

@@ -12,7 +12,7 @@
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-text-field class="centered-input" v-model="ItemIndex" :disabled="ItemDisable('input')"/>
+                        <v-text-field class="centered-input" v-model="ItemIndex" :disabled="ItemDisable('input')" />
                     </v-col>
                     <v-col>
                         <v-btn height="100%" block @click="ChangeItemIndex(1)" :disabled="ItemDisable('right')">
@@ -25,7 +25,7 @@
                         </v-btn>
                     </v-col>
                     <v-col>
-                        <v-text-field class="centered-input" v-model="TextureIndex" :disabled="TextureDisable('input')"/>
+                        <v-text-field class="centered-input" v-model="TextureIndex" :disabled="TextureDisable('input')" />
                     </v-col>
                     <v-col>
                         <v-btn height="100%" block @click="ChangeTextureIndex(1)" :disabled="TextureDisable('right')">
@@ -33,8 +33,14 @@
                         </v-btn>
                     </v-col>
                 </v-row>
-                <v-row v-if="Slider" class="mt-6" dense>
-                    <v-slider v-model="SliderValue" :min="Min" :max="1" :step="0.01" :thumb-label="true" thumb-color="red"/>
+                <v-row v-show="Slider" class="mt-6" dense>
+                    <v-slider v-model="SliderValue" :min="Min" :max="1" :step="0.01" :thumb-label="true" thumb-color="red" />
+                </v-row>
+                <v-row v-show="ShowColors()">
+                    <v-expansion-panels>
+                        <ColorGroup title="Primary Color" :name="Name" :type="Type" target="primary"/>
+                        <ColorGroup v-show="ShowSecondary()" title="Secondary Color" :name="Name" :type="Type" target="secondard"/>
+                    </v-expansion-panels>
                 </v-row>
             </v-container>
         </v-expansion-panel-content>
@@ -43,9 +49,11 @@
 
 <script lang="ts">
     import { Component, Vue, Prop } from 'vue-property-decorator';
+    import ColorGroup from './ColorGroup.vue';
 
     @Component({
         components: {
+            ColorGroup
         },
     })
     export default class StyleComponent extends Vue {
@@ -77,6 +85,10 @@
                 this.TextureMax = 45;
                 this.SliderValue = 0.5;
             }
+
+            if (this.Type === "overlays") {
+                this.Slider = true;
+            }
         }
 
         ShowElement() {
@@ -103,6 +115,11 @@
                                 this.ItemMax = e.data.comp.Count - 1;
                                 this.TextureMax = e.data.comp.TextureCount - 1;
                             }
+
+                            if (e.data.type === "overlays") {
+                                this.SliderValue = e.data.comp.Opacity;
+                            }
+
                             this.Show = e.data.comp.HasAnyVariations;
                         }
                         break;
@@ -110,6 +127,24 @@
                         break;
                 }
             });
+        }
+
+        ShowColors() {
+            if (this.IsFreemode && this.Name === "Hair") {
+                return true;
+            } else if (this.Type === "overlays" && (this.Name === "FacialHair" || this.Name === "Eyebrows" || this.Name === "Makeup" || this.Name === "Blush" || this.Name === "Lipstick" || this.Name === "ChestHair")) {
+                return true;
+            }
+
+            return false;
+        }
+
+        ShowSecondary() {
+            if (this.Name === "Makeup" || this.Name === "Hair") {
+                return true;
+            }
+
+            return false;
         }
 
         ChangeItemIndex(value: number) {
@@ -142,6 +177,14 @@
 
         IsFreemode() {
             if (this.Ped === "FreemodeFemale01" || this.Ped === "FreemodeMale01") {
+                return true;
+            }
+
+            return false;
+        }
+
+        IsHasColor() {
+            if (this.Name === "Hair" || this.Type === "overlays") {
                 return true;
             }
 

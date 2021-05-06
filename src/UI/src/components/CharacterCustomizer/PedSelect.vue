@@ -87,10 +87,12 @@
 
         @Emit()
         sendped(value: string) {
+            let ped = this.Ped;
             this.$axios
                 .post(
                     "http://framework/AGGREGATE_DATA",
                     {
+                        ped
                     }
                 )
                 .catch((error: any) => {

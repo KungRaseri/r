@@ -18,15 +18,17 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
         static int _skin2;
         static float _faceBlend;
         static float _skinBlend;
+        static int _hair1 = 0;
+        static int _hair2 = 0;
 
         internal static void OnSetPedComponent(dynamic args)
         {
             int item = int.Parse(args.itemIndex);
             int texture = int.Parse(args.textureIndex);
+            var slider = (float)args.sliderValue;
 
             if (args.name == "FaceBlend" || args.name == "SkinBlend")
             {
-                var slider = (float)args.sliderValue;
 
                 if (args.name == "FaceBlend")
                 {
@@ -47,27 +49,55 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
             {
                 Enum.TryParse(args.name, out PedComponents comp);
                 Game.PlayerPed.Style[comp].SetVariation(item, texture);
-                SendComponentData<PedComponents, PedComponent>();
             }
             else if (args.type == "props")
             {
                 Enum.TryParse(args.name, out PedProps comp);
                 Game.PlayerPed.Style[comp].SetVariation(item, texture);
-                SendComponentData<PedProps, PedProp>();
             }
             else if (args.type == "overlays")
             {
                 PedOverlay overlay = JsonConvert.DeserializeObject<PedOverlay>(JsonConvert.SerializeObject(Game.PlayerPed.State.Get(args.name)));
+                overlay.Opacity = slider;
                 overlay.SetVariation(item);
-                SendComponentData<PedOverlays, PedOverlay>();
+                Game.PlayerPed.State.Set(args.name, overlay, false);
             }
         }
 
         internal static void OnAggregateData(dynamic args)
         {
+            SetModel(args.ped);
             Aggregate<PedComponents, PedComponent>();
             Aggregate<PedProps, PedProp>();
             Aggregate<PedOverlays, PedOverlay>();
+        }
+
+        internal static void OnSetPedComponentColor(dynamic args)
+        {
+            if (args.type == "comps")
+            {
+                if (args.target == "primary")
+                {
+                    SetPedHairColor(Game.PlayerPed.Handle, args.index, _hair2);
+                    _hair1 = args.index;
+                }
+                else
+                {
+                    SetPedHairColor(Game.PlayerPed.Handle, _hair1, args.index);
+                    _hair2 = args.index;
+                }
+            }
+            else if (args.type == "overlays")
+            {
+                PedOverlay overlay = JsonConvert.DeserializeObject<PedOverlay>(JsonConvert.SerializeObject(Game.PlayerPed.State.Get(args.name)));
+
+                if (args.target == "primary")
+                    overlay.SetPrimaryColor(args.index);
+                else
+                    overlay.SetSecondaryColor(args.index);
+
+                Game.PlayerPed.State.Set(args.name, overlay, false);
+            }
         }
 
         private static void Aggregate<PedEnum, PedVariation>()

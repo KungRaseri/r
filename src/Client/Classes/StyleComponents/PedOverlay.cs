@@ -22,6 +22,22 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
         public string Name => _name;
 
+        public float Opacity { get; set; } = 0;
+
+        public int PrimaryColor { get; set; } = -1;
+
+        public int SecondaryColor { get; set; } = -1;
+
+        public int ColorType => GetColorType();
+
+        private int GetColorType()
+        {
+            if (Name == "FacialHair" || Name == "Eyebrows" || Name == "ChestHair")
+                return 1;
+
+            return 2;
+        }
+
         public int Count => GetCount();
 
         private int GetCount()
@@ -49,10 +65,33 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
         public bool SetVariation(int index, int textureIndex = 0)
         {
-            Debug.WriteLine(Name);
             Enum.TryParse(_name, out PedOverlays temp);
-            SetPedHeadOverlay(Game.PlayerPed.Handle, (int)temp, index, 1f);
+            SetPedHeadOverlay(Game.PlayerPed.Handle, (int)temp, index, Opacity);
+            Index = (int)temp;
+
+            if (PrimaryColor == -1)
+                SetInitialColor();
+
             return true;
+        }
+
+        public void SetPrimaryColor(int index)
+        {
+            SetPedHeadOverlayColor(Game.PlayerPed.Handle, Index, ColorType, index, SecondaryColor);
+            PrimaryColor = index;
+        }
+
+        public void SetSecondaryColor(int index)
+        {
+            SetPedHeadOverlayColor(Game.PlayerPed.Handle, Index, ColorType, PrimaryColor, index);
+            SecondaryColor = index;
+        }
+
+        private void SetInitialColor()
+        {
+            PrimaryColor = 0;
+            SecondaryColor = 0;
+            SetPedHeadOverlayColor(Game.PlayerPed.Handle, Index, ColorType, PrimaryColor, SecondaryColor);
         }
     }
 }
