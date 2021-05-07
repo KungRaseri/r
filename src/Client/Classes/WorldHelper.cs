@@ -39,5 +39,19 @@ namespace OpenRP.Framework.Client.Classes
             while (IsScreenFadingIn())
                 await BaseScript.Delay(50);
         }
+
+        public static async Task DisableAllControls()
+        {
+            Game.DisableAllControlsThisFrame((int)InputMode.MouseAndKeyboard);
+        }
+
+        public static async Task RequestAnimationDictionary(string animDict)
+        {
+            while (!HasAnimDictLoaded(animDict))
+            {
+                RequestAnimDict(animDict);
+                await BaseScript.Delay(50);
+            }
+        }
     }
 }

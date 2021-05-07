@@ -108,7 +108,7 @@ namespace OpenRP.Framework.Client.Controllers
             {
                 if (!_dashboard)
                 {
-                    UIElement.ToggleNuiModule("TOGGLE_DASHBOARD_PANEL_MODULE", true, false, false);
+                    UIElement.ToggleNuiModule("TOGGLE_DASHBOARD_PANEL_MODULE", true);
                     _dashboard = true;
                 }
                 
@@ -141,7 +141,7 @@ namespace OpenRP.Framework.Client.Controllers
             {
                 if (_dashboard)
                 {
-                    UIElement.ToggleNuiModule("TOGGLE_DASHBOARD_PANEL_MODULE", false, false, false);
+                    UIElement.ToggleNuiModule("TOGGLE_DASHBOARD_PANEL_MODULE", false);
                     _dashboard = false;
                 }
             }

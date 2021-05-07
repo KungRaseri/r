@@ -6,6 +6,7 @@ using OpenRP.Framework.Common.Enumeration;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using static OpenRP.Framework.Client.Classes.StyleComponents.PedStyle;
 
@@ -14,13 +15,22 @@ namespace OpenRP.Framework.Client.Controllers
     public class CharacterController : ClientAccessor
     {
         static List<string> _peds;
-        private const float _heading = 160f;
-        private Vector3 _pos = new Vector3(683.852f, 570.629f, 130.461f);
+        private float _heading;
+        private Vector3 _pos;
         Camera _cam;
+        bool _closeup;
+        float[] _steps;
+        int _step;
+        bool _freeze;
 
         internal CharacterController(ClientMain client) : base(client)
         {
             _peds = new List<string>();
+            _heading = 160f;
+            _pos = new Vector3(683.852f, 570.629f, 130.461f);
+            _steps = new float[] { 0.7f, 0.25f, 0f, -0.3f, -0.75f };
+            _step = 0;
+            _freeze = false;
             PedListBuilder();
 
             Client.Events["playerSpawned"] += new Action(OnPlayerSpawned);
@@ -97,8 +107,78 @@ namespace OpenRP.Framework.Client.Controllers
             SetTimecycleModifier("default");
             SetOverrideWeather("EXTRASUNNY");
             SendNuiMessage(JsonConvert.SerializeObject(new { eventName = "LIST_OF_PEDS", _peds }));
-            UIElement.ToggleNuiModule("TOGGLE_PED_SELECT", true, true, true);
+            UIElement.ToggleNuiModule("TOGGLE_PED_SELECT", true, true, true, true);
+            Game.PlayerPed.IsPositionFrozen = true;
+            Client.RegisterTickHandler(WorldHelper.DisableAllControls);
+            Client.RegisterTickHandler(CameraControls);
             await WorldHelper.FadeIn(1000);
+        }
+
+        internal async Task CameraControls()
+        {
+            if (Game.IsDisabledControlPressed((int)InputMode.MouseAndKeyboard, Control.MoveLeftOnly))
+            {
+                Game.PlayerPed.Heading -= 15;
+                await BaseScript.Delay(100);
+            }
+            else if (Game.IsDisabledControlPressed((int)InputMode.MouseAndKeyboard, Control.MoveRightOnly))
+            {
+                Game.PlayerPed.Heading += 15;
+                await BaseScript.Delay(100);
+            }
+            else if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.Pickup) && !_closeup)
+            {
+                OffsetCameraVertical();
+                _closeup = true;
+
+            }
+            else if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.Cover))
+            {
+                _cam.Position = WorldHelper.PosOffset(_pos, _heading, 2);
+                _cam.PointAt(Game.PlayerPed);
+                _closeup = false;
+            }
+            else if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.MoveUpOnly) && _closeup)
+            {
+                var temp = _step - 1;
+                if (temp >= 0)
+                {
+                    _step -= 1;
+                    OffsetCameraVertical();
+                }
+            }
+            else if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.MoveDownOnly) && _closeup)
+            {
+                var temp = _step + 1;
+                if (temp <= _steps.Length - 1)
+                {
+                    _step += 1;
+                    OffsetCameraVertical();
+                }
+            }
+            else if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.Duck))
+            {
+                if (!_freeze)
+                {
+                    var animDict = "mp_sleep";
+                    await WorldHelper.RequestAnimationDictionary(animDict);
+                    Game.PlayerPed.Task.PlayAnimation(animDict, "bind_pose_180", 1000f, -1, AnimationFlags.StayInEndFrame);
+                    _freeze = true;
+                }
+                else
+                {
+                    Game.PlayerPed.Task.ClearAllImmediately();
+                    _freeze = false;
+                }
+            }
+        }
+
+        private void OffsetCameraVertical()
+        {
+            var temp = _pos;
+            temp.Z += _steps[_step];
+            _cam.Position = WorldHelper.PosOffset(temp, _heading, 0.6f);
+            _cam.PointAt(new Vector3(_pos.X, _pos.Y, temp.Z));
         }
 
         private dynamic SpawnPosition()

@@ -45,7 +45,7 @@ namespace OpenRP.Framework.Client.Controllers
 
             if (_paused != _lastPaused)
             {
-                UIElement.ToggleNuiModule("GET_PAUSED_STATUS", !_paused, false, false);
+                UIElement.ToggleNuiModule("GET_PAUSED_STATUS", !_paused);
                 _lastPaused = _paused;
             }
 

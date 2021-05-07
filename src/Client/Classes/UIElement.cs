@@ -16,12 +16,12 @@ namespace OpenRP.Framework.Client.Classes
         /// <param name="visible">The visibility of the NUI element.</param>
         /// <param name="focus">If focus should be given to the NUI element.</param>
         /// <param name="cursor">If focusing on the NUI element should also provide a cursor.</param>
-        public static void ToggleNuiModule(string eventName, bool visible, bool focus, bool cursor)
+        /// <param name="control">If the player should also maintain control of the game while focused.</param>
+        public static void ToggleNuiModule(string eventName, bool visible, bool focus = false, bool cursor = false, bool control = false)
         {
             SendNuiMessage(JsonConvert.SerializeObject(new { eventName, visible }));
-
-            if (focus)
-                SetNuiFocus(true, cursor);
+            SetNuiFocus(focus, cursor);
+            SetNuiFocusKeepInput(control);
         }
 
         /// <summary>
