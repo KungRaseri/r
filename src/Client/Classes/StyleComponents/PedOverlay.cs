@@ -18,7 +18,7 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
         public string Name => _name;
 
-        public float Opacity { get; set; } = 0;
+        public float Value { get; set; } = 0;
 
         public int PrimaryColor { get; set; } = -1;
 
@@ -62,7 +62,7 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
         public bool SetVariation(int index, int textureIndex = 0)
         {
             Enum.TryParse(_name, out PedOverlays temp);
-            SetPedHeadOverlay(Game.PlayerPed.Handle, (int)temp, index, Opacity);
+            SetPedHeadOverlay(Game.PlayerPed.Handle, (int)temp, index, Value);
             Index = (int)temp;
 
             if (PrimaryColor == -1)

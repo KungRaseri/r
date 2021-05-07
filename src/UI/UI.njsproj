@@ -76,6 +76,7 @@
     <Content Include="src\components\CharacterCustomizer\ColorGroup.vue" />
     <Content Include="src\components\CharacterCustomizer\ColorSwatch.vue" />
     <Content Include="src\components\CharacterCustomizer\EyeSwatch.vue" />
+    <Content Include="src\components\CharacterCustomizer\FacialSlider.vue" />
     <Content Include="src\components\CharacterSelect\Main.vue" />
     <Content Include="src\components\CharacterSelect\NewOrExisting.vue" />
     <Content Include="src\components\CharacterSelect\NewCharacter.vue" />

@@ -42,6 +42,18 @@
                         <ColorGroup v-show="ShowSecondary()" title="Secondary Color" :name="Name" :type="Type" target="secondard" />
                     </v-expansion-panels>
                 </v-row>
+                <v-row v-show="Name === 'FaceBlend'">
+                    <v-expansion-panels>
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>
+                                Facial Sliders
+                            </v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <FacialSlider v-for="item in facials" :key="'face:' + item" :name="item"/>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
+                </v-row>
             </v-container>
         </v-expansion-panel-content>
     </v-expansion-panel>
@@ -50,10 +62,12 @@
 <script lang="ts">
     import { Component, Vue, Prop } from 'vue-property-decorator';
     import ColorGroup from './ColorGroup.vue';
+    import FacialSlider from './FacialSlider.vue';
 
     @Component({
         components: {
-            ColorGroup
+            ColorGroup,
+            FacialSlider
         },
     })
     export default class StyleComponent extends Vue {
@@ -61,6 +75,8 @@
         @Prop(String) ped = this.Ped;
         @Prop(Boolean) render = this.Render;
         @Prop(String) type = this.Type;
+
+        facials = [""];
 
         slider = false;
         sliderValue = 0;
@@ -117,7 +133,7 @@
                             }
 
                             if (e.data.type === "overlays") {
-                                this.SliderValue = e.data.comp.Opacity;
+                                this.SliderValue = e.data.comp.Value;
                             }
 
                             this.Show = e.data.comp.HasAnyVariations;
@@ -130,6 +146,11 @@
                             } else {
                                 this.TextureMax = e.data.comp.TextureCount - 1;
                             }
+                        }
+                        break;
+                    case "AGGREGATE_COMPONENTS":
+                        if (e.data.type === "facials") {
+                            this.Facials = e.data.comps;
                         }
                         break;
                     default:
@@ -270,6 +291,7 @@
 
         set ItemIndex(value: string) {
             let v = parseInt(value);
+            console.log(v);
             if (v < 0 || isNaN(v)) {
                 this.itemIndex = "0";
             } else if (v > this.ItemMax) {
@@ -326,12 +348,19 @@
             this.sliderValue = value;
             this.SendComponentData();
         }
+        get Facials() {
+            return this.facials;
+        }
+
+        set Facials(value: string[]) {
+            this.facials = value;
+        }
 
         SendComponentData() {
             if (this.Type !== undefined) {
                 let name = this.Name || "";
-                let itemIndex = this.ItemIndex || "0";
-                let textureIndex = this.TextureIndex || "0";
+                let itemIndex = parseInt(this.ItemIndex).toString() || "0";
+                let textureIndex = parseInt(this.TextureIndex).toString() || "0";
                 let sliderValue = this.SliderValue || 0;
                 let type = this.Type;
 

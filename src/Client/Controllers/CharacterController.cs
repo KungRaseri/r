@@ -31,7 +31,7 @@ namespace OpenRP.Framework.Client.Controllers
             _steps = new float[] { 0.7f, 0.25f, 0f, -0.3f, -0.75f };
             _step = 0;
             _freeze = false;
-            PedListBuilder();
+            StyleListBuilders();
 
             Client.Events["playerSpawned"] += new Action(OnPlayerSpawned);
             Client.Event.RegisterNuiEvent(NuiEvent.SAVE_NEW_CHARACTER, new Action<dynamic>(OnSaveNewCharacter));
@@ -43,7 +43,7 @@ namespace OpenRP.Framework.Client.Controllers
             FirstSpawn();
         }
 
-        internal static void PedListBuilder()
+        private static void StyleListBuilders()
         {
             foreach (PedHash value in Enum.GetValues(typeof(PedHash)))
             {
@@ -63,7 +63,16 @@ namespace OpenRP.Framework.Client.Controllers
                 var temp = new PedOverlay(name);
 
                 if (name == "Eyebrows")
-                    temp.Opacity = 1;
+                    temp.Value = 1;
+
+                Game.PlayerPed.State.Set(name, temp, false);
+            }
+
+
+            foreach (FacialSliders value in Enum.GetValues(typeof(FacialSliders)))
+            {
+                var name = value.ToString();
+                var temp = new FacialSlider(name);
 
                 Game.PlayerPed.State.Set(name, temp, false);
             }
