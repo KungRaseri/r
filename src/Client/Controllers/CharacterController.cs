@@ -14,6 +14,7 @@ namespace OpenRP.Framework.Client.Controllers
 {
     public class CharacterController : ClientAccessor
     {
+        static string _id;
         static List<string> _peds;
         private float _heading;
         private Vector3 _pos;
@@ -40,7 +41,14 @@ namespace OpenRP.Framework.Client.Controllers
             Client.Event.RegisterNuiEvent(NuiEvent.SET_PED_COMPONENT, new Action<dynamic>(OnSetPedComponent));
             Client.Event.RegisterNuiEvent(NuiEvent.SET_COMPONENT_COLOR, new Action<dynamic>(OnSetPedComponentColor));
 
+            Client.Event.RegisterEvent(ClientEvent.GET_CHARACTER_OBJECT_ID, new Action<dynamic>(OnGetCharacterObjectId));
+
             FirstSpawn();
+        }
+
+        private void OnGetCharacterObjectId(dynamic args)
+        {
+            _id = args;
         }
 
         private static void StyleListBuilders()
@@ -128,26 +136,26 @@ namespace OpenRP.Framework.Client.Controllers
             if (Game.IsDisabledControlPressed((int)InputMode.MouseAndKeyboard, Control.MoveLeftOnly))
             {
                 Game.PlayerPed.Heading -= 15;
-                await BaseScript.Delay(100);
+                await BaseScript.Delay(50);
             }
-            else if (Game.IsDisabledControlPressed((int)InputMode.MouseAndKeyboard, Control.MoveRightOnly))
+            if (Game.IsDisabledControlPressed((int)InputMode.MouseAndKeyboard, Control.MoveRightOnly))
             {
                 Game.PlayerPed.Heading += 15;
-                await BaseScript.Delay(100);
+                await BaseScript.Delay(50);
             }
-            else if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.Pickup) && !_closeup)
+            if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.Pickup) && !_closeup)
             {
                 OffsetCameraVertical();
                 _closeup = true;
 
             }
-            else if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.Cover))
+            if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.Cover))
             {
                 _cam.Position = WorldHelper.PosOffset(_pos, _heading, 2);
                 _cam.PointAt(Game.PlayerPed);
                 _closeup = false;
             }
-            else if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.MoveUpOnly) && _closeup)
+            if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.MoveUpOnly) && _closeup)
             {
                 var temp = _step - 1;
                 if (temp >= 0)
@@ -156,7 +164,7 @@ namespace OpenRP.Framework.Client.Controllers
                     OffsetCameraVertical();
                 }
             }
-            else if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.MoveDownOnly) && _closeup)
+            if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.MoveDownOnly) && _closeup)
             {
                 var temp = _step + 1;
                 if (temp <= _steps.Length - 1)
@@ -165,7 +173,7 @@ namespace OpenRP.Framework.Client.Controllers
                     OffsetCameraVertical();
                 }
             }
-            else if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.Duck))
+            if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.Duck))
             {
                 if (!_freeze)
                 {

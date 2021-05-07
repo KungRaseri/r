@@ -6,7 +6,7 @@
                     <v-btn color="red" :rounded="true" block @click="goback()">Back</v-btn>
                 </v-col>
                 <v-col>
-                    <v-btn color="green" :rounded="true" block>Continue</v-btn>
+                    <v-btn color="green" :rounded="true" block @click="Save()">Continue</v-btn>
                 </v-col>
             </v-row>
             <v-divider class="my-4" />
@@ -72,9 +72,25 @@
             });
         }
 
+        ChangeColor(value: number) {
+            this.$axios
+                .post(
+                    "http://framework/SAVE_PED_CUSTOMIZATION",
+                    {
+                    }
+                )
+                .catch((error: any) => {
+                    console.log("error", error);
+                });
+        }
+
         @Emit()
         goback() {
             return true;
+        }
+
+        Save() {
+            this.Show = false;
         }
 
         IsFreemode() {

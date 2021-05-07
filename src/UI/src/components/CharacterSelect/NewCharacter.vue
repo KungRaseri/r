@@ -17,13 +17,13 @@
                         <v-col>
                             <v-radio-group class="center" row mandatory label="Gender" v-model="gender">
                                 <v-radio v-slot:label value="male">
-                                    <v-icon>mdi-gender-male</v-icon>
+                                    <v-icon color="blue">mdi-gender-male</v-icon>
                                 </v-radio>
                                 <v-radio v-slot:label value="female">
-                                    <v-icon>mdi-gender-female</v-icon>
+                                    <v-icon color="pink">mdi-gender-female</v-icon>
                                 </v-radio>
                                 <v-radio v-slot:label value="nb">
-                                    <v-icon>mdi-gender-non-binary</v-icon>
+                                    <v-icon color="yellow">mdi-gender-non-binary</v-icon>
                                 </v-radio>
                             </v-radio-group>
                         </v-col>

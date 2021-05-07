@@ -23,8 +23,8 @@ namespace OpenRP.Framework.Server.Controllers
             var account = await Server.Database.Context.Accounts.FindAsync($"discord:{player.Identifiers["discord"]}");
             Character data = JsonConvert.DeserializeObject<Character>(JsonConvert.SerializeObject(args));
             data.AccountId = account.Id;
-
             await Server.Database.Context.Characters.PostAsync(data);
+            Server.Event.TriggerClientEvent(player, ClientEvent.GET_CHARACTER_OBJECT_ID, data.Id.ToString());
         }
 
         private void OnSetPlayerRoutingBucket([FromSource] Player player, dynamic args)

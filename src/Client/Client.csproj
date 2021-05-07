@@ -52,7 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Position.cs" />
+    <Compile Include="Classes\StyleComponents\HeadBlend.cs" />
     <Compile Include="Classes\StyleComponents\FacialSlider.cs" />
+    <Compile Include="Classes\StyleComponents\PedHair.cs" />
     <Compile Include="Classes\StyleComponents\PedOverlay.cs" />
     <Compile Include="Classes\StyleComponents\PedStyle.cs" />
     <Compile Include="Classes\VehicleControl\VehicleToggleEngine.cs" />

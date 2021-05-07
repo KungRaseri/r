@@ -71,16 +71,14 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
             return true;
         }
 
-        public void SetPrimaryColor(int index)
+        public void SetColor(int index, string target)
         {
-            SetPedHeadOverlayColor(Game.PlayerPed.Handle, Index, ColorType, index, SecondaryColor);
-            PrimaryColor = index;
-        }
+            if (target == "primary")
+                PrimaryColor = index;
+            else if (target == "secondary")
+                SecondaryColor = index;
 
-        public void SetSecondaryColor(int index)
-        {
-            SetPedHeadOverlayColor(Game.PlayerPed.Handle, Index, ColorType, PrimaryColor, index);
-            SecondaryColor = index;
+            SetPedHeadOverlayColor(Game.PlayerPed.Handle, Index, ColorType, PrimaryColor, SecondaryColor);
         }
 
         private void SetInitialColor()

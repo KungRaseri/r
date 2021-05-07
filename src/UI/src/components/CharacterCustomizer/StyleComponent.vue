@@ -39,7 +39,7 @@
                 <v-row v-show="IsFreemode() && ShowColors()">
                     <v-expansion-panels>
                         <ColorGroup title="Primary Color" :name="Name" :type="Type" target="primary"/>
-                        <ColorGroup v-show="ShowSecondary()" title="Secondary Color" :name="Name" :type="Type" target="secondard" />
+                        <ColorGroup v-show="ShowSecondary()" title="Secondary Color" :name="Name" :type="Type" target="secondary" />
                     </v-expansion-panels>
                 </v-row>
                 <v-row v-show="Name === 'FaceBlend'">

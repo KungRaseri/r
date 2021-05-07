@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,12 @@ namespace OpenRP.Framework.Client.Classes
                 RequestAnimDict(animDict);
                 await BaseScript.Delay(50);
             }
+        }
+
+        public static toObject GetState<toObject>(Entity ent, string state)
+        {
+            toObject comp = JsonConvert.DeserializeObject<toObject>(JsonConvert.SerializeObject(ent.State.Get(state)));
+            return comp;
         }
     }
 }

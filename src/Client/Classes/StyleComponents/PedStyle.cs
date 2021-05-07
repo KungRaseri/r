@@ -10,15 +10,6 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 {
     public static class PedStyle
     {
-        static int _face1;
-        static int _face2;
-        static int _skin1;
-        static int _skin2;
-        static float _faceBlend;
-        static float _skinBlend;
-        static int _hair1 = 0;
-        static int _hair2 = 0;
-
         internal static void OnSetPedComponent(dynamic args)
         {
             int item = int.Parse(args.itemIndex);
@@ -27,21 +18,14 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
             if (args.type == "blends")
             {
+                var comp = WorldHelper.GetState<HeadBlend>(Game.PlayerPed, "HeadBlend");
 
                 if (args.name == "FaceBlend")
-                {
-                    _face1 = item;
-                    _face2 = texture;
-                    _faceBlend = slider;
-                }
+                    comp.SetFace(item, texture, slider);
                 else
-                {
-                    _skin1 = item;
-                    _skin2 = texture;
-                    _skinBlend = slider;
-                }
+                    comp.SetSkin(item, texture, slider);
 
-                SetPedHeadBlendData(Game.PlayerPed.Handle, _face1, _face2, 0, _skin1, _skin2, 0, _faceBlend, _skinBlend, 0, false);
+                Game.PlayerPed.State.Set("HeadBlend", comp, false);
             }
             else if (args.type == "comps")
             {
@@ -57,7 +41,7 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
             }
             else if (args.type == "overlays")
             {
-                PedOverlay comp = JsonConvert.DeserializeObject<PedOverlay>(JsonConvert.SerializeObject(Game.PlayerPed.State.Get(args.name)));
+                PedOverlay comp = WorldHelper.GetState<PedOverlay>(Game.PlayerPed, args.name);
                 comp.Value = slider;
                 comp.SetVariation(item);
                 Game.PlayerPed.State.Set(args.name, comp, false);
@@ -65,7 +49,7 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
             }
             else if (args.type == "facials")
             {
-                FacialSlider comp = JsonConvert.DeserializeObject<FacialSlider>(JsonConvert.SerializeObject(Game.PlayerPed.State.Get(args.name)));
+                FacialSlider comp = WorldHelper.GetState<FacialSlider>(Game.PlayerPed, args.name);
                 comp.Value = slider;
                 comp.SetFeature(slider);
                 Game.PlayerPed.State.Set(args.name, comp, false);
@@ -86,27 +70,15 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
         {
             if (args.type == "comps")
             {
-                if (args.target == "primary")
-                {
-                    SetPedHairColor(Game.PlayerPed.Handle, args.index, _hair2);
-                    _hair1 = args.index;
-                }
-                else
-                {
-                    SetPedHairColor(Game.PlayerPed.Handle, _hair1, args.index);
-                    _hair2 = args.index;
-                }
+                PedHair comp = WorldHelper.GetState<PedHair>(Game.PlayerPed, "PedHair");
+                comp.SetHair(args.index, args.target);
+                Game.PlayerPed.State.Set("PedHair", comp, false);
             }
             else if (args.type == "overlays")
             {
-                PedOverlay overlay = JsonConvert.DeserializeObject<PedOverlay>(JsonConvert.SerializeObject(Game.PlayerPed.State.Get(args.name)));
-
-                if (args.target == "primary")
-                    overlay.SetPrimaryColor(args.index);
-                else
-                    overlay.SetSecondaryColor(args.index);
-
-                Game.PlayerPed.State.Set(args.name, overlay, false);
+                PedOverlay comp = WorldHelper.GetState<PedOverlay>(Game.PlayerPed, args.name);
+                comp.SetColor(args.index, args.target);
+                Game.PlayerPed.State.Set(args.name, comp, false);
             }
             else if (args.type == "eyes")
                 SetPedEyeColor(Game.PlayerPed.Handle, args.index);
@@ -137,7 +109,6 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
                 type
             };
 
-            Debug.WriteLine(JsonConvert.SerializeObject(data));
             SendNuiMessage(JsonConvert.SerializeObject(data));
             SendComponentData<PedEnum, PedVariation>(true);
         }
@@ -162,7 +133,14 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
             Game.PlayerPed.Heading = heading;
 
             if (IsFreemode(ped))
-                SetPedHeadBlendData(Game.PlayerPed.Handle, 0, 0, 0, 0, 0, 0, 0.5f, 0.5f, 0f, false);
+            {
+                var blend = new HeadBlend();
+                blend.SetFaceBlend();
+                Game.PlayerPed.State.Set("HeadBlend", blend, false);
+
+                var hair = new PedHair();
+                Game.PlayerPed.State.Set("PedHair", hair, false);
+            }
         }
 
         private static bool IsFreemode(PedHash ped)
@@ -191,12 +169,12 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
                 }
                 else if (typeof(PedVariation) == typeof(PedOverlay))
                 {
-                    PedOverlay comp = JsonConvert.DeserializeObject<PedOverlay>(JsonConvert.SerializeObject(Game.PlayerPed.State.Get(item)));
+                    PedOverlay comp = WorldHelper.GetState<PedOverlay>(Game.PlayerPed, item);
                     components.Add(item, comp);
                 }
                 else if (typeof(PedVariation) == typeof(FacialSlider))
                 {
-                    FacialSlider comp = JsonConvert.DeserializeObject<FacialSlider>(JsonConvert.SerializeObject(Game.PlayerPed.State.Get(item)));
+                    FacialSlider comp = WorldHelper.GetState<FacialSlider>(Game.PlayerPed, item);
                     components.Add(item, comp);
                 }
             }
