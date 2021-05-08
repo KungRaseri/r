@@ -55,6 +55,7 @@ namespace OpenRP.Framework.Client.Controllers
             Client.RegisterKeyBinding("ToggleLeftSignal", "(Vehicle) Left Signal", "minus", new Action(VehicleTurnSignals.ToggleLeftSignal));
             Client.RegisterKeyBinding("ToggleRightSignal", "(Vehicle) Right Signal", "equals", new Action(VehicleTurnSignals.ToggleRightSignal));
 
+            Client.RegisterTickHandler(PlayerStateMonitor);
             Client.RegisterTickHandler(WheelMonitor);
             Client.RegisterTickHandler(VehicleMonitor);
             Client.RegisterTickHandler(HeadlightsMonitor);
@@ -174,6 +175,32 @@ namespace OpenRP.Framework.Client.Controllers
             }
 
             await BaseScript.Delay(50);
+        }
+
+        private async Task PlayerStateMonitor()
+        {
+            if (Game.PlayerPed.VehicleTryingToEnter != null)
+            {
+                TrackedVehicle = Game.PlayerPed.VehicleTryingToEnter;
+
+                TrackedVehicle.NeedsToBeHotwired = false;
+                if (!TrackedVehicle.IsSeatFree(VehicleSeat.Driver) && !TrackedVehicle.GetPedOnSeat(VehicleSeat.Driver).IsPlayer)
+                    TrackedVehicle.LockStatus = VehicleLockStatus.Locked;
+
+                while (Game.PlayerPed.VehicleTryingToEnter != null)
+                    await BaseScript.Delay(50);
+
+                if (Game.PlayerPed.IsInVehicle())
+                {
+                    TrackedVehicle.State.Set("engine", TrackedVehicle.IsEngineRunning, false);
+                    await SeatTaken();
+                }
+            }
+
+            if (!Game.PlayerPed.IsInVehicle() && Game.PlayerPed.VehicleTryingToEnter == null)
+                TrackedVehicle = new Vehicle(0);
+
+            await BaseScript.Delay(0);
         }
 
         /// <summary>
