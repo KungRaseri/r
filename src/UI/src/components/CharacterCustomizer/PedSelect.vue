@@ -3,7 +3,7 @@
         <v-card v-show="Show" class="panel" dark>
             <v-container class="fill">
                 <v-row dense>
-                    <v-text-field v-model="Search" :outlined="true" :rounded="true" prepend-inner-icon="mdi-magnify" dense />
+                    <v-text-field v-model="Search" :outlined="true" :rounded="true" prepend-inner-icon="mdi-magnify" dense @focus="Restrict(false)" @blur="Restrict(true)" />
                 </v-row>
                 <v-row dense>
                     <v-col v-if="false">
@@ -53,6 +53,19 @@
                         break;
                 }
             });
+        }
+
+        Restrict(value: boolean) {
+            this.$axios
+                .post(
+                    "http://framework/SET_NUI_FOCUS",
+                    {
+                        value
+                    }
+                )
+                .catch((error: any) => {
+                    console.log("error", error);
+                });
         }
 
         Match(value: string) {

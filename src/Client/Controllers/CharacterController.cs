@@ -42,10 +42,16 @@ namespace OpenRP.Framework.Client.Controllers
             Client.Event.RegisterNuiEvent(NuiEvent.SET_PED_COMPONENT, new Action<dynamic>(OnSetPedComponent));
             Client.Event.RegisterNuiEvent(NuiEvent.SET_COMPONENT_COLOR, new Action<dynamic>(OnSetPedComponentColor));
             Client.Event.RegisterNuiEvent(NuiEvent.SAVE_CHARACTER_CUSTOMIZATION, new Action<dynamic>(OnSaveCharacterCustomization));
+            Client.Event.RegisterNuiEvent(NuiEvent.SET_NUI_FOCUS, new Action<dynamic>(OnSetNuiFocus));
 
             Client.Event.RegisterEvent(ClientEvent.GET_CHARACTER_OBJECT_ID, new Action<dynamic>(OnGetCharacterObjectId));
 
             FirstSpawn();
+        }
+
+        private void OnSetNuiFocus(dynamic args)
+        {
+            SetNuiFocusKeepInput(args.value);
         }
 
         private async void OnSaveCharacterCustomization(dynamic args)

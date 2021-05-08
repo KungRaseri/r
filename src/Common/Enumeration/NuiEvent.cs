@@ -33,6 +33,8 @@ namespace OpenRP.Framework.Common.Enumeration
 
         SET_COMPONENT_COLOR,
 
-        SAVE_CHARACTER_CUSTOMIZATION
+        SAVE_CHARACTER_CUSTOMIZATION,
+
+        SET_NUI_FOCUS
     }
 }
