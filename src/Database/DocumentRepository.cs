@@ -49,8 +49,7 @@ namespace OpenRP.Framework.Database
         public async Task<bool> PatchAsync(TDocument document)
         {
             var filter = Builders<TDocument>.Filter.Eq("_id", document.Id);
-
-            var result = await _collection.UpdateOneAsync(filter, new BsonDocumentUpdateDefinition<TDocument>(document.ToBsonDocument()));
+            var result = await _collection.ReplaceOneAsync(filter, document);
 
             return result.IsAcknowledged;
         }

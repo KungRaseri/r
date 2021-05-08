@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using MongoDB.Bson;
 using OpenRP.Framework.Database;
 using OpenRP.Framework.Database.Document;
 using Xunit;
@@ -50,5 +51,24 @@ namespace OpenRP.Framework.Tests
             //assert
             Assert.Contains(identifier, result.Identifiers);
         }
+
+        [Fact(Skip = "Should be ran locally")]
+        public async void PatchingAccount_IsAcknowledged()
+        {
+            //arrange
+            var identifier = "steam:123456";
+
+            //act
+            var result = await _sut.PatchAsync(new Account()
+            {
+                Id = ObjectId.Parse("6084ddd1254b79cf9f7abf1a"),
+                Identifiers = new[] { "test" },
+                Roles = new[] { "test" }
+            });
+
+            //assert
+            Assert.True(result);
+        }
+
     }
 }
