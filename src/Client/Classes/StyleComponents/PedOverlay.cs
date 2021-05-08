@@ -63,7 +63,7 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
         {
             Enum.TryParse(_name, out PedOverlays temp);
             SetPedHeadOverlay(Game.PlayerPed.Handle, (int)temp, index, Value);
-            Index = (int)temp;
+            Index = index;
 
             if (PrimaryColor == -1)
                 SetInitialColor();
@@ -73,19 +73,21 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
         public void SetColor(int index, string target)
         {
+            Enum.TryParse(_name, out PedOverlays temp);
             if (target == "primary")
                 PrimaryColor = index;
             else if (target == "secondary")
                 SecondaryColor = index;
 
-            SetPedHeadOverlayColor(Game.PlayerPed.Handle, Index, ColorType, PrimaryColor, SecondaryColor);
+            SetPedHeadOverlayColor(Game.PlayerPed.Handle, (int)temp, ColorType, PrimaryColor, SecondaryColor);
         }
 
         private void SetInitialColor()
         {
+            Enum.TryParse(_name, out PedOverlays temp);
             PrimaryColor = 0;
             SecondaryColor = 0;
-            SetPedHeadOverlayColor(Game.PlayerPed.Handle, Index, ColorType, PrimaryColor, SecondaryColor);
+            SetPedHeadOverlayColor(Game.PlayerPed.Handle, (int)temp, ColorType, PrimaryColor, SecondaryColor);
         }
     }
 }

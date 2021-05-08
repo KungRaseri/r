@@ -18,13 +18,21 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
             if (args.type == "blends")
             {
-                var comp = WorldHelper.GetState<HeadBlend>(Game.PlayerPed, "HeadBlend");
-
+                dynamic comp = Game.PlayerPed.State.Get("HeadBlend");
                 if (args.name == "FaceBlend")
-                    comp.SetFace(item, texture, slider);
+                {
+                    comp.Face1 = item;
+                    comp.Face2 = texture;
+                    comp.FaceBlend = slider;
+                }
                 else
-                    comp.SetSkin(item, texture, slider);
+                {
+                    comp.Skin1 = item;
+                    comp.Skin2 = texture;
+                    comp.SkinBlend = slider;
+                }
 
+                SetPedHeadBlendData(Game.PlayerPed.Handle, comp.Face1, comp.Face2, 0, comp.Skin1, comp.Skin2, 0, comp.FaceBlend, comp.SkinBlend, 0, false);
                 Game.PlayerPed.State.Set("HeadBlend", comp, false);
             }
             else if (args.type == "comps")
@@ -135,11 +143,30 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
             if (IsFreemode(ped))
             {
                 var blend = new HeadBlend();
-                blend.SetFaceBlend();
+                SetPedHeadBlendData(Game.PlayerPed.Handle, blend.Face1, blend.Face2, 0, blend.Skin1, blend.Skin2, 0, blend.FaceBlend, blend.SkinBlend, 0, false);
                 Game.PlayerPed.State.Set("HeadBlend", blend, false);
 
                 var hair = new PedHair();
                 Game.PlayerPed.State.Set("PedHair", hair, false);
+
+                foreach (PedOverlays value in Enum.GetValues(typeof(PedOverlays)))
+                {
+                    var name = value.ToString();
+                    var temp = new PedOverlay(name);
+
+                    if (name == "Eyebrows")
+                        temp.Value = 1;
+
+                    Game.PlayerPed.State.Set(name, temp, false);
+                }
+
+                foreach (FacialSliders value in Enum.GetValues(typeof(FacialSliders)))
+                {
+                    var name = value.ToString();
+                    var temp = new FacialSlider(name);
+
+                    Game.PlayerPed.State.Set(name, temp, false);
+                }
             }
         }
 

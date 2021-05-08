@@ -57,7 +57,9 @@ namespace OpenRP.Framework.Client.Classes
 
         public static toObject GetState<toObject>(Entity ent, string state)
         {
+            Debug.WriteLine(JsonConvert.SerializeObject(ent.State.Get(state)));
             toObject comp = JsonConvert.DeserializeObject<toObject>(JsonConvert.SerializeObject(ent.State.Get(state)));
+            Debug.WriteLine(JsonConvert.SerializeObject(comp));
             return comp;
         }
     }

@@ -12,7 +12,7 @@ namespace OpenRP.Framework.Client.Classes
     internal class PedCustomization
     {
         Model _model => Game.PlayerPed.Model;
-        public HeadBlend Head { get; set; }
+        public dynamic Head { get; set; }
         public PedHair Hair { get; set; }
         int _eye => GetPedEyeColor(Game.PlayerPed.Handle);
         public Dictionary<string, PedComponent> PedComponents { get; set; }

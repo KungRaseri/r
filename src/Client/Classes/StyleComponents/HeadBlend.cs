@@ -17,7 +17,6 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
             Face1 = primary;
             Face2 = secondary;
             FaceBlend = mix;
-            SetFaceBlend();
         }
 
         public void SetSkin(int primary, int secondary, float mix)
@@ -25,12 +24,6 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
             Skin1 = primary;
             Skin2 = secondary;
             SkinBlend = mix;
-            SetFaceBlend();
-        }
-
-        public void SetFaceBlend()
-        {
-            SetPedHeadBlendData(Game.PlayerPed.Handle, Face1, Face2, 0, Skin1, Skin2, 0, FaceBlend, SkinBlend, 0, false);
         }
     }
 }

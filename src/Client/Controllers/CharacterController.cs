@@ -48,7 +48,24 @@ namespace OpenRP.Framework.Client.Controllers
             FirstSpawn();
         }
 
-        private void OnSaveCharacterCustomization(dynamic args)
+        private async void OnSaveCharacterCustomization(dynamic args)
+        {
+            SaveToDb();
+            await FadeOut(1000);
+            Client.UnregisterTickHandler(DisableAllControls);
+            Client.UnregisterTickHandler(CameraControls);
+            ClearOverrideWeather();
+            Game.PauseClock(false);
+            NetworkClearClockTimeOverride();
+            RenderScriptCams(false, false, 0, false, false);
+            Game.PlayerPed.IsPositionFrozen = false;
+            Client.Event.TriggerServerEvent(ServerEvent.SET_PLAYER_ROUTING_BUCKET, false);
+            SetNuiFocus(false, false);
+            await BaseScript.Delay(5000);
+            DoScreenFadeIn(1000);
+        }
+
+        private void SaveToDb()
         {
             var ent = Game.PlayerPed;
             var compDict = new Dictionary<string, PedComponent>();
@@ -86,7 +103,7 @@ namespace OpenRP.Framework.Client.Controllers
 
             var temp = new PedCustomization()
             {
-                Head = GetState<HeadBlend>(ent, "HeadBlend"),
+                Head = Game.PlayerPed.State.Get("HeadBlend"),
                 Hair = GetState<PedHair>(ent, "PedHair"),
                 PedComponents = compDict,
                 PedProps = propDict,
@@ -94,8 +111,6 @@ namespace OpenRP.Framework.Client.Controllers
                 FacialSliders = faceDict
             };
 
-            var data = JsonConvert.SerializeObject(temp);
-            Debug.WriteLine(data);
             Client.Event.TriggerServerEvent(ServerEvent.STORE_CHARACTER_CUSTOMIZATION, _id, temp);
         }
 
@@ -117,26 +132,6 @@ namespace OpenRP.Framework.Client.Controllers
 
             _peds.Insert(0, "FreemodeFemale01");
             _peds.Insert(1, "FreemodeMale01");
-
-            foreach (PedOverlays value in Enum.GetValues(typeof(PedOverlays)))
-            {
-                var name = value.ToString();
-                var temp = new PedOverlay(name);
-
-                if (name == "Eyebrows")
-                    temp.Value = 1;
-
-                Game.PlayerPed.State.Set(name, temp, false);
-            }
-
-
-            foreach (FacialSliders value in Enum.GetValues(typeof(FacialSliders)))
-            {
-                var name = value.ToString();
-                var temp = new FacialSlider(name);
-
-                Game.PlayerPed.State.Set(name, temp, false);
-            }
         }
 
         private void OnSaveNewCharacter(dynamic args)
@@ -165,23 +160,23 @@ namespace OpenRP.Framework.Client.Controllers
 
         private async void OnPlayerSpawned()
         {
-            await WorldHelper.FadeOut(1000);
-            Client.Event.TriggerServerEvent(ServerEvent.SET_PLAYER_ROUTING_BUCKET);
+            await FadeOut(1000);
+            Client.Event.TriggerServerEvent(ServerEvent.SET_PLAYER_ROUTING_BUCKET, true);
             await BaseScript.Delay(50);
             NetworkOverrideClockTime(12, 0, 0);
-            PauseClock(true);
+            Game.PauseClock(true);
             await Position.Teleport(_pos, true);
             Game.PlayerPed.Heading = _heading;
-            _cam.Position = WorldHelper.PosOffset(_pos, _heading, 2);
+            _cam.Position = PosOffset(_pos, _heading, 2);
             _cam.PointAt(Game.PlayerPed);
             SetTimecycleModifier("default");
             SetOverrideWeather("EXTRASUNNY");
             SendNuiMessage(JsonConvert.SerializeObject(new { eventName = "LIST_OF_PEDS", _peds }));
             UIElement.ToggleNuiModule("TOGGLE_PED_SELECT", true, true, true, true);
             Game.PlayerPed.IsPositionFrozen = true;
-            Client.RegisterTickHandler(WorldHelper.DisableAllControls);
+            Client.RegisterTickHandler(DisableAllControls);
             Client.RegisterTickHandler(CameraControls);
-            await WorldHelper.FadeIn(1000);
+            await FadeIn(1000);
         }
 
         internal async Task CameraControls()

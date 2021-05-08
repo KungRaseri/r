@@ -18,7 +18,7 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
         public string Name => _name;
 
-        public float Value { get; set; } = 0.5f;
+        public float Value { get; set; } = 0f;
 
         public int Count => 0;
 
