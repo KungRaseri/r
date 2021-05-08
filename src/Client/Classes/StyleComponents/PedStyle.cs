@@ -167,6 +167,8 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
                     Game.PlayerPed.State.Set(name, temp, false);
                 }
+
+                SetPedEyeColor(Game.PlayerPed.Handle, 0);
             }
         }
 
@@ -205,8 +207,6 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
                     components.Add(item, comp);
                 }
             }
-
-            Debug.WriteLine(JsonConvert.SerializeObject(components));
 
             string eventName;
 

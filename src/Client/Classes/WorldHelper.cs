@@ -28,7 +28,7 @@ namespace OpenRP.Framework.Client.Classes
         public static async Task FadeOut(int duration)
         {
             DoScreenFadeOut(duration);
-
+            
             while (IsScreenFadingOut())
                 await BaseScript.Delay(50);
         }
@@ -57,9 +57,7 @@ namespace OpenRP.Framework.Client.Classes
 
         public static toObject GetState<toObject>(Entity ent, string state)
         {
-            Debug.WriteLine(JsonConvert.SerializeObject(ent.State.Get(state)));
             toObject comp = JsonConvert.DeserializeObject<toObject>(JsonConvert.SerializeObject(ent.State.Get(state)));
-            Debug.WriteLine(JsonConvert.SerializeObject(comp));
             return comp;
         }
     }

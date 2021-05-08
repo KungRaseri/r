@@ -67,51 +67,7 @@ namespace OpenRP.Framework.Client.Controllers
 
         private void SaveToDb()
         {
-            var ent = Game.PlayerPed;
-            var compDict = new Dictionary<string, PedComponent>();
-
-            foreach (var name in Enum.GetNames(typeof(PedComponents)))
-            {
-                Enum.TryParse(name, out PedComponents value);
-                PedComponent comp = ent.Style[value];
-                compDict.Add(name, comp);
-            }
-            var propDict = new Dictionary<string, PedProp>();
-
-            foreach (var name in Enum.GetNames(typeof(PedProps)))
-            {
-                Enum.TryParse(name, out PedProps value);
-                PedProp comp = ent.Style[value];
-                propDict.Add(name, comp);
-            }
-
-            var overlayDict = new Dictionary<string, PedOverlay>();
-
-            foreach (var name in Enum.GetNames(typeof(PedOverlays)))
-            {
-                PedOverlay comp = GetState<PedOverlay>(ent, name);
-                overlayDict.Add(name, comp);
-            }
-
-            var faceDict = new Dictionary<string, FacialSlider>();
-
-            foreach (var name in Enum.GetNames(typeof(FacialSliders)))
-            {
-                FacialSlider comp = GetState<FacialSlider>(ent, name);
-                faceDict.Add(name, comp);
-            }
-
-            var temp = new PedCustomization()
-            {
-                Head = Game.PlayerPed.State.Get("HeadBlend"),
-                Hair = GetState<PedHair>(ent, "PedHair"),
-                PedComponents = compDict,
-                PedProps = propDict,
-                Overlays = overlayDict,
-                FacialSliders = faceDict
-            };
-
-            Client.Event.TriggerServerEvent(ServerEvent.STORE_CHARACTER_CUSTOMIZATION, _id, temp);
+            Client.Event.TriggerServerEvent(ServerEvent.STORE_CHARACTER_CUSTOMIZATION, _id, new PedCustomization());
         }
 
         private void OnGetCharacterObjectId(dynamic args)

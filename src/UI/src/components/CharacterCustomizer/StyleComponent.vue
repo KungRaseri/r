@@ -291,7 +291,6 @@
 
         set ItemIndex(value: string) {
             let v = parseInt(value);
-            console.log(v);
             if (v < 0 || isNaN(v)) {
                 this.itemIndex = "0";
             } else if (v > this.ItemMax) {
