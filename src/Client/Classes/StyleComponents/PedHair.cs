@@ -5,19 +5,32 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 {
     class PedHair
     {
-        int _primary => GetPedHairColor(Game.PlayerPed.Handle);
-        int _secondary => GetPedHairHighlightColor(Game.PlayerPed.Handle);
+        public int Primary
+        {
+            get
+            {
+                return GetPedHairColor(Game.PlayerPed.Handle);
+            }
+        }
+
+        public int Secondary
+        {
+            get
+            {
+                return GetPedHairHighlightColor(Game.PlayerPed.Handle);
+            }
+        }
 
         public bool SetHair(int index, string target)
         {
             if (target == "primary")
             {
-                SetPedHairColor(Game.PlayerPed.Handle, index, _secondary);
+                SetPedHairColor(Game.PlayerPed.Handle, index, Secondary);
                 return true;
             }
             else if (target == "secondary")
             {
-                SetPedHairColor(Game.PlayerPed.Handle, _primary, index);
+                SetPedHairColor(Game.PlayerPed.Handle, Primary, index);
                 return true;
             }
 

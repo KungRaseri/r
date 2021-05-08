@@ -91,6 +91,15 @@
 
         Save() {
             this.Show = false;
+            this.$axios
+                .post(
+                    "http://framework/SAVE_CHARACTER_CUSTOMIZATION",
+                    {
+                    }
+                )
+                .catch((error: any) => {
+                    console.log("error", error);
+                });
         }
 
         IsFreemode() {

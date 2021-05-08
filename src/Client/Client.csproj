@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\PedCustomization.cs" />
     <Compile Include="Classes\Position.cs" />
     <Compile Include="Classes\StyleComponents\HeadBlend.cs" />
     <Compile Include="Classes\StyleComponents\FacialSlider.cs" />

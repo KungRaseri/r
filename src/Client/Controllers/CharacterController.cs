@@ -9,6 +9,7 @@ using System.Dynamic;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using static OpenRP.Framework.Client.Classes.StyleComponents.PedStyle;
+using static OpenRP.Framework.Client.Classes.WorldHelper;
 
 namespace OpenRP.Framework.Client.Controllers
 {
@@ -40,10 +41,62 @@ namespace OpenRP.Framework.Client.Controllers
             Client.Event.RegisterNuiEvent(NuiEvent.AGGREGATE_DATA, new Action<dynamic>(OnAggregateData));
             Client.Event.RegisterNuiEvent(NuiEvent.SET_PED_COMPONENT, new Action<dynamic>(OnSetPedComponent));
             Client.Event.RegisterNuiEvent(NuiEvent.SET_COMPONENT_COLOR, new Action<dynamic>(OnSetPedComponentColor));
+            Client.Event.RegisterNuiEvent(NuiEvent.SAVE_CHARACTER_CUSTOMIZATION, new Action<dynamic>(OnSaveCharacterCustomization));
 
             Client.Event.RegisterEvent(ClientEvent.GET_CHARACTER_OBJECT_ID, new Action<dynamic>(OnGetCharacterObjectId));
 
             FirstSpawn();
+        }
+
+        private void OnSaveCharacterCustomization(dynamic args)
+        {
+            var ent = Game.PlayerPed;
+            var compDict = new Dictionary<string, PedComponent>();
+
+            foreach (var name in Enum.GetNames(typeof(PedComponents)))
+            {
+                Enum.TryParse(name, out PedComponents value);
+                PedComponent comp = ent.Style[value];
+                compDict.Add(name, comp);
+            }
+            var propDict = new Dictionary<string, PedProp>();
+
+            foreach (var name in Enum.GetNames(typeof(PedProps)))
+            {
+                Enum.TryParse(name, out PedProps value);
+                PedProp comp = ent.Style[value];
+                propDict.Add(name, comp);
+            }
+
+            var overlayDict = new Dictionary<string, PedOverlay>();
+
+            foreach (var name in Enum.GetNames(typeof(PedOverlays)))
+            {
+                PedOverlay comp = GetState<PedOverlay>(ent, name);
+                overlayDict.Add(name, comp);
+            }
+
+            var faceDict = new Dictionary<string, FacialSlider>();
+
+            foreach (var name in Enum.GetNames(typeof(FacialSliders)))
+            {
+                FacialSlider comp = GetState<FacialSlider>(ent, name);
+                faceDict.Add(name, comp);
+            }
+
+            var temp = new PedCustomization()
+            {
+                Head = GetState<HeadBlend>(ent, "HeadBlend"),
+                Hair = GetState<PedHair>(ent, "PedHair"),
+                PedComponents = compDict,
+                PedProps = propDict,
+                Overlays = overlayDict,
+                FacialSliders = faceDict
+            };
+
+            var data = JsonConvert.SerializeObject(temp);
+            Debug.WriteLine(data);
+            Client.Event.TriggerServerEvent(ServerEvent.STORE_CHARACTER_CUSTOMIZATION, _id, temp);
         }
 
         private void OnGetCharacterObjectId(dynamic args)

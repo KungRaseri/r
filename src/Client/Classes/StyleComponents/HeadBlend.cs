@@ -5,32 +5,32 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 {
     internal class HeadBlend
     {
-        int _face1 = 0;
-        int _face2 = 0;
-        float _faceBlend = 0.5f;
-        int _skin1 = 0;
-        int _skin2 = 0;
-        float _skinBlend = 0.5f;
+        public int Face1 { get; private set; } = 0;
+        public int Face2 { get; private set; } = 0;
+        public float FaceBlend { get; private set; } = 0.5f;
+        public int Skin1 { get; private set; } = 0;
+        public int Skin2 { get; private set; } = 0;
+        public float SkinBlend { get; private set; } = 0.5f;
 
         public void SetFace(int primary, int secondary, float mix)
         {
-            _face1 = primary;
-            _face2 = secondary;
-            _faceBlend = mix;
+            Face1 = primary;
+            Face2 = secondary;
+            FaceBlend = mix;
             SetFaceBlend();
         }
 
         public void SetSkin(int primary, int secondary, float mix)
         {
-            _skin1 = primary;
-            _skin2 = secondary;
-            _skinBlend = mix;
+            Skin1 = primary;
+            Skin2 = secondary;
+            SkinBlend = mix;
             SetFaceBlend();
         }
 
         public void SetFaceBlend()
         {
-            SetPedHeadBlendData(Game.PlayerPed.Handle, _face1, _face2, 0, _skin1, _skin2, 0, _faceBlend, _skinBlend, 0, false);
+            SetPedHeadBlendData(Game.PlayerPed.Handle, Face1, Face2, 0, Skin1, Skin2, 0, FaceBlend, SkinBlend, 0, false);
         }
     }
 }

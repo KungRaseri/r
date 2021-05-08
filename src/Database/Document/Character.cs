@@ -12,5 +12,6 @@ namespace OpenRP.Framework.Database.Document
         public string LastName { get; set; }
         public string Gender { get; set; }
         public string Dob { get; set; }
+        public dynamic Customization { get; set; }
     }
 }

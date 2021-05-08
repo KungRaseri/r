@@ -31,6 +31,8 @@ namespace OpenRP.Framework.Common.Enumeration
 
         SET_PED_COMPONENT,
 
-        SET_COMPONENT_COLOR
+        SET_COMPONENT_COLOR,
+
+        SAVE_CHARACTER_CUSTOMIZATION
     }
 }
