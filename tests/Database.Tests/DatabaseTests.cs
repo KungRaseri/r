@@ -56,12 +56,12 @@ namespace OpenRP.Framework.Tests
         public async void PatchingAccount_IsAcknowledged()
         {
             //arrange
-            var identifier = "steam:123456";
+            var id = "6084ddd1254b79cf9f7abf1a";
 
             //act
             var result = await _sut.PatchAsync(new Account()
             {
-                Id = ObjectId.Parse("6084ddd1254b79cf9f7abf1a"),
+                Id = ObjectId.Parse(id),
                 Identifiers = new[] { "test" },
                 Roles = new[] { "test" }
             });
