@@ -47,17 +47,17 @@ namespace OpenRP.Framework.Client.Controllers
             Client.Event.RegisterNuiEvent(NuiEvent.SET_NUI_FOCUS, new Action<dynamic>(OnSetNuiFocus));
             Client.Event.RegisterNuiEvent(NuiEvent.POPULATE_CHARACTER_SELECT, new Action<dynamic>(OnPopulateCharacterSelect));
             Client.Event.RegisterNuiEvent(NuiEvent.SET_CHARACTER, new Action<dynamic>(OnSetCharacter));
+            Client.Event.RegisterNuiEvent(NuiEvent.CHARACTER_SELECT_SETUP, new Action(FirstSpawn));
 
             Client.Event.RegisterEvent(ClientEvent.GET_CHARACTER_OBJECT_ID, new Action<dynamic>(OnGetCharacterObjectId));
             Client.Event.RegisterEvent(ClientEvent.RETRIEVE_CHARACTERS, new Action<dynamic>(OnRetrieveCharacters));
-            Client.GetExport("spawnmanager").spawnPlayer(SpawnPosition());
 
             FirstSpawn();
         }
 
         private async void OnSetCharacter(dynamic args)
         {
-            await FadeOut(1000);
+            await FadeOut(500);
             SetTimecycleModifier("default");
             var temp = JsonConvert.DeserializeObject<List<CharacterData>>(JsonConvert.SerializeObject(_characters));
             var character = temp.Find(e => e.Id == args.id);
@@ -68,7 +68,7 @@ namespace OpenRP.Framework.Client.Controllers
             _cam.Position = PosOffset(_pos, _heading, 2);
             _cam.PointAt(Game.PlayerPed);
             await BaseScript.Delay(500);
-            await FadeIn(1000);
+            await FadeIn(500);
         }
 
         private void OnRetrieveCharacters(dynamic args)
@@ -91,7 +91,7 @@ namespace OpenRP.Framework.Client.Controllers
         private async void OnSaveCharacterCustomization(dynamic args)
         {
             SaveToDb();
-            await FadeOut(1000);
+            await FadeOut(500);
             Client.UnregisterTickHandler(DisableAllControls);
             Client.UnregisterTickHandler(CameraControls);
             ClearOverrideWeather();
@@ -102,7 +102,7 @@ namespace OpenRP.Framework.Client.Controllers
             Client.Event.TriggerServerEvent(ServerEvent.SET_PLAYER_ROUTING_BUCKET, false);
             SetNuiFocus(false, false);
             await BaseScript.Delay(5000);
-            DoScreenFadeIn(1000);
+            DoScreenFadeIn(500);
         }
 
         private void SaveToDb()
@@ -189,12 +189,14 @@ namespace OpenRP.Framework.Client.Controllers
         private void OnSaveNewCharacter(dynamic args)
         {
             Client.Event.TriggerServerEvent(ServerEvent.SAVE_NEW_CHARACTER, args);
-            OnPlayerSpawned();
+            NewCharacter();
         }
 
         private async void FirstSpawn()
         {
+            await FadeOut(500);
             Client.Event.TriggerServerEvent(ServerEvent.SET_PLAYER_ROUTING_BUCKET, true);
+            Client.GetExport("spawnmanager").spawnPlayer(SpawnPosition());
             SetTimecycleModifier("hud_def_blur");
 
             _cam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
@@ -206,13 +208,14 @@ namespace OpenRP.Framework.Client.Controllers
 
             _cam.IsActive = true;
             RenderScriptCams(true, false, 0, true, true);
-            await BaseScript.Delay(1000);
+            await BaseScript.Delay(50);
+            await FadeIn(500);
             UIElement.ToggleNuiModule("TOGGLE_CHARACTER_SELECT", true, true, true);
         }
 
-        private async void OnPlayerSpawned()
+        private async void NewCharacter()
         {
-            await FadeOut(1000);
+            await FadeOut(500);
             await BaseScript.Delay(50);
             NetworkOverrideClockTime(12, 0, 0);
             Game.PauseClock(true);
@@ -227,7 +230,7 @@ namespace OpenRP.Framework.Client.Controllers
             Game.PlayerPed.IsPositionFrozen = true;
             Client.RegisterTickHandler(DisableAllControls);
             Client.RegisterTickHandler(CameraControls);
-            await FadeIn(1000);
+            await FadeIn(500);
         }
 
         internal async Task CameraControls()

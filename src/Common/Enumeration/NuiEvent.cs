@@ -39,6 +39,8 @@ namespace OpenRP.Framework.Common.Enumeration
 
         POPULATE_CHARACTER_SELECT,
 
-        SET_CHARACTER
+        SET_CHARACTER,
+
+        CHARACTER_SELECT_SETUP
     }
 }

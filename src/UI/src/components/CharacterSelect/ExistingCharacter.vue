@@ -6,7 +6,7 @@
                     <v-btn color="red" :rounded="true" block @click="goback()">Back</v-btn>
                 </v-col>
                 <v-col>
-                    <v-btn color="green" :rounded="true" block @click="Save()">Continue</v-btn>
+                    <v-btn color="green" :rounded="true" block @click="Continue()" :disabled="!Selected">Continue</v-btn>
                 </v-col>
             </v-row>
             <v-divider class="my-4" />
@@ -31,6 +31,7 @@
     export default class ExistingCharacter extends Vue {
         @Prop(Boolean) show = this.Show;
 
+        selected = false;
         characters: any[] = [];
         $axios: any;
 
@@ -47,6 +48,7 @@
         }
 
         SetCharacter(value: string) {
+            this.Selected = true;
             let id = value;
             this.$axios
                 .post(
@@ -60,9 +62,23 @@
                 });
         }
 
-        Emit()
+        @Emit()
         goback() {
-            return false;
+            if (this.Selected) {
+                this.Selected = false;
+                this.$axios
+                    .post(
+                        "http://framework/CHARACTER_SELECT_SETUP",
+                        {
+                        }
+                    )
+                    .catch((error: any) => {
+                        console.log("error", error);
+                    });
+
+                return false;
+            }
+            return true;
         }
 
         get Show() {
@@ -80,6 +96,14 @@
         set Characters(value: any) {
             value.sort((a: any, b: any) => (a.Last > b.Last) ? 1 : -1);
             this.characters = value;
+        }
+
+        get Selected() {
+            return this.selected
+        }
+
+        set Selected(value: boolean) {
+            this.selected = value;
         }
     }
 </script>

@@ -2,8 +2,8 @@
     <v-container class="outter">
         <NewOrExisting @nextmenu="NextMenu" :show="ShowNewOrExisting"/>
         <v-container v-show="ShowSubmenu()">
-            <NewCharacter @goback="GoBack" @saveform="SaveForm" :show="ShowMenu()"/>
-            <ExistingCharacter @goback="GoBack" :show="!ShowMenu()" />
+            <NewCharacter @goback="GoBack" @saveform="SaveForm" :show="ShowMenu('new')"/>
+            <ExistingCharacter @goback="GoBack" :show="ShowMenu('exist')" />
         </v-container>
     </v-container>
 </template>
@@ -46,7 +46,9 @@
         }
 
         GoBack(value: boolean) {
-            this.ShowNewOrExisting = true;
+            if (value) {
+                this.ShowNewOrExisting = true;
+            }
             this.Menu = "";
         }
 

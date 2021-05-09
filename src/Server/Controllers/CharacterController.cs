@@ -69,9 +69,15 @@ namespace OpenRP.Framework.Server.Controllers
         private void OnSetPlayerRoutingBucket([FromSource] Player player, bool instance)
         {
             if (instance)
-                SetPlayerRoutingBucket(player.Handle, int.Parse(player.Handle));
+            {
+                if (GetPlayerRoutingBucket(player.Handle) != int.Parse(player.Handle))
+                    SetPlayerRoutingBucket(player.Handle, int.Parse(player.Handle));
+            }
             else
-                SetPlayerRoutingBucket(player.Handle, 0);
+            {
+                if (GetPlayerRoutingBucket(player.Handle) != 0)
+                    SetPlayerRoutingBucket(player.Handle, 0);
+            }
         }
     }
 }

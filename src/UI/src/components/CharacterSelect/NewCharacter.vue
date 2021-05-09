@@ -1,6 +1,6 @@
 <template>
-    <v-fade-transition>
-        <validation-observer v-slot="{ invalid }">
+    <validation-observer v-slot="{ invalid }">
+        <v-fade-transition>
             <v-container v-show="Show" class="panel">
                 <v-card class="card" rounded="xl" dark>
                     <h1>Character Info</h1>
@@ -50,17 +50,17 @@
                                         </validation-provider>
                                     </template>
                                     <v-date-picker v-model="dob"
-                                                    no-title
-                                                    scrollable>
+                                                   no-title
+                                                   scrollable>
                                         <v-spacer></v-spacer>
                                         <v-btn text
-                                                color="primary"
-                                                @click="menu = false">
+                                               color="primary"
+                                               @click="menu = false">
                                             Cancel
                                         </v-btn>
                                         <v-btn text
-                                                color="primary"
-                                                @click="$refs.menu.save(dob)">
+                                               color="primary"
+                                               @click="$refs.menu.save(dob)">
                                             OK
                                         </v-btn>
                                     </v-date-picker>
@@ -78,8 +78,8 @@
                     </v-container>
                 </v-card>
             </v-container>
-        </validation-observer>
-    </v-fade-transition>
+        </v-fade-transition>
+    </validation-observer>
 </template>
 
 <script lang="ts">
@@ -133,7 +133,7 @@
 
         @Emit()
         goback() {
-            return false;
+            return true;
         }
 
         @Emit()
