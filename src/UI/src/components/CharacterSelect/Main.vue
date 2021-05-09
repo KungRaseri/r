@@ -3,7 +3,7 @@
         <NewOrExisting @nextmenu="NextMenu" :show="ShowNewOrExisting"/>
         <v-container v-show="ShowSubmenu()">
             <NewCharacter @goback="GoBack" @saveform="SaveForm" :show="ShowMenu('new')"/>
-            <ExistingCharacter @goback="GoBack" :show="ShowMenu('exist')" />
+            <ExistingCharacter @goback="GoBack" @finish="Menu=''" :show="ShowMenu('exist')" />
         </v-container>
     </v-container>
 </template>

@@ -154,7 +154,6 @@
         margin-right: auto;
         font-weight: bold;
         color: white;
-        z-index: 50;
     }
 
     .card {
@@ -163,5 +162,6 @@
         height: auto;
         padding: 10px;
         bottom: 5%;
+        z-index: 50;
     }
 </style>

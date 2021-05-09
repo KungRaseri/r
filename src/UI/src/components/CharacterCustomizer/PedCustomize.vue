@@ -91,10 +91,12 @@
 
         Save() {
             this.Show = false;
+            let customize = true;
             this.$axios
                 .post(
                     "http://framework/SAVE_CHARACTER_CUSTOMIZATION",
                     {
+                        customize
                     }
                 )
                 .catch((error: any) => {

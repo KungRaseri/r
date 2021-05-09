@@ -6,7 +6,7 @@
                     <v-btn color="red" :rounded="true" block @click="goback()">Back</v-btn>
                 </v-col>
                 <v-col>
-                    <v-btn color="green" :rounded="true" block @click="Continue()" :disabled="!Selected">Continue</v-btn>
+                    <v-btn color="green" :rounded="true" block @click="finish()" :disabled="!Selected">Continue</v-btn>
                 </v-col>
             </v-row>
             <v-divider class="my-4" />
@@ -60,6 +60,23 @@
                 .catch((error: any) => {
                     console.log("error", error);
                 });
+        }
+
+        @Emit()
+        finish() {
+            let customize = false;
+            this.$axios
+                .post(
+                    "http://framework/SAVE_CHARACTER_CUSTOMIZATION",
+                    {
+                        customize
+                    }
+                )
+                .catch((error: any) => {
+                    console.log("error", error);
+                });
+
+            return true;
         }
 
         @Emit()

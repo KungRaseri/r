@@ -43,7 +43,7 @@ namespace OpenRP.Framework.Client.Controllers
             Client.Event.RegisterNuiEvent(NuiEvent.AGGREGATE_DATA, new Action<dynamic>(OnAggregateData));
             Client.Event.RegisterNuiEvent(NuiEvent.SET_PED_COMPONENT, new Action<dynamic>(OnSetPedComponent));
             Client.Event.RegisterNuiEvent(NuiEvent.SET_COMPONENT_COLOR, new Action<dynamic>(OnSetPedComponentColor));
-            Client.Event.RegisterNuiEvent(NuiEvent.SAVE_CHARACTER_CUSTOMIZATION, new Action<dynamic>(OnSaveCharacterCustomization));
+            Client.Event.RegisterNuiEvent(NuiEvent.SAVE_CHARACTER_CUSTOMIZATION, new Action<dynamic>(FinishCharacterSelect));
             Client.Event.RegisterNuiEvent(NuiEvent.SET_NUI_FOCUS, new Action<dynamic>(OnSetNuiFocus));
             Client.Event.RegisterNuiEvent(NuiEvent.POPULATE_CHARACTER_SELECT, new Action<dynamic>(OnPopulateCharacterSelect));
             Client.Event.RegisterNuiEvent(NuiEvent.SET_CHARACTER, new Action<dynamic>(OnSetCharacter));
@@ -88,9 +88,11 @@ namespace OpenRP.Framework.Client.Controllers
             SetNuiFocusKeepInput(args.value);
         }
 
-        private async void OnSaveCharacterCustomization(dynamic args)
+        private async void FinishCharacterSelect(dynamic args)
         {
-            SaveToDb();
+            if (args.customize)
+                SaveToDb();
+
             await FadeOut(500);
             Client.UnregisterTickHandler(DisableAllControls);
             Client.UnregisterTickHandler(CameraControls);

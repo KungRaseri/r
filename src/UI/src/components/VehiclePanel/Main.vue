@@ -192,13 +192,13 @@
         margin-left: auto;
         margin-right: auto;
         padding: 0;
-        z-index: 100;
     }
 
     .card {
         position: absolute;
         width: 25%;
         bottom: 5%;
+        z-index: 100;
     }
 
     .inset {
