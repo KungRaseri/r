@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using OpenRP.Framework.Client.Classes;
+using System;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
@@ -17,9 +18,17 @@ namespace OpenRP.Framework.Client.Controllers
         {
             Game.Player.DispatchsCops = false;
             SetMaxWantedLevel(0);
+            DisplayRadar(false);
             Client.RegisterTickHandler(ClearWanted);
             Client.RegisterTickHandler(DisableShuffle);
             Client.RegisterTickHandler(PauseMonitor);
+            Client.RegisterTickHandler(HideHud);
+        }
+
+        private async Task HideHud()
+        {
+            for (var i = 1; i < 23; i++)
+                HideHudComponentThisFrame(i);
         }
 
         private async Task ClearWanted()
@@ -45,7 +54,7 @@ namespace OpenRP.Framework.Client.Controllers
 
             if (_paused != _lastPaused)
             {
-                UIElement.ToggleNuiModule("GET_PAUSED_STATUS", !_paused, false, false);
+                UIElement.ToggleNuiModule("GET_PAUSED_STATUS", !_paused);
                 _lastPaused = _paused;
             }
 

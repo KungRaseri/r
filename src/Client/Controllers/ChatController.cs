@@ -26,7 +26,7 @@ namespace OpenRP.Framework.Client.Controllers
         private void ToggleChatModule()
         {
             var eventName = "TOGGLE_CHAT_MODULE";
-            UIElement.ToggleNuiModule(eventName, true, true, false);
+            UIElement.ToggleNuiModule(eventName, true, true);
         }
 
         private void OnResetFocus(dynamic args)

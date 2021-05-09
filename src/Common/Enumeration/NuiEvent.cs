@@ -21,6 +21,26 @@ namespace OpenRP.Framework.Common.Enumeration
         /// <summary>
         /// Handles toggling of various vehicle components.
         /// </summary>
-        TOGGLE_VEHICLE_COMPONENT
+        TOGGLE_VEHICLE_COMPONENT,
+
+        SAVE_NEW_CHARACTER,
+
+        SET_CHARACTER_MODEL,
+
+        AGGREGATE_DATA,
+
+        SET_PED_COMPONENT,
+
+        SET_COMPONENT_COLOR,
+
+        SAVE_CHARACTER_CUSTOMIZATION,
+
+        SET_NUI_FOCUS,
+
+        POPULATE_CHARACTER_SELECT,
+
+        SET_CHARACTER,
+
+        CHARACTER_SELECT_SETUP
     }
 }

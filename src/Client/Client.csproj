@@ -51,6 +51,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\PedCustomization.cs" />
+    <Compile Include="Classes\Position.cs" />
+    <Compile Include="Classes\StyleComponents\AltPedComponent.cs" />
+    <Compile Include="Classes\StyleComponents\HeadBlend.cs" />
+    <Compile Include="Classes\StyleComponents\FacialSlider.cs" />
+    <Compile Include="Classes\StyleComponents\PedHair.cs" />
+    <Compile Include="Classes\StyleComponents\PedOverlay.cs" />
+    <Compile Include="Classes\StyleComponents\PedStyle.cs" />
     <Compile Include="Classes\VehicleControl\VehicleToggleEngine.cs" />
     <Compile Include="Classes\VehicleControl\VehicleToggleSeatbelt.cs" />
     <Compile Include="Classes\VehicleControl\VehicleSwitchSeats.cs" />
@@ -58,9 +66,11 @@
     <Compile Include="Classes\VehicleControl\VehicleToggleWindow.cs" />
     <Compile Include="Classes\VehicleControl\VehicleToggleDoor.cs" />
     <Compile Include="Classes\VehicleControl\VehicleTurnSignals.cs" />
+    <Compile Include="Classes\WorldHelper.cs" />
     <Compile Include="ClientAccessor.cs" />
     <Compile Include="ClientMain.cs" />
     <Compile Include="Classes\GridCoord.cs" />
+    <Compile Include="Controllers\CharacterController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\DiscordController.cs" />
     <Compile Include="Controllers\EventController.cs" />
