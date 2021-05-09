@@ -18,7 +18,7 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
             if (args.type == "blends")
             {
-                HeadBlend comp = Game.PlayerPed.State.Get("HeadBlend");
+                var comp = WorldHelper.GetState<HeadBlend>(Game.PlayerPed, "HeadBlend");
                 if (args.name == "FaceBlend")
                 {
                     comp.Face1 = item;
@@ -74,7 +74,7 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
             Aggregate<FacialSliders, FacialSlider>();
         }
 
-        internal static async void SetCustomization(PedCustomization customization)
+        internal static async Task SetCustomization(PedCustomization customization)
         {
             await SetModel(customization.Model);
 

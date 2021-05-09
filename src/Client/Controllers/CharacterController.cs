@@ -62,7 +62,7 @@ namespace OpenRP.Framework.Client.Controllers
             var temp = JsonConvert.DeserializeObject<List<CharacterData>>(JsonConvert.SerializeObject(_characters));
             var character = temp.Find(e => e.Id == args.id);
             PedCustomization customization = JsonConvert.DeserializeObject<PedCustomization>(character.Customization);
-            SetCustomization(customization);
+            await SetCustomization(customization);
             await Position.Teleport(_pos, true);
             Game.PlayerPed.Heading = _heading;
             _cam.Position = PosOffset(_pos, _heading, 2);
@@ -154,7 +154,7 @@ namespace OpenRP.Framework.Client.Controllers
             var data = new PedCustomization()
             {
                 Model = Enum.GetName(typeof(PedHash), (uint)Game.PlayerPed.Model.Hash),
-                Head = Game.PlayerPed.State.Get("HeadBlend"),
+                Head = GetState<HeadBlend>(Game.PlayerPed, "HeadBlend"),
                 Hair = GetState<PedHair>(Game.PlayerPed, "PedHair"),
                 Eye = GetPedEyeColor(Game.PlayerPed.Handle),
                 PedComponents = compDict,
@@ -303,10 +303,10 @@ namespace OpenRP.Framework.Client.Controllers
         private dynamic SpawnPosition()
         {
             dynamic obj = new ExpandoObject();
-            obj.x = 0;
-            obj.y = 0;
-            obj.z = 0;
-            obj.heading = 0;
+            obj.x = _pos.X;
+            obj.y = _pos.Y;
+            obj.z = _pos.Z;
+            obj.heading = _heading;
             obj.skipFade = true;
             return obj;
         }
