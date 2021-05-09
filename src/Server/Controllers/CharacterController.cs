@@ -1,23 +1,16 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
+using OpenRP.Framework.Common.Classes;
 using OpenRP.Framework.Common.Enumeration;
 using OpenRP.Framework.Database.Document;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Server.Controllers
 {
     public class CharacterController : ServerAccessor
     {
-        class CharacterData
-        {
-            public string Id;
-            public string First;
-            public string Last;
-            public dynamic Customization;
-        }
 
         internal CharacterController (ServerMain server) : base (server)
         {

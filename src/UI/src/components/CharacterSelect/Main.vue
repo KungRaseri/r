@@ -3,7 +3,7 @@
         <NewOrExisting @nextmenu="NextMenu" :show="ShowNewOrExisting"/>
         <v-container v-show="ShowSubmenu()">
             <NewCharacter @goback="GoBack" @saveform="SaveForm" :show="ShowMenu()"/>
-            <ExistingCharacter :show="!ShowMenu()" />
+            <ExistingCharacter @goback="GoBack" :show="!ShowMenu()" />
         </v-container>
     </v-container>
 </template>
@@ -42,11 +42,11 @@
 
         NextMenu(value: string) {
             this.Menu = value;
-            this.showNewOrExisting = false;
+            this.ShowNewOrExisting = false;
         }
 
-        GoBack() {
-            this.showNewOrExisting = true;
+        GoBack(value: boolean) {
+            this.ShowNewOrExisting = true;
             this.Menu = "";
         }
 
@@ -54,11 +54,10 @@
             this.Menu = "";
         }
 
-        ShowMenu() {
-            if (this.Menu === "new") {
+        ShowMenu(value: string) {
+            if (this.Menu === value) {
                 return true
             }
-
 
             return false;
         }

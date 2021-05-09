@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Prop } from 'vue-property-decorator';
+    import { Component, Vue, Prop, Emit } from 'vue-property-decorator';
 
     @Component({
         components: {
@@ -58,6 +58,11 @@
                 .catch((error: any) => {
                     console.log("error", error);
                 });
+        }
+
+        Emit()
+        goback() {
+            return false;
         }
 
         get Show() {

@@ -5,21 +5,9 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 {
     class PedHair
     {
-        public int Primary
-        {
-            get
-            {
-                return GetPedHairColor(Game.PlayerPed.Handle);
-            }
-        }
+        public int Primary { get; set; }
 
-        public int Secondary
-        {
-            get
-            {
-                return GetPedHairHighlightColor(Game.PlayerPed.Handle);
-            }
-        }
+        public int Secondary { get; set; }
 
         public bool SetHair(int index, string target)
         {

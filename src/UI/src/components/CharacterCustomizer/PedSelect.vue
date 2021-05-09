@@ -10,7 +10,7 @@
                         <v-btn color="red" :rounded="true" block>Back</v-btn>
                     </v-col>
                     <v-col>
-                        <v-btn color="green" :rounded="true" block @click="sendped(Ped)">Continue</v-btn>
+                        <v-btn color="green" :rounded="true" block @click="sendped(Ped)" :disabled="PedStored()">Continue</v-btn>
                     </v-col>
                 </v-row>
                 <v-divider class="my-4" />
@@ -53,6 +53,14 @@
                         break;
                 }
             });
+        }
+
+        PedStored() {
+            if (this.Ped === "") {
+                return true;
+            }
+
+            return false;
         }
 
         Restrict(value: boolean) {

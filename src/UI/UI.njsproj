@@ -80,6 +80,7 @@
     <Content Include="src\components\CharacterSelect\Main.vue" />
     <Content Include="src\components\CharacterSelect\NewOrExisting.vue" />
     <Content Include="src\components\CharacterSelect\NewCharacter.vue" />
+    <Content Include="src\components\CharacterSelect\ExistingCharacter.vue" />
     <Content Include="src\components\MessageBox\Bubble.vue">
       <SubType>Code</SubType>
     </Content>

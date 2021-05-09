@@ -18,7 +18,7 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
 
             if (args.type == "blends")
             {
-                dynamic comp = Game.PlayerPed.State.Get("HeadBlend");
+                HeadBlend comp = Game.PlayerPed.State.Get("HeadBlend");
                 if (args.name == "FaceBlend")
                 {
                     comp.Face1 = item;
@@ -72,6 +72,41 @@ namespace OpenRP.Framework.Client.Classes.StyleComponents
             Aggregate<PedProps, PedProp>();
             Aggregate<PedOverlays, PedOverlay>();
             Aggregate<FacialSliders, FacialSlider>();
+        }
+
+        internal static async void SetCustomization(PedCustomization customization)
+        {
+            await SetModel(customization.Model);
+
+            foreach (var item in customization.PedComponents)
+            {
+                Enum.TryParse(item.Key, out PedComponents comp);
+                Game.PlayerPed.Style[comp].SetVariation(item.Value.Index, item.Value.Texture);
+            }
+
+            foreach (var item in customization.PedProps)
+            {
+                Enum.TryParse(item.Key, out PedProps comp);
+                Game.PlayerPed.Style[comp].SetVariation(item.Value.Index, item.Value.Texture);
+            }
+
+            if (IsFreemode(Game.PlayerPed.Model))
+            {
+                var head = customization.Head;
+                SetPedHeadBlendData(Game.PlayerPed.Handle, head.Face1, head.Face2, 0, head.Skin1, head.Skin2, 0, head.FaceBlend, head.SkinBlend, 0, false);
+                SetPedHairColor(Game.PlayerPed.Handle, customization.Hair.Primary, customization.Hair.Secondary);
+                SetPedEyeColor(Game.PlayerPed.Handle, customization.Eye);
+
+                foreach (var item in customization.FacialSliders)
+                    item.Value.SetFeature(item.Value.Value);
+
+                foreach (var item in customization.Overlays)
+                {
+                    item.Value.SetVariation(item.Value.Index, item.Value.TextureIndex);
+                    item.Value.SetColor(item.Value.PrimaryColor, "primary");
+                    item.Value.SetColor(item.Value.SecondaryColor, "secondary");
+                }
+            }
         }
 
         internal static void OnSetPedComponentColor(dynamic args)

@@ -1,12 +1,12 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
 using OpenRP.Framework.Client.Classes;
+using OpenRP.Framework.Client.Classes.StyleComponents;
 using OpenRP.Framework.Common.Classes;
 using OpenRP.Framework.Common.Enumeration;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using static OpenRP.Framework.Client.Classes.StyleComponents.PedStyle;
@@ -27,14 +27,6 @@ namespace OpenRP.Framework.Client.Controllers
         bool _freeze;
         List<dynamic> _characters;
 
-        class CharacterData
-        {
-            public string Id;
-            public string First;
-            public string Last;
-            public dynamic Customization;
-        }
-
         internal CharacterController(ClientMain client) : base(client)
         {
             _peds = new List<string>();
@@ -46,7 +38,6 @@ namespace OpenRP.Framework.Client.Controllers
             _characters = new List<dynamic>();
             StyleListBuilders();
 
-            Client.Events["playerSpawned"] += new Action(OnPlayerSpawned);
             Client.Event.RegisterNuiEvent(NuiEvent.SAVE_NEW_CHARACTER, new Action<dynamic>(OnSaveNewCharacter));
             Client.Event.RegisterNuiEvent(NuiEvent.SET_CHARACTER_MODEL, new Action<dynamic>(OnSetCharacterModel));
             Client.Event.RegisterNuiEvent(NuiEvent.AGGREGATE_DATA, new Action<dynamic>(OnAggregateData));
@@ -59,16 +50,25 @@ namespace OpenRP.Framework.Client.Controllers
 
             Client.Event.RegisterEvent(ClientEvent.GET_CHARACTER_OBJECT_ID, new Action<dynamic>(OnGetCharacterObjectId));
             Client.Event.RegisterEvent(ClientEvent.RETRIEVE_CHARACTERS, new Action<dynamic>(OnRetrieveCharacters));
+            Client.GetExport("spawnmanager").spawnPlayer(SpawnPosition());
 
             FirstSpawn();
         }
 
-        private void OnSetCharacter(dynamic args)
+        private async void OnSetCharacter(dynamic args)
         {
-            Debug.WriteLine(JsonConvert.SerializeObject(_characters));
+            await FadeOut(1000);
+            SetTimecycleModifier("default");
             var temp = JsonConvert.DeserializeObject<List<CharacterData>>(JsonConvert.SerializeObject(_characters));
             var character = temp.Find(e => e.Id == args.id);
-            Debug.WriteLine(JsonConvert.SerializeObject(character));
+            PedCustomization customization = JsonConvert.DeserializeObject<PedCustomization>(character.Customization);
+            SetCustomization(customization);
+            await Position.Teleport(_pos, true);
+            Game.PlayerPed.Heading = _heading;
+            _cam.Position = PosOffset(_pos, _heading, 2);
+            _cam.PointAt(Game.PlayerPed);
+            await BaseScript.Delay(500);
+            await FadeIn(1000);
         }
 
         private void OnRetrieveCharacters(dynamic args)
@@ -107,7 +107,63 @@ namespace OpenRP.Framework.Client.Controllers
 
         private void SaveToDb()
         {
-            Client.Event.TriggerServerEvent(ServerEvent.STORE_CHARACTER_CUSTOMIZATION, _id, new PedCustomization());
+            var compDict = new Dictionary<string, AltPedComponent>();
+
+            foreach (var name in Enum.GetNames(typeof(PedComponents)))
+            {
+                Enum.TryParse(name, out PedComponents value);
+                PedComponent temp = Game.PlayerPed.Style[value];
+                AltPedComponent comp = new AltPedComponent()
+                {
+                    Index = temp.Index,
+                    Texture = temp.TextureIndex
+                };
+                compDict.Add(name, comp);
+            }
+
+            var propDict = new Dictionary<string, AltPedComponent>();
+
+            foreach (var name in Enum.GetNames(typeof(PedProps)))
+            {
+                Enum.TryParse(name, out PedProps value);
+                PedProp temp = Game.PlayerPed.Style[value];
+                AltPedComponent comp = new AltPedComponent()
+                {
+                    Index = temp.Index,
+                    Texture = temp.TextureIndex
+                };
+                propDict.Add(name, comp);
+            }
+
+            var faceDict = new Dictionary<string, FacialSlider>();
+
+            foreach (var name in Enum.GetNames(typeof(FacialSliders)))
+            {
+                FacialSlider comp = GetState<FacialSlider>(Game.PlayerPed, name);
+                faceDict.Add(name, comp);
+            }
+
+            var overlayDict = new Dictionary<string, PedOverlay>();
+
+            foreach (var name in Enum.GetNames(typeof(PedOverlays)))
+            {
+                PedOverlay comp = GetState<PedOverlay>(Game.PlayerPed, name);
+                overlayDict.Add(name, comp);
+            }
+
+            var data = new PedCustomization()
+            {
+                Model = Enum.GetName(typeof(PedHash), (uint)Game.PlayerPed.Model.Hash),
+                Head = Game.PlayerPed.State.Get("HeadBlend"),
+                Hair = GetState<PedHair>(Game.PlayerPed, "PedHair"),
+                Eye = GetPedEyeColor(Game.PlayerPed.Handle),
+                PedComponents = compDict,
+                PedProps = propDict,
+                FacialSliders = faceDict,
+                Overlays = overlayDict
+            };
+
+            Client.Event.TriggerServerEvent(ServerEvent.STORE_CHARACTER_CUSTOMIZATION, _id, JsonConvert.SerializeObject(data));
         }
 
         private void OnGetCharacterObjectId(dynamic args)
@@ -133,12 +189,12 @@ namespace OpenRP.Framework.Client.Controllers
         private void OnSaveNewCharacter(dynamic args)
         {
             Client.Event.TriggerServerEvent(ServerEvent.SAVE_NEW_CHARACTER, args);
-            Client.GetExport("spawnmanager").spawnPlayer(SpawnPosition());
+            OnPlayerSpawned();
         }
 
         private async void FirstSpawn()
         {
-            DisplayRadar(false);
+            Client.Event.TriggerServerEvent(ServerEvent.SET_PLAYER_ROUTING_BUCKET, true);
             SetTimecycleModifier("hud_def_blur");
 
             _cam = new Camera(CreateCam("DEFAULT_SCRIPTED_CAMERA", true))
@@ -157,7 +213,6 @@ namespace OpenRP.Framework.Client.Controllers
         private async void OnPlayerSpawned()
         {
             await FadeOut(1000);
-            Client.Event.TriggerServerEvent(ServerEvent.SET_PLAYER_ROUTING_BUCKET, true);
             await BaseScript.Delay(50);
             NetworkOverrideClockTime(12, 0, 0);
             Game.PauseClock(true);
@@ -195,7 +250,7 @@ namespace OpenRP.Framework.Client.Controllers
             }
             if (Game.IsDisabledControlJustPressed((int)InputMode.MouseAndKeyboard, Control.Cover))
             {
-                _cam.Position = WorldHelper.PosOffset(_pos, _heading, 2);
+                _cam.Position = PosOffset(_pos, _heading, 2);
                 _cam.PointAt(Game.PlayerPed);
                 _closeup = false;
             }
@@ -222,7 +277,7 @@ namespace OpenRP.Framework.Client.Controllers
                 if (!_freeze)
                 {
                     var animDict = "mp_sleep";
-                    await WorldHelper.RequestAnimationDictionary(animDict);
+                    await RequestAnimationDictionary(animDict);
                     Game.PlayerPed.Task.PlayAnimation(animDict, "bind_pose_180", 1000f, -1, AnimationFlags.StayInEndFrame);
                     _freeze = true;
                 }
@@ -238,7 +293,7 @@ namespace OpenRP.Framework.Client.Controllers
         {
             var temp = _pos;
             temp.Z += _steps[_step];
-            _cam.Position = WorldHelper.PosOffset(temp, _heading, 0.6f);
+            _cam.Position = PosOffset(temp, _heading, 0.6f);
             _cam.PointAt(new Vector3(_pos.X, _pos.Y, temp.Z));
         }
 

@@ -17,6 +17,7 @@ namespace OpenRP.Framework.Client.Controllers
         {
             Game.Player.DispatchsCops = false;
             SetMaxWantedLevel(0);
+            DisplayRadar(false);
             Client.RegisterTickHandler(ClearWanted);
             Client.RegisterTickHandler(DisableShuffle);
             Client.RegisterTickHandler(PauseMonitor);
