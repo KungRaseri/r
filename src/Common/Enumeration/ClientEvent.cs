@@ -28,6 +28,8 @@ namespace OpenRP.Framework.Common.Enumeration
         /// </summary>
         STORE_ENGINE_STATE,
 
-        GET_CHARACTER_OBJECT_ID
+        GET_CHARACTER_OBJECT_ID,
+
+        RETRIEVE_CHARACTERS
     }
 }

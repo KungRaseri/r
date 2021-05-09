@@ -3,7 +3,7 @@
         <NewOrExisting @nextmenu="NextMenu" :show="ShowNewOrExisting"/>
         <v-container v-show="ShowSubmenu()">
             <NewCharacter @goback="GoBack" @saveform="SaveForm" :show="ShowMenu()"/>
-            <span class="test" v-show="!ShowMenu()">Exist</span>
+            <ExistingCharacter :show="!ShowMenu()" />
         </v-container>
     </v-container>
 </template>
@@ -12,16 +12,20 @@
     import { Component, Vue } from 'vue-property-decorator';
     import NewOrExisting from './NewOrExisting.vue';
     import NewCharacter from './NewCharacter.vue';
+    import ExistingCharacter from './ExistingCharacter.vue';
 
     @Component({
         components: {
             NewOrExisting,
-            NewCharacter
+            NewCharacter,
+            ExistingCharacter
         },
     })
     export default class CharacterSelect extends Vue {
         menu = "";
         showNewOrExisting = false;
+
+        $axios: any;
 
         mounted() {
             this.ShowNewOrExisting = true;
@@ -55,6 +59,7 @@
                 return true
             }
 
+
             return false;
         }
 
@@ -62,6 +67,16 @@
             if (this.Menu !== "") {
                 return true;
             }
+
+            this.$axios
+                .post(
+                    "http://framework/POPULATE_CHARACTER_SELECT",
+                    {
+                    }
+                )
+                .catch((error: any) => {
+                    console.log("error", error);
+                });
 
             return false;
         }

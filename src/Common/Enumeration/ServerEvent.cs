@@ -22,6 +22,8 @@ namespace OpenRP.Framework.Common.Enumeration
 
         SET_PLAYER_ROUTING_BUCKET,
 
-        STORE_CHARACTER_CUSTOMIZATION
+        STORE_CHARACTER_CUSTOMIZATION,
+
+        RETRIEVE_CHARACTERS
     }
 }

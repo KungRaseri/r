@@ -35,6 +35,10 @@ namespace OpenRP.Framework.Common.Enumeration
 
         SAVE_CHARACTER_CUSTOMIZATION,
 
-        SET_NUI_FOCUS
+        SET_NUI_FOCUS,
+
+        POPULATE_CHARACTER_SELECT,
+
+        SET_CHARACTER
     }
 }

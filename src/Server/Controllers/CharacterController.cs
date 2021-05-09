@@ -1,28 +1,59 @@
 ﻿using CitizenFX.Core;
-using MongoDB.Bson;
 using Newtonsoft.Json;
 using OpenRP.Framework.Common.Enumeration;
 using OpenRP.Framework.Database.Document;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using static CitizenFX.Core.Native.API;
 
 namespace OpenRP.Framework.Server.Controllers
 {
     public class CharacterController : ServerAccessor
     {
+        class CharacterData
+        {
+            public string Id;
+            public string First;
+            public string Last;
+            public dynamic Customization;
+        }
+
         internal CharacterController (ServerMain server) : base (server)
         {
             Server.Event.RegisterEvent(ServerEvent.SAVE_NEW_CHARACTER, new Action<Player, dynamic>(OnSaveNewCharacter));
             Server.Event.RegisterEvent(ServerEvent.SET_PLAYER_ROUTING_BUCKET, new Action<Player, bool>(OnSetPlayerRoutingBucket));
             Server.Event.RegisterEvent(ServerEvent.STORE_CHARACTER_CUSTOMIZATION, new Action<string, string>(OnSaveCharacterCustomization));
+            Server.Event.RegisterEvent(ServerEvent.RETRIEVE_CHARACTERS, new Action<Player>(OnRetrieveCharacters));
+        }
+
+        private async void OnRetrieveCharacters([FromSource] Player player)
+        {
+            var temp = new List<CharacterData>();
+            var account = await Server.Database.Context.Accounts.FindAsync($"discord:{player.Identifiers["discord"]}");
+            var characters = await Server.Database.Context.Characters.GetAsync();
+            foreach (var item in characters)
+            {
+                if (item.AccountId.ToString() == account.Id.ToString())
+                {
+                    var data = new CharacterData()
+                    {
+                        Id = item.Id.ToString(),
+                        First = item.FirstName,
+                        Last = item.LastName,
+                        Customization = item.Customization
+                    };
+
+                    temp.Add(data);
+                }
+            }
+            Server.Event.TriggerClientEvent(player, ClientEvent.RETRIEVE_CHARACTERS, JsonConvert.SerializeObject(temp));
         }
 
         private async void OnSaveCharacterCustomization(string id, dynamic data)
         {
-            var character = await Server.Database.Context.Characters.GetAsync();
-            foreach (var item in character)
+            var characters = await Server.Database.Context.Characters.GetAsync();
+            foreach (var item in characters)
             {
                 if (item.Id.ToString() == id)
                 {

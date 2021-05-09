@@ -1,11 +1,12 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
 using OpenRP.Framework.Client.Classes;
-using OpenRP.Framework.Client.Classes.StyleComponents;
+using OpenRP.Framework.Common.Classes;
 using OpenRP.Framework.Common.Enumeration;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 using static OpenRP.Framework.Client.Classes.StyleComponents.PedStyle;
@@ -24,6 +25,15 @@ namespace OpenRP.Framework.Client.Controllers
         float[] _steps;
         int _step;
         bool _freeze;
+        List<dynamic> _characters;
+
+        class CharacterData
+        {
+            public string Id;
+            public string First;
+            public string Last;
+            public dynamic Customization;
+        }
 
         internal CharacterController(ClientMain client) : base(client)
         {
@@ -33,6 +43,7 @@ namespace OpenRP.Framework.Client.Controllers
             _steps = new float[] { 0.7f, 0.25f, 0f, -0.3f, -0.75f };
             _step = 0;
             _freeze = false;
+            _characters = new List<dynamic>();
             StyleListBuilders();
 
             Client.Events["playerSpawned"] += new Action(OnPlayerSpawned);
@@ -43,10 +54,33 @@ namespace OpenRP.Framework.Client.Controllers
             Client.Event.RegisterNuiEvent(NuiEvent.SET_COMPONENT_COLOR, new Action<dynamic>(OnSetPedComponentColor));
             Client.Event.RegisterNuiEvent(NuiEvent.SAVE_CHARACTER_CUSTOMIZATION, new Action<dynamic>(OnSaveCharacterCustomization));
             Client.Event.RegisterNuiEvent(NuiEvent.SET_NUI_FOCUS, new Action<dynamic>(OnSetNuiFocus));
+            Client.Event.RegisterNuiEvent(NuiEvent.POPULATE_CHARACTER_SELECT, new Action<dynamic>(OnPopulateCharacterSelect));
+            Client.Event.RegisterNuiEvent(NuiEvent.SET_CHARACTER, new Action<dynamic>(OnSetCharacter));
 
             Client.Event.RegisterEvent(ClientEvent.GET_CHARACTER_OBJECT_ID, new Action<dynamic>(OnGetCharacterObjectId));
+            Client.Event.RegisterEvent(ClientEvent.RETRIEVE_CHARACTERS, new Action<dynamic>(OnRetrieveCharacters));
 
             FirstSpawn();
+        }
+
+        private void OnSetCharacter(dynamic args)
+        {
+            Debug.WriteLine(JsonConvert.SerializeObject(_characters));
+            var temp = JsonConvert.DeserializeObject<List<CharacterData>>(JsonConvert.SerializeObject(_characters));
+            var character = temp.Find(e => e.Id == args.id);
+            Debug.WriteLine(JsonConvert.SerializeObject(character));
+        }
+
+        private void OnRetrieveCharacters(dynamic args)
+        {
+            _characters = JsonConvert.DeserializeObject<List<dynamic>>(args);
+            var data = new { eventName = "AGGREGATE_CHARACTERS", _characters };
+            SendNuiMessage(JsonConvert.SerializeObject(data));
+        }
+
+        private void OnPopulateCharacterSelect(dynamic args)
+        {
+            Client.Event.TriggerServerEvent(ServerEvent.RETRIEVE_CHARACTERS);
         }
 
         private void OnSetNuiFocus(dynamic args)
