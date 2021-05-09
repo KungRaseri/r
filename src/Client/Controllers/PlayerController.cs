@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using OpenRP.Framework.Client.Classes;
+using System;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
@@ -21,6 +22,13 @@ namespace OpenRP.Framework.Client.Controllers
             Client.RegisterTickHandler(ClearWanted);
             Client.RegisterTickHandler(DisableShuffle);
             Client.RegisterTickHandler(PauseMonitor);
+            Client.RegisterTickHandler(HideHud);
+        }
+
+        private async Task HideHud()
+        {
+            for (var i = 1; i < 23; i++)
+                HideHudComponentThisFrame(i);
         }
 
         private async Task ClearWanted()
